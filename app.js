@@ -94,4 +94,3 @@ const observer = new IntersectionObserver((entries) => {
 });
 
 revealElements.forEach(el => observer.observe(el));
-```
