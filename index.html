@@ -1,78 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sujal Bafna | Portfolio</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
-  </head>
-  <body>
-    <!-- Particle Background -->
-    <div id="particles-js"></div>
 
-    <!-- Custom Cursor -->
-    <div class="custom-cursor"></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sujal Bafna's Portfolio - Embedded Hardware Projects, IoT Innovations, and Engineering Journey">
+  <title>Sujal Bafna | Portfolio</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+  <script src="https://unpkg.com/scrollreveal"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
 
-    <!-- Navbar -->
-    <nav>
-      <h1 class="logo">Sujal Bafna</h1>
-      <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #ffffff;
+      overflow-x: hidden;
+    }
 
-    <!-- Hero Section -->
-    <header class="hero">
-      <h2 class="intro">Turning Ideas into Innovation</h2>
-    </header>
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
 
-    <!-- About -->
-    <section id="about" class="fade-in">
-      <h2>About Me</h2>
-      <p>Embedded Hardware Engineer | Product Builder | Automation Enthusiast</p>
-    </section>
+    nav h1 {
+      font-weight: 700;
+      font-size: 1.8rem;
+    }
 
-    <!-- Projects -->
-    <section id="projects" class="fade-in">
-      <h2>Projects</h2>
-      <div class="project-card">
-        <h3>Auto Route UAV</h3>
-        <p>PID-based navigation for UAVs with low-power embedded control.</p>
-      </div>
-      <div class="project-card">
-        <h3>Swerve Drive Robot</h3>
-        <p>Autonomous omnidirectional robot with dynamic traction control.</p>
-      </div>
-    </section>
+    nav a {
+      color: #ffffff;
+      margin-left: 1.5rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
 
-    <!-- Experience -->
-    <section id="experience" class="fade-in">
-      <h2>Experience</h2>
-      <p>Internship at Aeron Systems Pvt. Ltd. | Robotics Club Core Member | Technical Workshops for Social Impact</p>
-    </section>
+    nav a:hover {
+      color: #00ffff;
+    }
 
-    <!-- Contact -->
-    <section id="contact" class="fade-in">
-      <h2>Contact Me</h2>
-      <p>Email: sujal.bafna@email.com</p>
-    </section>
+    header {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: transparent;
+      position: relative;
+    }
 
-    <!-- Footer -->
-    <footer>
-      <p>&copy; 2025 Sujal Bafna. All rights reserved.</p>
-    </footer>
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-    <script>
-      particlesJS.load('particles-js', 'particles.json', function () {
-        console.log('Particles.js config loaded');
-      });
-    </script>
-    <script src="cursor.js"></script>
-  </body>
+    .intro {
+      max-width: 800px;
+      padding: 0 20px;
+    }
+
+    .intro h2 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #00ffff;
+    }
+
+    .intro p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
+
+    section {
+      padding: 5rem 2rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      color: #00ffff;
+    }
+
+    .project {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1.5rem;
+      border-radius: 15px;
+      margin: 1rem 0;
+      transition: transform 0.3s ease;
+    }
+
+    .project:hover {
+      transform: scale(1.03);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    canvas#particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+    }
+  </style>
+</head>
+
+<body>
+    <div class="cursor"></div>
+  <div id="particles-js"></div>
+  <nav>
+    <h1>Sujal Bafna</h1>
+    <div>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <header>
+    <div class="intro">
+      <h2>Hello, I'm Sujal</h2>
+      <p>An Embedded Hardware Engineer with a passion for building smart, connected systems. Welcome to my world of circuits, code, and creativity.</p>
+    </div>
+  </header>
+
+  <section id="about">
+    <h2 class="section-title">About Me</h2>
+    <p>I am an Electronics and Communication Engineer who thrives at the intersection of hardware, software, and problem-solving. With hands-on experience in robotics, IoT, and embedded systems, I design and develop meaningful technology that connects the physical and digital worlds.</p>
+  </section>
+
+  <section id="projects">
+    <h2 class="section-title">Projects</h2>
+    <div class="project">
+      <h3>Auto Route UAV</h3>
+      <p>PID-based UAV control system with onboard real-time angle correction using low-power embedded hardware and minimal sensors.</p>
+    </div>
+    <div class="project">
+      <h3>Swerve Drive Robot</h3>
+      <p>A four-wheel independent steering mechanism robot designed for agility and omni-directional movement.</p>
+    </div>
+    <div class="project">
+      <h3>Home Ambience Controller</h3>
+      <p>An IoT-based smart diffuser-light system integrating mood lighting, aroma control, and AI assistant for modern homes.</p>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2 class="section-title">Contact Me</h2>
+    <p>📧 sujal@example.com</p>
+    <p>📞 +91 12345 67890</p>
+    <p>🔗 <a href="https://github.com/sujalbafna" target="_blank" style="color:#00ffff;">GitHub</a> | <a href="https://linkedin.com/in/sujalbafna" target="_blank" style="color:#00ffff;">LinkedIn</a></p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Sujal Bafna. All rights reserved.</p>
+  </footer>
+
+  <script>
+    particlesJS.load('particles-js', 'https://cdn.jsdelivr.net/gh/VincentGarreau/particles.js/particles.json');
+
+    ScrollReveal().reveal('.intro', { delay: 300, origin: 'bottom', distance: '40px', duration: 1000 });
+    ScrollReveal().reveal('.section-title', { delay: 200, origin: 'top', distance: '30px', duration: 800 });
+    ScrollReveal().reveal('.project', { delay: 300, origin: 'bottom', distance: '20px', duration: 800, interval: 200 });
+  </script>
+  <script src="cursor.js"></script>
+</body>
+
 </html>
