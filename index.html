@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -192,4 +192,57 @@
   <script src="cursor.js"></script>
 </body>
 
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sujal A. Bafna | Portfolio</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
+</head>
+<body>
+  <div id="particles-js"></div>
+  <div class="custom-cursor"></div>
+
+  <header data-aos="fade-down">
+    <h1>Sujal A. Bafna</h1>
+    <p>Embedded Hardware | IoT | Futurist</p>
+  </header>
+
+  <section id="about" data-aos="fade-right">
+    <h2>About Me</h2>
+    <p class="typewriter">
+      I'm an aspiring embedded systems engineer deeply passionate about automation, IoT, and robotics...
+    </p>
+  </section>
+
+  <section id="projects">
+    <h2 data-aos="zoom-in">Projects</h2>
+    <div class="project-grid">
+      <div class="card" data-aos="fade-up">
+        <h3>Auto-Route UAV</h3>
+        <p>PID-based route correction system for drones.</p>
+      </div>
+      <div class="card" data-aos="fade-up" data-aos-delay="100">
+        <h3>Swerve Drive</h3>
+        <p>Autonomous omni-directional robot for Robocon 2024.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer data-aos="fade-up">
+    <p>© 2025 Sujal Bafna. All Rights Reserved.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="cursor.js"></script>
+  <script>
+    AOS.init();
+    particlesJS.load('particles-js', 'particles.json');
+  </script>
+</body>
 </html>
