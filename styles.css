@@ -132,14 +132,17 @@
   }
   
   /* Custom Cursor */
-  .custom-cursor {
+  .cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 20px;
     height: 20px;
-    border: 2px solid #00f2ff;
+    background-color: white;
+    border: 2px solid #00ffff;
     border-radius: 50%;
-    position: fixed;
-    transform: translate(-50%, -50%);
     pointer-events: none;
-    z-index: 1000;
-    transition: transform 0.1s ease;
+    z-index: 9999;
+    transition: transform 0.15s ease;
   }
+  
