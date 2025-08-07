@@ -10,7 +10,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
         
         :root {
-            --primary-dark: #0f172a;
+            --primary-dark: #0b1120;
             --secondary-dark: #1e293b;
             --accent-copper: #d97706;
             --accent-gold: #f59e0b;
@@ -27,6 +27,10 @@
             padding: 0;
             box-sizing: border-box;
         }
+
+        .section {
+            scroll-margin-top: 6rem;
+        }
         
         body {
             font-family: 'Inter', sans-serif;
@@ -40,63 +44,94 @@
         .mono {
             font-family: 'JetBrains Mono', monospace;
         }
-        
-        /* Custom Professional Cursor */
-        .precision-cursor {
-            position: fixed;
-            width: 24px;
-            height: 24px;
-            pointer-events: none;
-            z-index: 10000;
-            transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            mix-blend-mode: difference;
+        /* Custom Cursor */
+        .custom-cursor {
+        pointer-events: none; /* Crucial for not blocking clicks on elements */
+        z-index: 9999; /* A very high z-index to stay on top of everything */
+        /* mix-blend-mode: difference; Creates a cool color inversion effect */
+    }
+
+      .cursor-dot, .cursor-ring {
+          position: fixed;
+          top: 0;
+          left: 0;
+          transform: translate(-50%, -50%); /* Centers the element on its `top`/`left` coords */
+          border-radius: 50%; /* Makes them circular */
+          pointer-events: none;
+      }
+
+      /* The primary, larger cursor element that "stays" or follows slowly */
+      .cursor-ring {
+          width: 36px;
+          height: 36px;
+          border: 1px solid var(--accent-copper);
+          background-color: transparent;
+          z-index: 99999;
+          transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      /* The smaller dot that "follows" closely */
+      .cursor-dot {
+          width: 6px;
+          height: 6px;
+          background-color: var(--accent-copper);
+          z-index: 100000; /* Stays on top of the ring */
+          transition: all 0.08s ease-out;
+      }
+
+      /* Hover effects for the custom cursor */
+      .custom-cursor.hover .cursor-dot {
+        width: 10px;
+          height: 10px;
+          border-color: rgb(98, 53, 2);
+          background-color: rgba(217, 119, 6, 1);
+          transform: translate(-50%, -50%) scale(1);
+          opacity:1;
+      }
+
+      .custom-cursor.hover .cursor-ring {
+        transform: translate(-50%, -50%) scale(0); /* Dot disappears on hover */
+          opacity: 0;
+          
+      }
+      .custom-cursor.active .cursor-ring {
+          width: 20px; /* Smaller diameter when active */
+          height: 20px;
+          background-color: rgba(217, 119, 6, 0.8); /* Less transparent (more opaque) */
+          border-color: var(--accent-gold); /* Stays visible */
+      }
+        button, .nav-link, .resume-btn, .circuit-card, .project-card, .skill-category, .social-icon {
+          cursor: none !important; /* Ensure custom cursor is used here */
+      }
+          a:not(.nav-link):not(.resume-btn) {
+            cursor: pointer !important; /* Show default pointer cursor */
         }
-        
-        .precision-cursor::before {
-            content: '';
-            position: absolute;
-            width: 2px;
-            height: 24px;
-            background: var(--accent-copper);
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        
-        .precision-cursor::after {
-            content: '';
-            position: absolute;
-            width: 24px;
-            height: 2px;
-            background: var(--accent-copper);
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        
-        .precision-cursor.hover {
-            transform: scale(1.5);
-            opacity: 0.8;
-        }
+
         
         /* Sophisticated PCB Background */
         .circuit-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 25% 25%, rgba(217, 119, 6, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
-                linear-gradient(90deg, transparent 49.5%, rgba(51, 65, 85, 0.3) 49.5%, rgba(51, 65, 85, 0.3) 50.5%, transparent 50.5%),
-                linear-gradient(0deg, transparent 49.5%, rgba(51, 65, 85, 0.3) 49.5%, rgba(51, 65, 85, 0.3) 50.5%, transparent 50.5%);
-            background-size: 800px 800px, 600px 600px, 100px 100px, 100px 100px;
-            opacity: 0.4;
-            animation: circuit-drift 60s linear infinite;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          /* Use a simpler, repeating grid pattern */
+          background: 
+              repeating-linear-gradient(0deg, rgba(51, 65, 85, 0.05) 0, rgba(51, 65, 85, 0.05) 1px, transparent 1px, transparent 50px),
+              repeating-linear-gradient(90deg, rgba(51, 65, 85, 0.05) 0, rgba(51, 65, 85, 0.05) 1px, transparent 1px, transparent 50px);
+          background-size: 50px 50px; /* Smaller, more repetitive grid cells */
+          opacity: 0.8; /* Slightly more visible but still subtle */
+          animation: background-flow 30s linear infinite; /* New, smoother animation */
         }
         
         @keyframes circuit-drift {
             0% { background-position: 0 0, 0 0, 0 0, 0 0; }
             100% { background-position: 800px 800px, -600px -600px, 100px 100px, 100px 100px; }
+        }
+        
+        @keyframes background-flow {
+            0% { background-position: 0 0; }
+            100% { background-position: 50px 50px; } /* Moves the pattern by its size for seamless loop */
         }
         
         /* Professional Loading Screen */
@@ -141,7 +176,7 @@
             height: 100%;
             background: linear-gradient(90deg, var(--accent-copper), var(--accent-gold));
             width: 0;
-            animation: loading-fill 2s ease-in-out forwards;
+            animation: loading-fill 1.5s ease-in-out forwards;
             animation-delay: 0.5s;
         }
         
@@ -150,8 +185,8 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.9rem;
             opacity: 0;
-            animation: fade-in 1s ease forwards;
-            animation-delay: 1s;
+            animation: fade-in 0.5s ease forwards;
+            animation-delay: 0.5s;
         }
         
         @keyframes loading-fill {
@@ -170,22 +205,39 @@
         }
         
         /* Elegant Navigation */
-        .nav-container {
+        .navbar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            z-index: 1000;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-subtle);
+            width: 100%;
             transition: all 0.3s ease;
+            z-index: 1000;
+            background: linear-gradient(to right, rgba(11, 17, 32, 0.9), rgba(59, 130, 246, 0.1));
+            backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border-subtle);
         }
-        
-        .nav-container.scrolled {
-            background: rgba(15, 23, 42, 0.98);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        .navbar.scrolled {
+            width: 100%; /* You can change this to any width you want */
+            height: 7%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: rgb(18, 28, 48);
+            /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); */
         }
+        .navbar.scrolled .h-16 {
+            height: 3rem; /* You can adjust this value (e.g., h-12) to reduce the top/bottom margins */
+        }
+        .navbar.scrolled .nav-link,
+        .navbar.scrolled .resume-btn {
+            font-size: 0.8rem; /* Makes the font smaller */
+            padding: 0.25rem 0.75rem; /* Reduces the padding around the links */
+            transition: all 0.5s ease;
+        }
+
+        .navbar .hidden.md\:flex.space-x-8 {
+            transition: all 0.5s ease; /* Adds a transition to the container for smooth spacing change */
+        }
+
         
         .nav-link {
             position: relative;
@@ -235,7 +287,7 @@
             display: flex;
             align-items: center;
             position: relative;
-            background: radial-gradient(ellipse at center, rgba(30, 41, 59, 0.6) 0%, var(--primary-dark) 70%);
+            background: radial-gradient(ellipse at center, rgba(30, 49, 81, 0.6) 0%, var(--primary-dark) 70%);
         }
         
         .hero-title {
@@ -251,6 +303,7 @@
             opacity: 0;
             transform: translateY(100px) rotateX(90deg);
             animation: assemble-name 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            letter-spacing: 2px;
         }
         
         .name-part:nth-child(1) { animation-delay: 0.5s; }
@@ -281,85 +334,26 @@
             animation: fade-in-up 1s ease forwards;
             animation-delay: 1.8s;
         }
-        
-        /* PCB Trace Animations */
-        .pcb-traces {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            opacity: 0.3;
-        }
-        
-        .trace-path {
-            position: absolute;
-            background: var(--accent-copper);
-            opacity: 0;
-        }
-        
-        .trace-horizontal {
-            height: 1px;
-            animation: trace-draw-h 3s ease-in-out infinite;
-        }
-        
-        .trace-vertical {
-            width: 1px;
-            animation: trace-draw-v 3s ease-in-out infinite;
-        }
-        
-        .trace-1 { top: 20%; left: 10%; width: 200px; animation-delay: 0s; }
-        .trace-2 { top: 40%; right: 15%; width: 150px; animation-delay: 1s; }
-        .trace-3 { left: 25%; top: 10%; height: 300px; animation-delay: 2s; }
-        .trace-4 { right: 30%; top: 30%; height: 200px; animation-delay: 0.5s; }
-        
-        @keyframes trace-draw-h {
-            0%, 100% { width: 0; opacity: 0; }
-            50% { opacity: 0.6; }
-        }
-        
-        @keyframes trace-draw-v {
-            0%, 100% { height: 0; opacity: 0; }
-            50% { opacity: 0.6; }
-        }
-        
+              
         /* PCB Component Indicators */
         .pcb-component {
-            position: absolute;
-            width: 8px;
-            height: 8px;
+            position: fixed;
+            width: 5px;
+            height: 5px;
+            z-index: 0;
             background: var(--accent-gold);
             border-radius: 50%;
-            opacity: 0;
-            animation: component-pulse 2s ease-in-out infinite;
+            opacity: 0.7;
+            animation: component-pulse 6s ease-in-out infinite;
         }
-        
-        .comp-1 { top: 20%; left: 20%; animation-delay: 0.5s; }
-        .comp-2 { top: 40%; right: 25%; animation-delay: 1.5s; }
-        .comp-3 { bottom: 30%; left: 30%; animation-delay: 2.5s; }
-        
+                
         @keyframes component-pulse {
-            0%, 100% { opacity: 0; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.5); }
+            0%, 100% { opacity: 0.8 ; transform: scale(1); }
+            50% { opacity: 0; transform: scale(1.5); }
         }
         
         /* Clean Skills Grid */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin: 3rem 0;
-        }
-        
-        .skill-category {
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid var(--border-subtle);
-            border-radius: 12px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
+
         
         .skill-category:hover {
             border-color: var(--accent-copper);
@@ -504,6 +498,112 @@
             100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
         }
         
+        /* Contact Form Styles */
+/* Contact Form Container - New wrapper for the form */
+.contact-form-container {
+    padding: 2.5rem; /* Padding inside the container */
+    /* No max-width or margin auto here, let grid handle width */
+}
+
+/* Form Group - Spacing between fields */
+.form-group {
+    margin-bottom: 1.5rem; /* Space between form fields */
+}
+
+/* Form Labels */
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem; /* Space between label and input */
+    /* color: var(--text-secondary); Label color */
+    font-size: 1.2rem; /* Label font size */
+    font-weight: 700;
+    background: linear-gradient(180deg, var(--text-primary), var(--accent-copper));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Form Inputs and Textarea */
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: 0.8rem 1rem; /* Padding inside inputs */
+    background: var(rgba(0, 0, 0, 0.4)); /* Darker background for inputs */
+    border: 1px solid var(--border-subtle); /* Input border */
+    border-radius: 8px; /* Slightly more rounded corners for inputs */
+    color: #000000;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+/* Placeholder text styling */
+.form-input::placeholder,
+.form-textarea::placeholder {
+    color: var(rgba(0, 0, 0, 0.4)); /* Placeholder color */
+    opacity: 0.7;
+}
+
+/* Focus state for inputs */
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Textarea specific styling */
+.form-textarea {
+    resize: vertical;
+    min-height: 120px; /* Adjusted min-height */
+}
+
+/* Section Title - Updated gradient to match sample */
+.section-title {
+    font-size: 3rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #f59e0b, #d97706); /* Golden gradient from sample */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Section Subtitle - Keep as is, but ensure margin-bottom is consistent */
+.section-subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1.25rem;
+    margin-bottom: 4rem; /* Space below subtitle */
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Button styling for "Submit" - Adjusted padding and font size */
+.btn-primary {
+    padding: 1rem 3rem; /* Increased padding */
+    font-size: 1.125rem; /* Larger font size */
+    border-radius: 12px; /* More rounded corners for the button */
+    background: linear-gradient(135deg, var(--accent-copper), var(--accent-gold)); /* Keep your existing gradient */
+    color: white;
+    border: none;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* Contact Image Styling */
+.contact-image {
+    border-radius: 50%; /* Circular image */
+    border: 4px solid var(--accent-copper); /* Border around image */
+    object-fit: cover; /* Ensures image covers the area without distortion */
+}
+
+/* Optional: Background for the contact section to match the image's subtle gradient */
+
         /* Timeline Visualization */
         .timeline-container {
             position: relative;
@@ -578,14 +678,14 @@
         }
         
         .tech-tag {
-            display: inline-block;
-            background: rgba(217, 119, 6, 0.1);
-            color: var(--accent-copper);
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.875rem;
-            margin: 0.25rem 0.5rem 0.25rem 0;
-            border: 1px solid rgba(217, 119, 6, 0.3);
+          display: inline-block;
+          background: rgba(217, 119, 6, 0.1);
+          color: var(--accent-copper);
+          padding: 0.25rem 0.75rem;
+          border-radius: 9999px; /* This creates the capsule shape */
+          font-size: 0.875rem;
+          margin: 0.25rem 0.5rem 0.25rem 0;
+          border: 1px solid rgba(217, 119, 6, 0.3);
         }
         
         /* Smooth Scroll Animations */
@@ -648,7 +748,53 @@
             color: white;
             transform: translateY(-2px);
         }
-        
+        /* Social Icons Styling */
+/* Social Icons Styling */
+/* New container for fixed positioning */
+        .fixed-social-icons-container {
+            position: fixed;
+            top: 60px; /* Adjust as needed for spacing from bottom */
+            right: 10px; /* Adjust as needed for spacing from left */
+            z-index: 999; /* Ensures it stays on top of most content */
+            display: flex;
+            flex-direction: column; /* Stack icons vertically */
+            gap: 15px; /* Space between icons */
+            padding: 10px; /* Small padding around the container */
+        }
+
+        .social-icon {
+            display: flex; /* Use flex to center the icon inside the circle */
+            justify-content: center;
+            align-items: center;
+            width: 45px; /* Increased size for uniform circles */
+            height: 45px; /* Increased size for uniform circles */
+            border-radius: 50%; /* Makes them circular */
+            background-color: var(--secondary-dark); /* Dark background for the circle */
+            border: 1px solid var(--border-subtle); /* Subtle border */
+            color: var(--accent-copper); /* Copper color for the icon */
+            font-size: 1.8rem; /* Increased Icon size */
+            transition: all 0.3s ease; /* Smooth transitions for hover and click effects */
+            text-decoration: none; /* Remove underline from links */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+        }
+
+        .social-icon:hover {
+            background-color: var(--accent-blue); /* Blue background on hover */
+            border-color: var(--accent-blue); /* Blue border on hover */
+            color: var(--text-primary); /* White/light text on hover */
+            transform: translateY(-3px) scale(1.05); /* Slight lift and scale on hover */
+            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.2); /* Soft blue shadow on hover */
+        }
+
+        /* New: Click/Active state for social icons */
+        .social-icon.clicked {
+            background-color: var(--accent-gold); /* Gold background on click */
+            border-color: var(--accent-gold); /* Gold border on click */
+            color: var(--primary-dark); /* Dark text on click */
+            transform: scale(0.8); /* Slightly shrink on click */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Smaller shadow on click */
+        }
+                
         /* Responsive Design */
         @media (max-width: 768px) {
             .hero-title {
@@ -683,8 +829,26 @@
         
         /* Section Spacing */
         .section {
-            padding: 6rem 0;
+            padding: 6rem 1.5rem;
+          }
+
+        @media (min-width: 640px) {
+            .section {
+                padding: 6rem 2rem;
+            }
         }
+
+        @media (min-width: 1024px) {
+            .section {
+                padding: 6rem 4rem;
+            }
+        }
+
+        @media (min-width: 1280px) {
+            .section {
+                padding: 6rem 6rem;
+            }
+              }
         
         .section-title {
             font-size: 3rem;
@@ -706,11 +870,247 @@
             margin-left: auto;
             margin-right: auto;
         }
+        .form-message.success {
+            color: var(--success-green); /* Current green text color */
+        }
+
+           /* Keyframes for infinite scroll effect */
+           @keyframes scroll-left {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .scroll-container {
+            /* We duplicate the content, so the animation moves half the width */
+            animation: scroll 30s linear infinite;
+        }
+
+    .scrolling-content-container {
+        /* This is the key fix. It ensures the container is wide enough for a seamless loop */
+        width: max-content; 
+    }
+
+    .animate-scroll {
+        animation: scroll-left 30s linear infinite;
+    }
+
+    .animate-scroll-rtl {
+        animation: scroll-right 30s linear infinite;
+    }
+
+    .skill-capsule {
+        @apply px-4 py-2 rounded-full text-sm font-medium shadow-md flex items-center justify-center whitespace-nowrap space-x-2;
+    }
+    
+    .skill-capsule span {
+        font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Pause animation on hover */
+    .scrolling-content-container:hover .animate-scroll,
+    .scrolling-content-container:hover .animate-scroll-rtl {
+        animation-play-state: paused;
+    }
+
+        /* Go To Top Button Styling */
+        .go-to-top-btn {
+            position: fixed;
+            bottom: 20px; /* Adjust as needed, consider spacing from social icons */
+            right: 30px; /* Adjust to be slightly left of social icons if they are on the right */
+            background-color: var(--accent-blue); /* Blue background */
+            color: var(--text-primary); /* White/light icon */
+            width: 45px; /* Circular button size */
+            height: 45px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem; /* Icon size */
+            cursor: none !important; /* Ensures custom cursor is used */
+            opacity: 0; /* Starts hidden */
+            visibility: hidden; /* Also hidden for accessibility/pointer events */
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+            z-index: 998; /* Below social icons but above content */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+        }
+
+        .go-to-top-btn.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .go-to-top-btn:hover {
+            background-color: var(--accent-copper); /* Copper on hover */
+            transform: translateY(-3px); /* Slight lift on hover */
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .go-to-top-btn:active {
+            transform: translateY(0); /* Press down effect */
+            background-color: var(--accent-gold); /* Gold on click */
+        }
+                /* --- Confetti Effect CSS --- */
+                .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f00; /* This will be overridden by JS, but good fallback */
+            top: -10px;
+            z-index: 1000;
+            transform-origin: center;
+            animation: confetti-fall linear infinite;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(0) rotateZ(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotateZ(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Easter Egg '?' Button Styling */
+        .easter-egg-btn {
+            position: fixed;
+            bottom: 80px; /* MODIFIED: New position */
+            right: 30px;  /* MODIFIED: New position */
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-gold));
+            color: var(--text-primary);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 1px solid rgba(59, 130, 246, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700; /* ADDED: Makes the '?' bolder and more visible */
+            cursor: none !important;
+            z-index: 999;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease-in-out; /* MODIFIED: Smoother transition */
+        }
+
+        .easter-egg-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper));
+        }
+
+        /* NEW: Cooldown state for the button */
+        .easter-egg-btn.cooldown {
+            filter: blur(2px); /* Apply the blur effect */
+            pointer-events: none; /* Disable all clicks */
+            transform: scale(0.95); /* Optional: slightly shrink the button */
+        }
+
+        /* Electronic Fact Display Modal */
+        .fact-modal {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            /* No flexbox needed here, as the modal content will be absolutely positioned */
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .fact-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .fact-modal-content {
+            background-color: rgba(26, 38, 60, 0.95);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            max-width: 350px;
+            text-align: left;
+            /* Use absolute positioning to place the modal in the bottom-right corner */
+            position: absolute;
+            bottom: 5rem; /* This value controls how far up the modal is from the bottom */
+            right: 1.5rem;  /* This value controls how far the modal is from the right edge */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            pointer-events: auto;
+            /* Animate from a slightly scaled down and faded state */
+            transform: scale(0.95);
+            opacity: 0;
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        }
+
+        .fact-modal.show .fact-modal-content {
+            /* Animate to the final position and opacity */
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .close-fact-modal {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--text-muted);
+            cursor: none !important;
+            transition: color 0.2s ease;
+        }
+
+        .close-fact-modal:hover {
+            color: var(--accent-copper);
+        }
+
+        .fact-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 0.75rem;
+        }
+
+        .fact-text {
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+
+        .footer-separator {
+            width: 70%; /* Makes the line half the width of its parent container */
+            max-width: 700px; /* Optional: Sets a maximum width for very large screens */
+            height: 2px; /* Thin line */
+            background-color: var(--border-subtle); /* Subtle color for the line */
+            margin-top: 2rem; /* Space above the line */
+            margin-bottom: 1rem; /* Space between line and copyright text */
+        }
     </style>
 </head>
 <body>
+
+  <div class="pcb-traces">
+    <div class="trace-path trace-horizontal trace-1"></div>
+    <div class="trace-path trace-horizontal trace-2"></div>
+    <div class="trace-path trace-vertical trace-3"></div>
+    <div class="trace-path trace-vertical trace-4"></div>
+    <div class="pcb-component comp-1"></div>
+    <div class="pcb-component comp-2"></div>
+    <div class="pcb-component comp-3"></div>
+</div>
+
     <!-- Precision Cursor -->
-    <div class="precision-cursor"></div>
+    <div class="custom-cursor">
+      <div class="cursor-dot"></div>
+      <div class="cursor-ring"></div>
+  </div>
     
     <!-- Circuit Background -->
     <div class="circuit-bg"></div>
@@ -724,60 +1124,47 @@
             </div>
             <div class="loading-text">Initializing embedded systems...</div>
         </div>
-    </div>
-    
-    <!-- Navigation -->
-    <nav class="nav-container" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <div class="text-xl font-bold">
-                        <span class="text-copper-500">Sujal Bafna</span>
-                    </div>
-                </div>
-                <div class="hidden md:flex items-center">
-                    <div class="flex space-x-8 mr-8">
-                        <a href="#home" class="nav-link active">Home</a>
-                        <a href="#journey" class="nav-link">Journey</a>
-                        <a href="#projects" class="nav-link">Projects</a>
-                        <a href="#skills" class="nav-link">Skills</a>
-                        <a href="#impact" class="nav-link">Impact</a>
-                        <a href="#contact" class="nav-link">Contact</a>
-                    </div>
-                    <a href="#" class="resume-btn" onclick="downloadResume()">
-                        <i class="fas fa-download mr-2"></i>Resume
-                    </a>
-                </div>
+    </div>   
+   <!-- Navigation -->
+   <nav class="navbar" id="navbar">
+    <div class="px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+        <!-- <div class="flex justify-between items-center h-16"> -->
+            <div class="text-xl font-bold">
+                <span class="text-accent">Sujal Bafna</span>
+            </div>
+            <div class="hidden md:flex gap-2">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#journey" class="nav-link">Journey</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#impact" class="nav-link">Impact</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <a href="#" class="resume-btn" onclick="downloadResume()">
+                  <i class="fas fa-download mr-2"></i>Resume
+                </a>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
+
     
     <!-- Main Content -->
     <main id="mainContent" style="opacity: 0;">
         <!-- Hero Section -->
         <section id="home" class="hero-section">
-            <!-- PCB Traces Background -->
-            <div class="pcb-traces">
-                <div class="trace-path trace-horizontal trace-1"></div>
-                <div class="trace-path trace-horizontal trace-2"></div>
-                <div class="trace-path trace-vertical trace-3"></div>
-                <div class="trace-path trace-vertical trace-4"></div>
-                <div class="pcb-component comp-1"></div>
-                <div class="pcb-component comp-2"></div>
-                <div class="pcb-component comp-3"></div>
-            </div>
-            
+            <!-- PCB Traces Background -->           
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="max-w-4xl">
                     <div class="flex items-center mb-6">
                         <div class="status-indicator active"></div>
                         <span class="mono text-sm text-copper-500">SYSTEM ONLINE</span>
                     </div>
-                    <h1 class="hero-title">
-                        <span class="name-part">SUJAL</span><br>
-                        <span class="name-part">BAFNA</span>
-                    </h1>
-                    <div class="hero-subtitle mono">Embedded Systems Engineer</div>
+                    <span class="hero-title text-left text-[4rem] sm:text-[5rem] md:text-[6rem] font-bold bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent leading-tight mb-6">
+                      Sujal Bafna
+                    </span>
+                    <div class="hero-subtitle mono font-bold text-lg sm:text-2xl md:text-3xl text-copper-500 mb-10">
+                      Embedded Systems Engineer
+                    </div>
                     <p class="hero-description">
                         Crafting intelligent embedded ecosystems where hardware meets software. 
                         Designing autonomous systems that bridge the physical and digital worlds 
@@ -797,13 +1184,11 @@
         
         <!-- Journey Timeline -->
         <section id="journey" class="section">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="scroll-reveal">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-reveal">    
                     <h2 class="section-title">My Journey</h2>
                     <p class="section-subtitle">
                         From academic foundations to professional impact - a timeline of growth and innovation
                     </p>
-                </div>
                 
                 <div class="timeline-container">
                     <div class="timeline-line"></div>
@@ -1062,93 +1447,171 @@
                 </div>
             </div>
         </section>
-        
-        <!-- Technical Arsenal with Rolling Skills */
+               
+              <!-- Clean Skills Grid -->
         <section id="skills" class="section">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="scroll-reveal">
-                    <h2 class="section-title">Technical Arsenal</h2>
-                    <p class="section-subtitle">
-                        A comprehensive toolkit for embedded systems design and development
-                    </p>
-                </div>
-                
-                <!-- Clean Skills Grid -->
-                <div class="skills-grid scroll-reveal">
-                    <div class="skill-category">
-                        <div class="skill-icon">
-                            <i class="fas fa-microchip"></i>
-                        </div>
-                        <div class="skill-title">Embedded Programming</div>
-                        <div class="skill-list">
-                            C/C++, Python<br>
-                            STM32, Arduino, ESP32<br>
-                            FreeRTOS, Embedded Linux
-                        </div>
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="scroll-reveal">
+                        <h2 class="section-title">Skills</h2>
                     </div>
-                    
-                    <div class="skill-category">
-                        <div class="skill-icon">
-                            <i class="fas fa-drafting-compass"></i>
+              <!-- Embedded Systems -->
+              <div class="p-4 rounded-xl border border-gray-700 bg-gray-800 shadow-lg mb-6">
+                <h3 class="text-xl md:text-2xl font-bold text-gray-100 mb-4 text-left">Embedded Systems</h3>
+                <div class="relative overflow-hidden w-full h-12 md:h-16">
+                    <div class="scroll-container flex space-x-2 md:space-x-3 h-full items-center animate-scroll">
+                        <!-- Original skills list -->
+                        <div class="flex-shrink-0 flex space-x-2 md:space-x-3">
+                            <div class="skill-capsule bg-orange-600 text-white">
+                                <i class="fas fa-cogs"></i>
+                                <span>C/C++</span>
+                            </div>
+                            <div class="skill-capsule bg-blue-600 text-white">
+                                <i class="fas fa-terminal"></i>
+                                <span>RTOS</span>
+                            </div>
+                            <div class="skill-capsule bg-red-600 text-white">
+                                <i class="fab fa-raspberry-pi"></i>
+                                <span>Raspberry Pi</span>
+                            </div>
+                            <div class="skill-capsule bg-green-600 text-white">
+                                <i class="fas fa-robot"></i>
+                                <span>ROS</span>
+                            </div>
                         </div>
-                        <div class="skill-title">PCB Design</div>
-                        <div class="skill-list">
-                            KiCad, Altium Designer<br>
-                            Eagle, Circuit Analysis<br>
-                            Signal Integrity, EMI/EMC
-                        </div>
-                    </div>
-                    
-                    <div class="skill-category">
-                        <div class="skill-icon">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <div class="skill-title">Robotics & Control</div>
-                        <div class="skill-list">
-                            ROS, Motor Control<br>
-                            PID Controllers, Kinematics<br>
-                            Sensor Fusion, Navigation
-                        </div>
-                    </div>
-                    
-                    <div class="skill-category">
-                        <div class="skill-icon">
-                            <i class="fas fa-wifi"></i>
-                        </div>
-                        <div class="skill-title">Communication</div>
-                        <div class="skill-list">
-                            SPI, I2C, UART<br>
-                            CAN Bus, Wireless<br>
-                            IoT Protocols, Networking
-                        </div>
-                    </div>
-                    
-                    <div class="skill-category">
-                        <div class="skill-icon">
-                            <i class="fas fa-tools"></i>
-                        </div>
-                        <div class="skill-title">Development Tools</div>
-                        <div class="skill-list">
-                            Git, JTAG Debugging<br>
-                            MATLAB, Simulink<br>
-                            Testing & Validation
-                        </div>
-                    </div>
-                    
-                    <div class="skill-category">
-                        <div class="skill-icon">
-                            <i class="fas fa-bolt"></i>
-                        </div>
-                        <div class="skill-title">Power & Analog</div>
-                        <div class="skill-list">
-                            Power Electronics<br>
-                            Battery Management<br>
-                            Analog Circuit Design
+                        <!-- Duplicated skills list for infinite scroll effect -->
+                        <div class="flex-shrink-0 flex space-x-2 md:space-x-3">
+                            <div class="skill-capsule bg-orange-600 text-white">
+                                <i class="fas fa-cogs"></i>
+                                <span>C/C++</span>
+                            </div>
+                            <div class="skill-capsule bg-blue-600 text-white">
+                                <i class="fas fa-terminal"></i>
+                                <span>RTOS</span>
+                            </div>
+                            <div class="skill-capsule bg-red-600 text-white">
+                                <i class="fab fa-raspberry-pi"></i>
+                                <span>Raspberry Pi</span>
+                            </div>
+                            <div class="skill-capsule bg-green-600 text-white">
+                                <i class="fas fa-robot"></i>
+                                <span>ROS</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+              </div>
+
+              <!-- Hardware Design -->
+              <div class="p-4 rounded-xl border border-gray-700 bg-gray-800 shadow-lg mb-6">
+                <h3 class="text-xl md:text-2xl font-bold text-gray-100 mb-4 text-left">Hardware Design</h3>
+                <div class="relative overflow-hidden w-full h-12 md:h-16">
+                    <div class="scroll-container flex space-x-2 md:space-x-3 h-full items-center animate-scroll">
+                        <!-- Original skills list -->
+                        <div class="flex-shrink-0 flex space-x-2 md:space-x-3">
+                            <div class="skill-capsule bg-yellow-500 text-gray-900">
+                                <i class="fas fa-sitemap"></i>
+                                <span>KiCad</span>
+                            </div>
+                            <div class="skill-capsule bg-teal-500 text-white">
+                                <i class="fas fa-drafting-compass"></i>
+                                <span>Altium Designer</span>
+                            </div>
+                            <div class="skill-capsule bg-purple-500 text-white">
+                                <i class="fas fa-wifi"></i>
+                                <span>RF Design</span>
+                            </div>
+                            <div class="skill-capsule bg-lime-500 text-gray-900">
+                                <i class="fas fa-cube"></i>
+                                <span>Solidworks</span>
+                            </div>
+                            <div class="skill-capsule bg-cyan-500 text-white">
+                                <i class="fas fa-drafting-compass"></i>
+                                <span>Fusion 360</span>
+                            </div>
+                        </div>
+                        <!-- Duplicated skills list for infinite scroll effect -->
+                        <div class="flex-shrink-0 flex space-x-2 md:space-x-3">
+                            <div class="skill-capsule bg-yellow-500 text-gray-900">
+                                <i class="fas fa-sitemap"></i>
+                                <span>KiCad</span>
+                            </div>
+                            <div class="skill-capsule bg-teal-500 text-white">
+                                <i class="fas fa-drafting-compass"></i>
+                                <span>Altium Designer</span>
+                            </div>
+                            <div class="skill-capsule bg-purple-500 text-white">
+                                <i class="fas fa-wifi"></i>
+                                <span>RF Design</span>
+                            </div>
+                            <div class="skill-capsule bg-lime-500 text-gray-900">
+                                <i class="fas fa-cube"></i>
+                                <span>Solidworks</span>
+                            </div>
+                            <div class="skill-capsule bg-cyan-500 text-white">
+                                <i class="fas fa-drafting-compass"></i>
+                                <span>Fusion 360</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+
+              <!-- System Integration & Debugging -->
+              <div class="p-4 rounded-xl border border-gray-700 bg-gray-800 shadow-lg mb-6">
+                <h3 class="text-xl md:text-2xl font-bold text-gray-100 mb-4 text-left">System Integration & Debugging</h3>
+                <div class="relative overflow-hidden w-full h-12 md:h-16">
+                    <div class="scroll-container flex space-x-2 md:space-x-3 h-full items-center animate-scroll">
+                        <!-- Original skills list -->
+                        <div class="flex-shrink-0 flex space-x-2 md:space-x-3">
+                            <div class="skill-capsule bg-gray-500 text-white">
+                                <i class="fab fa-linux"></i>
+                                <span>Linux</span>
+                            </div>
+                            <div class="skill-capsule bg-orange-400 text-gray-900">
+                                <i class="fab fa-git-alt"></i>
+                                <span>Git</span>
+                            </div>
+                            <div class="skill-capsule bg-blue-400 text-white">
+                                <i class="fab fa-docker"></i>
+                                <span>Docker</span>
+                            </div>
+                            <div class="skill-capsule bg-emerald-500 text-white">
+                                <i class="fas fa-bug"></i>
+                                <span>Debugging</span>
+                            </div>
+                            <div class="skill-capsule bg-violet-600 text-white">
+                                <i class="fas fa-flask"></i>
+                                <span>Testing</span>
+                            </div>
+                        </div>
+                        <!-- Duplicated skills list for infinite scroll effect -->
+                        <div class="flex-shrink-0 flex space-x-2 md:space-x-3">
+                            <div class="skill-capsule bg-gray-500 text-white">
+                                <i class="fab fa-linux"></i>
+                                <span>Linux</span>
+                            </div>
+                            <div class="skill-capsule bg-orange-400 text-gray-900">
+                                <i class="fab fa-git-alt"></i>
+                                <span>Git</span>
+                            </div>
+                            <div class="skill-capsule bg-blue-400 text-white">
+                                <i class="fab fa-docker"></i>
+                                <span>Docker</span>
+                            </div>
+                            <div class="skill-capsule bg-emerald-500 text-white">
+                                <i class="fas fa-bug"></i>
+                                <span>Debugging</span>
+                            </div>
+                            <div class="skill-capsule bg-violet-600 text-white">
+                                <i class="fas fa-flask"></i>
+                                <span>Testing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+    </div>
+      </section>
         
         <!-- Impact & Writings -->
         <section id="impact" class="section">
@@ -1242,98 +1705,151 @@
             </div>
         </section>
         
-        <!-- Contact Section -->
+                <!-- Contact Section -->
         <section id="contact" class="section">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <div class="scroll-reveal">
-                    <h2 class="section-title">Let's Connect</h2>
-                    <p class="section-subtitle">
-                        Ready to collaborate on cutting-edge embedded systems? Let's build the future together.
-                    </p>
-                </div>
-                
-                <div class="grid md:grid-cols-3 gap-8 mb-12">
-                    <div class="circuit-card text-center scroll-reveal">
-                        <div class="skill-icon mx-auto">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <h3 class="text-lg font-bold mb-3">Email</h3>
-                        <a href="mailto:sujal.bafna@example.com" class="text-secondary hover:text-copper-500 transition-colors">
-                            sujal.bafna@example.com
-                        </a>
-                    </div>
-                    
-                    <div class="circuit-card text-center scroll-reveal">
-                        <div class="skill-icon mx-auto">
-                            <i class="fab fa-linkedin"></i>
-                        </div>
-                        <h3 class="text-lg font-bold mb-3">LinkedIn</h3>
-                        <a href="#" class="text-secondary hover:text-copper-500 transition-colors">
-                            /in/sujal-bafna
-                        </a>
-                    </div>
-                    
-                    <div class="circuit-card text-center scroll-reveal">
-                        <div class="skill-icon mx-auto">
-                            <i class="fab fa-github"></i>
-                        </div>
-                        <h3 class="text-lg font-bold mb-3">GitHub</h3>
-                        <a href="#" class="text-secondary hover:text-copper-500 transition-colors">
-                            /sujal-embedded
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="scroll-reveal">
-                    <button onclick="window.location.href='mailto:sujal.bafna@example.com'" class="btn-primary text-lg px-8 py-4">
-                        <i class="fas fa-paper-plane mr-2"></i>Send Message
-                    </button>
-                </div>
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="scroll-reveal">
+                <h2 class="section-title text-center">Get in touch with me</h2>
             </div>
-        </section>
-    </main>
-    
-    <!-- Footer -->
-    <footer class="py-12 border-t border-border-subtle">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <div class="text-2xl font-bold mb-4">
-                    <span class="text-copper-500">Sujal Bafna</span>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center mt-12">
+                <!-- Left Column: Image and Description -->
+                <div class="text-center md:text-left scroll-reveal">
+                    <!-- Replace 'your-photo.png' with the actual URL of your photo -->
+                    <img src="https://placehold.co/200x200/d97706/ffffff?text=Your+Photo" alt="Sujal Bafna" class="contact-image rounded-full mx-auto md:mx-0 mb-6 w-80 h-80 object-cover border-4 border-accent-copper">
+                    <p class="text-text-secondary text-lg leading-relaxed max-w-md md:max-w-none mx-auto md:mx-0">
+                      I'm always eager to collaborate on exciting projects or discuss how robotics can shape the future. 
+                      Feel free to reach out and let's explore how I can assist with your vision.
+                  </p>
                 </div>
-                <p class="text-secondary mb-8 max-w-2xl mx-auto">
-                    Crafting intelligent embedded systems at the intersection of hardware and software innovation
-                </p>
-                <div class="border-t border-border-subtle pt-8">
-                    <p class="text-muted">&copy; 2024 Sujal Bafna. All rights reserved.</p>
+
+                <!-- Right Column: Contact Form -->
+                <div class="contact-form-container scroll-reveal">
+                    <form id="contactForm">
+                      <div id="form-message" class="form-message hidden mb-6"></div>
+                        <div class="form-group">
+                            <label for="fullName" class="form-label">Full name</label>
+                            <input type="text" id="fullName" name="fullName" class="form-input" placeholder="Your Name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="emailAddress" class="form-label">Email Address</label>
+                            <input type="email" id="emailAddress" name="emailAddress" class="form-input" placeholder="email@gmail.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="company" class="form-label">Company</label>
+                            <input type="text" id="company" name="company" class="form-input" placeholder="Your Company">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea id="message" name="message" class="form-textarea" placeholder="Type your message here" required></textarea>
+                        </div>
+                        
+                        <div class="text-center mt-8">
+                            <button type="submit" class="btn-primary">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </footer>
+
+      </section>
+
+          </main>
+    <!-- Go To Top Button -->
+    <button id="goToTopBtn" class="go-to-top-btn">
+      <i class="fas fa-arrow-up"></i>
+    </button ton>
+
+    <!-- Easter Egg Button -->
+    <button id="easterEggBtn" class="easter-egg-btn">
+      ?
+    </button>
+
+    <!-- Electronic Fact Display Modal -->
+    <div id="factModal" class="fact-modal">
+      <div class="fact-modal-content">
+          <button id="closeFactModal" class="close-fact-modal">&times;</button>
+          <h3 class="fact-title">Electronic Fact!</h3>
+          <p id="factText" class="fact-text"></p>
+      </div>
+    </div>
+
+      <!-- Social Icons Container -->
+      <div class="fixed-social-icons-container">
+        <a href="https://github.com/your-github" target="_blank" class="social-icon" id="github-icon">
+            <i class="fab fa-github"></i>
+        </a>
+        <a href="https://linkedin.com/in/your-linkedin" target="_blank" class="social-icon" id="linkedin-icon">
+            <i class="fab fa-linkedin-in"></i>
+        </a>
+        <a href="mailto:your-email@example.com" class="social-icon" id="email-icon">
+            <i class="fas fa-envelope"></i>
+        </a>
+        <!-- Add more social icons here if needed -->
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center">            
+              <!-- New: Thin, half-width, central line -->
+              <div class="footer-separator mx-auto mb-4"></div>
+              
+              <!-- Copyright text -->
+              <p class="text-muted text-sm">&copy; 2025 Sujal Bafna. All rights reserved.</p>
+          </div>
+      </div>
+  </footer>
+
     
     <script>
-        // Precision Cursor
-        const cursor = document.querySelector('.precision-cursor');
+
+        // Custom Cursor
+        const customCursor = document.querySelector('.custom-cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorRing = document.querySelector('.cursor-ring');
+
         let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
-        
+        let dotX = 0, dotY = 0;
+        let ringX = 0, ringY = 0;
+
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
         });
-        
+
         function animateCursor() {
-            cursorX += (mouseX - cursorX) * 0.1;
-            cursorY += (mouseY - cursorY) * 0.1;
-            cursor.style.left = cursorX + 'px';
-            cursor.style.top = cursorY + 'px';
+            // The small dot follows the mouse very closely (faster interpolation)
+            dotX += (mouseX - dotX) * 0.3;
+            dotY += (mouseY - dotY) * 0.3;
+            cursorDot.style.left = dotX + 'px';
+            cursorDot.style.top = dotY + 'px';
+
+            // The large ring follows more slowly, giving the "stays" effect (slower interpolation)
+            ringX += (mouseX - ringX) * 0.2;
+            ringY += (mouseY - ringY) * 0.2;
+            cursorRing.style.left = ringX + 'px';
+            cursorRing.style.top = ringY + 'px';
+
             requestAnimationFrame(animateCursor);
         }
         animateCursor();
-        
-        // Cursor hover effects
-        document.querySelectorAll('button, a, .circuit-card, .project-card, .skill-pill').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+
+        // Cursor hover effects: Add 'hover' class to the main custom-cursor container
+            document.querySelectorAll('button, a, .circuit-card, .project-card, .skill-category, p, h1, h2, h3, h4, h5, h6, span, li, .contact-card, input, textarea, label, .social-icon, .easter-egg-btn, .close-fact-modal').forEach(el => { // ADDED .easter-egg-btn and .close-fact-modal
+            el.addEventListener('mouseenter', () => {
+                if (!el.matches('a:not(.nav-link):not(.resume-btn):not(.social-icon)')) {
+                    customCursor.classList.add('hover');
+                }
+            });
+            el.addEventListener('mouseleave', () => {
+                customCursor.classList.remove('hover');
+            });
         });
         
         // Professional Loading sequence
@@ -1409,6 +1925,28 @@
             });
         }, observerOptions);
         
+        window.onload = function() {
+          const traceContainer = document.querySelector('.pcb-traces');
+          const numberOfStars = 20; // Adjust this number for more or fewer stars
+          
+          for (let i = 0; i < numberOfStars; i++) {
+              const star = document.createElement('div');
+              star.classList.add('pcb-component');
+              
+              // Randomly position the star across the full viewport
+              const randomTop = Math.random() * 100;
+              const randomLeft = Math.random() * 100;
+              star.style.top = `${randomTop}vh`;
+              star.style.left = `${randomLeft}vw`;
+              
+              // Randomize animation delay for a twinkling effect
+              const randomDelay = 2 + Math.random()*4;
+              star.style.animationDelay = `${randomDelay}s`;
+              
+              traceContainer.appendChild(star);
+          }
+        };
+
         // Observe all scroll reveal elements
         document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .timeline-item').forEach(el => {
             observer.observe(el);
@@ -1454,6 +1992,199 @@
                 this.style.transform = 'translateY(-4px)';
             });
         });
+document.querySelectorAll('.social-icon').forEach(icon => {
+    icon.addEventListener('mousedown', function() {
+        this.classList.add('clicked');
+    });
+    icon.addEventListener('mouseup', function() {
+        // Remove 'clicked' class after a short delay to see the effect
+        setTimeout(() => {
+            this.classList.remove('clicked');
+        }, 200); 
+    });
+    // For touch devices, ensure the effect works on touchstart/touchend
+    icon.addEventListener('touchstart', function() {
+        this.classList.add('clicked');
+    });
+    icon.addEventListener('touchend', function() {
+        setTimeout(() => {
+            this.classList.remove('clicked');
+        }, 200); 
+    });
+});
+      // --- Easter Egg "?" Feature ---
+      const easterEggBtn = document.getElementById('easterEggBtn');
+      const factModal = document.getElementById('factModal');
+      const factText = document.getElementById('factText');
+      const closeFactModalBtn = document.getElementById('closeFactModal');
+
+      const electronicFacts = [
+          "The first integrated circuit was invented by Jack Kilby in 1958.",
+          "A single grain of sand can contain millions of transistors.",
+          "Capacitors store electrical energy in an electric field.",
+          "Resistors limit the flow of electric current.",
+          "LED stands for Light Emitting Diode.",
+          "Ohm's Law states V = IR (Voltage = Current × Resistance).",
+          "Transistors can act as either switches or amplifiers.",
+          "Silicon is the primary material used in most semiconductors.",
+          "Moore's Law predicted that the number of transistors on a microchip would double approximately every two years.",
+          "The first computer mouse, made of wood, was invented by Douglas Engelbart in 1964.",
+          "Conventional current flows from positive to negative, but electrons actually flow from negative to positive.",
+          "The unit of electrical resistance is the Ohm (Ω).",
+          "Inductors store energy in a magnetic field when electric current flows through them.",
+          "The frequency of AC power in most homes is either 50 or 60 Hertz.",
+          "Diodes are like one-way streets for electricity, allowing current to flow in only one direction.",
+          "A breadboard lets you prototype electronic circuits without needing to solder.",
+          "The Arduino platform made microcontrollers accessible and easy to program for hobbyists and professionals alike.",
+          "Embedded systems are specialized computers that run a single application, found in everything from microwaves to cars.",
+          "The first general-purpose electronic digital computer, ENIAC, weighed over 27 tons.",
+          "Printed Circuit Boards (PCBs) use copper traces to connect components, forming the backbone of most electronic devices."
+      ];
+
+      let isCooldown = false; // Flag to track the cooldown state.
+
+      // Event listener for the "?" button click
+      easterEggBtn.addEventListener('click', () => {
+          // Do nothing if it's in the cooldown period
+          if (isCooldown) {
+              return;
+          }
+
+          // Select and display a new random fact
+          const randomIndex = Math.floor(Math.random() * electronicFacts.length);
+          factText.textContent = electronicFacts[randomIndex];
+
+          // Show the fact modal
+          factModal.classList.add('show');
+      });
+
+      // Event listener for closing the fact modal
+      closeFactModalBtn.addEventListener('click', () => {
+          // Hide the modal
+          factModal.classList.remove('show');
+
+          // Start the cooldown period
+          isCooldown = true;
+          easterEggBtn.classList.add('cooldown');
+
+          // Set a timer to end the cooldown after 5 seconds
+          setTimeout(() => {
+              isCooldown = false;
+              easterEggBtn.classList.remove('cooldown');
+          }, 5000); // 5000 milliseconds = 5 seconds
+      });
+
+        // Function to create a single confetti particle
+        function createConfettiParticle() {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            confetti.style.left = `${Math.random() * 100}vw`; // Random horizontal position
+            confetti.style.animationDelay = `-${Math.random() * 2}s`; // Stagger animation start
+            confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`; // Random color
+            document.body.appendChild(confetti);
+
+            // Remove the particle after it falls off the screen
+            setTimeout(() => {
+                confetti.remove();
+            }, 5000);
+        }
+
+        // Function to start the confetti shower
+        function startConfetti() {
+            for (let i = 0; i < 50; i++) {
+                createConfettiParticle();
+            }
+        }
+
+        // Or, for a more classic easter egg, you can use a key combination.
+        // This example uses the Konami Code: Up, Up, Down, Down, Left, Right, Left, Right, B, A
+        let konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+        let konamiIndex = 0;
+        document.addEventListener('keydown', (e) => {
+            if (e.code === konamiCode[konamiIndex]) {
+                konamiIndex++;
+                if (konamiIndex === konamiCode.length) {
+                    startConfetti();
+                    konamiIndex = 0; // Reset for next time
+                }
+            } else {
+                konamiIndex = 0; // Reset if the wrong key is pressed
+            }
+        });
+
+// Go To Top Button Functionality
+    const goToTopBtn = document.getElementById('goToTopBtn');
+
+    window.addEventListener('scroll', () => {
+        // Show button when scrolled down past a certain point (e.g., 300px)
+        if (window.scrollY > 300) {
+            goToTopBtn.classList.add('show');
+        } else {
+            goToTopBtn.classList.remove('show');
+        }
+    });
+
+    goToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Smooth scroll to the top
+        });
+    });
+// Contact form handling with structured message - THIS BLOCK SHOULD BE AT THE END OF YOUR MAIN <SCRIPT> TAG
+// It must NOT be nested inside any .forEach() loop.
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent default form submission
+
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const formMessage = document.getElementById('form-message');
+    const originalText = submitBtn.innerHTML; // Store original button text
+
+    // Reset message state
+    formMessage.classList.remove('show', 'success', 'error');
+    formMessage.classList.add('hidden');
+    formMessage.textContent = ''; // Clear any previous message
+
+    // Animate button to "Sending..." state
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
+    submitBtn.disabled = true; // Disable button to prevent multiple submissions
+    submitBtn.style.background = 'var(--accent-gold)'; // Change background to accent gold
+
+    // Simulate form submission (replace with actual backend logic later)
+    setTimeout(() => {
+        // --- Simulate Success ---
+        const successMessage = "Your message has been successfully sent. You will hear from Sujal shortly.";
+        formMessage.textContent = successMessage;
+        formMessage.classList.remove('hidden');
+        formMessage.classList.add('show', 'success'); // Add success class and show
+
+        submitBtn.innerHTML = '<i class="fas fa-check mr-2"></i> Sent!'; // Success message on button
+        submitBtn.style.background = 'var(--success-green)'; // Success green background
+
+        // Reset button and form after a delay
+        setTimeout(() => {
+            submitBtn.innerHTML = originalText;
+            submitBtn.style.background = 'linear-gradient(135deg, var(--accent-copper), var(--accent-gold))'; // Reset to original gradient
+            submitBtn.disabled = false; // Re-enable button
+            this.reset(); // Clear form fields
+        },); // Display success message for 3 seconds
+    }, 1500); // Simulate sending for 1.5 seconds
+});
+
+
+      // Update your existing Cursor hover effects:
+      // Add 'input', 'textarea', and 'label' to the selector list
+      document.querySelectorAll('button, a, .circuit-card, .project-card, .skill-category, p, h1, h2, h3, h4, h5, h6, span, li, .contact-card, input, textarea, label,.social-icon').forEach(el => {
+          el.addEventListener('mouseenter', () => {
+              // Only add 'hover' class if the element is NOT one that should show the default pointer.
+              // This ensures your contact links still show the default pointer.
+              if (!el.matches('a:not(.nav-link):not(.resume-btn):not(.social-icon)')) {
+                  customCursor.classList.add('hover');
+              }
+          });
+          el.addEventListener('mouseleave', () => {
+              customCursor.classList.remove('hover');
+          });
+      });
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96a6afc871919cd7',t:'MTc1NDQwMTAyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
