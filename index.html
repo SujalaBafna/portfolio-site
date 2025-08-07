@@ -100,12 +100,12 @@
           background-color: rgba(217, 119, 6, 0.8); /* Less transparent (more opaque) */
           border-color: var(--accent-gold); /* Stays visible */
       }
-        button, .nav-link, .resume-btn, .circuit-card, .project-card, .skill-category, .social-icon {
+        button, .nav-link, .resume-btn, .circuit-card, .project-card, .skill-category, .social-icon, .social-icon * {
           cursor: none !important; /* Ensure custom cursor is used here */
       }
-          a:not(.nav-link):not(.resume-btn) {
-            cursor: pointer !important; /* Show default pointer cursor */
-        }
+        a:not(.nav-link):not(.resume-btn) {
+          cursor: pointer !important; /* Show default pointer cursor */
+      }
 
         
         /* Sophisticated PCB Background */
@@ -147,7 +147,7 @@
             justify-content: center;
             align-items: center;
             z-index: 10000;
-            transition: opacity 1s ease, visibility 1s ease;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
         }
         
         .loading-content {
@@ -164,7 +164,7 @@
         }
         
         .loading-progress {
-            width: 300px;
+            width: 350px;
             height: 2px;
             background: var(--border-subtle);
             border-radius: 1px;
@@ -173,20 +173,20 @@
         }
         
         .loading-bar {
-            height: 100%;
+            height: 120%;
             background: linear-gradient(90deg, var(--accent-copper), var(--accent-gold));
             width: 0;
             animation: loading-fill 1.5s ease-in-out forwards;
-            animation-delay: 0.5s;
+            animation-delay: 0.3s;
         }
         
         .loading-text {
             color: var(--text-secondary);
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
+            font-size: 1rem;
             opacity: 0;
-            animation: fade-in 0.5s ease forwards;
-            animation-delay: 0.5s;
+            animation: fade-in 1s ease forwards;
+            animation-delay: 0.5;
         }
         
         @keyframes loading-fill {
@@ -219,7 +219,7 @@
         }
         .navbar.scrolled {
             width: 100%; /* You can change this to any width you want */
-            height: 7%;
+            height: 6.5%;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             background: rgb(18, 28, 48);
             /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); */
@@ -229,9 +229,9 @@
         }
         .navbar.scrolled .nav-link,
         .navbar.scrolled .resume-btn {
-            font-size: 0.8rem; /* Makes the font smaller */
+            font-size: 0.95rem; /* Makes the font smaller */
             padding: 0.25rem 0.75rem; /* Reduces the padding around the links */
-            transition: all 0.5s ease;
+            transition: all 0.3s ease;
         }
 
         .navbar .hidden.md\:flex.space-x-8 {
@@ -246,6 +246,7 @@
             padding: 0.5rem 1rem;
             transition: color 0.3s ease;
             font-weight: 500;
+            font-size: 1.07rem;
         }
         
         .nav-link:hover, .nav-link.active {
@@ -298,7 +299,7 @@
             position: relative;
         }
         
-        .name-part {
+        /* .name-part {
             display: inline-block;
             opacity: 0;
             transform: translateY(100px) rotateX(90deg);
@@ -307,7 +308,7 @@
         }
         
         .name-part:nth-child(1) { animation-delay: 0.5s; }
-        .name-part:nth-child(2) { animation-delay: 0.8s; }
+        .name-part:nth-child(2) { animation-delay: 0.8s; } */
         
         @keyframes assemble-name {
             to {
@@ -334,6 +335,12 @@
             animation: fade-in-up 1s ease forwards;
             animation-delay: 1.8s;
         }
+        .gradient-text {
+            background: linear-gradient(355deg, var(--text-primary), var(--accent-copper));
+            -webkit-background-clip: text; /* For WebKit browsers like Chrome and Safari */
+            -webkit-text-fill-color: transparent; /* Makes the text transparent to show the gradient */
+            background-clip: text; /* Standard property */
+          }
               
         /* PCB Component Indicators */
         .pcb-component {
@@ -343,31 +350,24 @@
             z-index: 0;
             background: var(--accent-gold);
             border-radius: 50%;
-            opacity: 0.7;
+            opacity: 0.5;
             animation: component-pulse 6s ease-in-out infinite;
         }
                 
         @keyframes component-pulse {
-            0%, 100% { opacity: 0.8 ; transform: scale(1); }
+            0%, 100% { opacity: 0.6 ; transform: scale(1); }
             50% { opacity: 0; transform: scale(1.5); }
         }
         
-        /* Clean Skills Grid */
-
-        
-        .skill-category:hover {
-            border-color: var(--accent-copper);
-            transform: translateY(-4px);
-        }
-        
+        /* Clean Skills Grid */       
         .skill-icon {
-            font-size: 2.5rem;
+            font-size: 3rem;
             color: var(--accent-copper);
             margin-bottom: 1rem;
         }
         
         .skill-title {
-            font-size: 1.2rem;
+            font-size: 1.6 rem;
             font-weight: 600;
             margin-bottom: 1rem;
             color: var(--text-primary);
@@ -773,6 +773,7 @@
             border: 1px solid var(--border-subtle); /* Subtle border */
             color: var(--accent-copper); /* Copper color for the icon */
             font-size: 1.8rem; /* Increased Icon size */
+            cursor: none !important;
             transition: all 0.3s ease; /* Smooth transitions for hover and click effects */
             text-decoration: none; /* Remove underline from links */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
@@ -874,44 +875,54 @@
             color: var(--success-green); /* Current green text color */
         }
 
-           /* Keyframes for infinite scroll effect */
-           @keyframes scroll-left {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
+/* Keyframe for seamless horizontal scroll */
+@keyframes scroll-right {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
 
-        .scroll-container {
-            /* We duplicate the content, so the animation moves half the width */
-            animation: scroll 30s linear infinite;
-        }
+.skill-scroll-wrapper {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
 
-    .scrolling-content-container {
-        /* This is the key fix. It ensures the container is wide enough for a seamless loop */
-        width: max-content; 
-    }
+.skill-scroll-track1 {
+  display: flex;
+  width: max-content;
+  animation: scroll-right 5s linear infinite;
+}
+.skill-scroll-track2 {
+  display: flex;
+  width: max-content;
+  animation: scroll-right 5s linear infinite;
+}
+.skill-scroll-track3 {
+  display: flex;
+  width: max-content;
+  animation: scroll-right 5s linear infinite;
+}
 
-    .animate-scroll {
-        animation: scroll-left 30s linear infinite;
-    }
+.skill-set {
+  display: flex;
+  gap: rem;
+  flex-shrink: 0;
+}
 
-    .animate-scroll-rtl {
-        animation: scroll-right 30s linear infinite;
-    }
-
-    .skill-capsule {
-        @apply px-4 py-2 rounded-full text-sm font-medium shadow-md flex items-center justify-center whitespace-nowrap space-x-2;
-    }
-    
-    .skill-capsule span {
-        font-family: 'JetBrains Mono', monospace;
-    }
-
-    /* Pause animation on hover */
-    .scrolling-content-container:hover .animate-scroll,
-    .scrolling-content-container:hover .animate-scroll-rtl {
-        animation-play-state: paused;
-    }
-
+.skill-capsule {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.4rem;  
+  padding: 0.4rem 1rem;
+  margin-right: 1rem;
+  border-radius: 9999px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  border: 1px solid rgba(255,255,255,0.08);
+}
         /* Go To Top Button Styling */
         .go-to-top-btn {
             position: fixed;
@@ -1449,167 +1460,90 @@
         </section>
                
               <!-- Clean Skills Grid -->
-        <section id="skills" class="section">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="scroll-reveal">
-                        <h2 class="section-title">Skills</h2>
-                    </div>
+              <body class="bg-primary-dark text-text-secondary">
+
+                <section class="max-w-6xl mx-auto py-12 px-4">
+                    <h2 class="section-title">My Tech Stack</h2>
               <!-- Embedded Systems -->
-              <div class="p-4 rounded-xl border border-gray-700 bg-gray-800 shadow-lg mb-6">
-                <h3 class="text-xl md:text-2xl font-bold text-gray-100 mb-4 text-left">Embedded Systems</h3>
-                <div class="relative overflow-hidden w-full h-12 md:h-16">
-                    <div class="scroll-container flex space-x-2 md:space-x-3 h-full items-center animate-scroll">
-                        <!-- Original skills list -->
-                        <div class="flex-shrink-0 flex space-x-2 md:space-x-3">
-                            <div class="skill-capsule bg-orange-600 text-white">
-                                <i class="fas fa-cogs"></i>
-                                <span>C/C++</span>
-                            </div>
-                            <div class="skill-capsule bg-blue-600 text-white">
-                                <i class="fas fa-terminal"></i>
-                                <span>RTOS</span>
-                            </div>
-                            <div class="skill-capsule bg-red-600 text-white">
-                                <i class="fab fa-raspberry-pi"></i>
-                                <span>Raspberry Pi</span>
-                            </div>
-                            <div class="skill-capsule bg-green-600 text-white">
-                                <i class="fas fa-robot"></i>
-                                <span>ROS</span>
-                            </div>
-                        </div>
-                        <!-- Duplicated skills list for infinite scroll effect -->
-                        <div class="flex-shrink-0 flex space-x-2 md:space-x-3">
-                            <div class="skill-capsule bg-orange-600 text-white">
-                                <i class="fas fa-cogs"></i>
-                                <span>C/C++</span>
-                            </div>
-                            <div class="skill-capsule bg-blue-600 text-white">
-                                <i class="fas fa-terminal"></i>
-                                <span>RTOS</span>
-                            </div>
-                            <div class="skill-capsule bg-red-600 text-white">
-                                <i class="fab fa-raspberry-pi"></i>
-                                <span>Raspberry Pi</span>
-                            </div>
-                            <div class="skill-capsule bg-green-600 text-white">
-                                <i class="fas fa-robot"></i>
-                                <span>ROS</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-              </div>
+    <div class="p-4 rounded-xl mb-6">
+    <!-- <div class="skills-grid mt-8"></div> -->
+    <h3 class="text-xl md:text-3xl font-bold mb-4 text-left gradient-text">Embedded Systems</h3>
+      <div class="skill-scroll-wrapper">
+        <div class="skill-scroll-track1">
+          <div class="flex">
+            <div class="skill-capsule bg-orange-600 text-white"><i class="fas fa-cogs"></i><span>C/C++</span></div>
+            <div class="skill-capsule bg-blue-600 text-white"><i class="fas fa-terminal"></i><span>RTOS</span></div>
+            <div class="skill-capsule bg-red-600 text-white"><i class="fab fa-raspberry-pi"></i><span>Raspberry Pi</span></div>
+            <div class="skill-capsule bg-green-600 text-white"><i class="fas fa-robot"></i><span>ROS</span></div>
+          </div>
+          <div class="flex">
+            <div class="skill-capsule bg-orange-600 text-white"><i class="fas fa-cogs"></i><span>C/C++</span></div>
+            <div class="skill-capsule bg-blue-600 text-white"><i class="fas fa-terminal"></i><span>RTOS</span></div>
+            <div class="skill-capsule bg-red-600 text-white"><i class="fab fa-raspberry-pi"></i><span>Raspberry Pi</span></div>
+            <div class="skill-capsule bg-green-600 text-white"><i class="fas fa-robot"></i><span>ROS</span></div>
+          </div>
+          <div class="flex">
+            <div class="skill-capsule bg-orange-600 text-white"><i class="fas fa-cogs"></i><span>C/C++</span></div>
+            <div class="skill-capsule bg-blue-600 text-white"><i class="fas fa-terminal"></i><span>RTOS</span></div>
+            <div class="skill-capsule bg-red-600 text-white"><i class="fab fa-raspberry-pi"></i><span>Raspberry Pi</span></div>
+            <div class="skill-capsule bg-green-600 text-white"><i class="fas fa-robot"></i><span>ROS</span></div>
+          </div>
+          <div class="flex">
+            <div class="skill-capsule bg-orange-600 text-white"><i class="fas fa-cogs"></i><span>C/C++</span></div>
+            <div class="skill-capsule bg-blue-600 text-white"><i class="fas fa-terminal"></i><span>RTOS</span></div>
+            <div class="skill-capsule bg-red-600 text-white"><i class="fab fa-raspberry-pi"></i><span>Raspberry Pi</span></div>
+            <div class="skill-capsule bg-green-600 text-white"><i class="fas fa-robot"></i><span>ROS</span></div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
 
-              <!-- Hardware Design -->
-              <div class="p-4 rounded-xl border border-gray-700 bg-gray-800 shadow-lg mb-6">
-                <h3 class="text-xl md:text-2xl font-bold text-gray-100 mb-4 text-left">Hardware Design</h3>
-                <div class="relative overflow-hidden w-full h-12 md:h-16">
-                    <div class="scroll-container flex space-x-2 md:space-x-3 h-full items-center animate-scroll">
-                        <!-- Original skills list -->
-                        <div class="flex-shrink-0 flex space-x-2 md:space-x-3">
-                            <div class="skill-capsule bg-yellow-500 text-gray-900">
-                                <i class="fas fa-sitemap"></i>
-                                <span>KiCad</span>
-                            </div>
-                            <div class="skill-capsule bg-teal-500 text-white">
-                                <i class="fas fa-drafting-compass"></i>
-                                <span>Altium Designer</span>
-                            </div>
-                            <div class="skill-capsule bg-purple-500 text-white">
-                                <i class="fas fa-wifi"></i>
-                                <span>RF Design</span>
-                            </div>
-                            <div class="skill-capsule bg-lime-500 text-gray-900">
-                                <i class="fas fa-cube"></i>
-                                <span>Solidworks</span>
-                            </div>
-                            <div class="skill-capsule bg-cyan-500 text-white">
-                                <i class="fas fa-drafting-compass"></i>
-                                <span>Fusion 360</span>
-                            </div>
-                        </div>
-                        <!-- Duplicated skills list for infinite scroll effect -->
-                        <div class="flex-shrink-0 flex space-x-2 md:space-x-3">
-                            <div class="skill-capsule bg-yellow-500 text-gray-900">
-                                <i class="fas fa-sitemap"></i>
-                                <span>KiCad</span>
-                            </div>
-                            <div class="skill-capsule bg-teal-500 text-white">
-                                <i class="fas fa-drafting-compass"></i>
-                                <span>Altium Designer</span>
-                            </div>
-                            <div class="skill-capsule bg-purple-500 text-white">
-                                <i class="fas fa-wifi"></i>
-                                <span>RF Design</span>
-                            </div>
-                            <div class="skill-capsule bg-lime-500 text-gray-900">
-                                <i class="fas fa-cube"></i>
-                                <span>Solidworks</span>
-                            </div>
-                            <div class="skill-capsule bg-cyan-500 text-white">
-                                <i class="fas fa-drafting-compass"></i>
-                                <span>Fusion 360</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-              </div>
+    <!-- Hardware Design -->
+    <div class="p-4 rounded-xl mb-6">
+      <h3 class="text-xl md:text-3xl font-bold mb-4 text-left gradient-text">Hardware Design</h3>
+      <div class="skill-scroll-wrapper">
+        <div class="skill-scroll-track2">
+          <div class="flex">
+            <div class="skill-capsule bg-yellow-500 text-gray-900"><i class="fas fa-sitemap"></i><span>KiCad</span></div>
+            <div class="skill-capsule bg-teal-500 text-white"><i class="fas fa-drafting-compass"></i><span>Altium Designer</span></div>
+            <div class="skill-capsule bg-purple-500 text-white"><i class="fas fa-wifi"></i><span>RF Design</span></div>
+            <div class="skill-capsule bg-lime-500 text-gray-900"><i class="fas fa-cube"></i><span>Solidworks</span></div>
+            <div class="skill-capsule bg-cyan-500 text-white"><i class="fas fa-drafting-compass"></i><span>Fusion 360</span></div>
+          </div>
+          <div class="flex">
+            <div class="skill-capsule bg-yellow-500 text-gray-900"><i class="fas fa-sitemap"></i><span>KiCad</span></div>
+            <div class="skill-capsule bg-teal-500 text-white"><i class="fas fa-drafting-compass"></i><span>Altium Designer</span></div>
+            <div class="skill-capsule bg-purple-500 text-white"><i class="fas fa-wifi"></i><span>RF Design</span></div>
+            <div class="skill-capsule bg-lime-500 text-gray-900"><i class="fas fa-cube"></i><span>Solidworks</span></div>
+            <div class="skill-capsule bg-cyan-500 text-white"><i class="fas fa-drafting-compass"></i><span>Fusion 360</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-              <!-- System Integration & Debugging -->
-              <div class="p-4 rounded-xl border border-gray-700 bg-gray-800 shadow-lg mb-6">
-                <h3 class="text-xl md:text-2xl font-bold text-gray-100 mb-4 text-left">System Integration & Debugging</h3>
-                <div class="relative overflow-hidden w-full h-12 md:h-16">
-                    <div class="scroll-container flex space-x-2 md:space-x-3 h-full items-center animate-scroll">
-                        <!-- Original skills list -->
-                        <div class="flex-shrink-0 flex space-x-2 md:space-x-3">
-                            <div class="skill-capsule bg-gray-500 text-white">
-                                <i class="fab fa-linux"></i>
-                                <span>Linux</span>
-                            </div>
-                            <div class="skill-capsule bg-orange-400 text-gray-900">
-                                <i class="fab fa-git-alt"></i>
-                                <span>Git</span>
-                            </div>
-                            <div class="skill-capsule bg-blue-400 text-white">
-                                <i class="fab fa-docker"></i>
-                                <span>Docker</span>
-                            </div>
-                            <div class="skill-capsule bg-emerald-500 text-white">
-                                <i class="fas fa-bug"></i>
-                                <span>Debugging</span>
-                            </div>
-                            <div class="skill-capsule bg-violet-600 text-white">
-                                <i class="fas fa-flask"></i>
-                                <span>Testing</span>
-                            </div>
-                        </div>
-                        <!-- Duplicated skills list for infinite scroll effect -->
-                        <div class="flex-shrink-0 flex space-x-2 md:space-x-3">
-                            <div class="skill-capsule bg-gray-500 text-white">
-                                <i class="fab fa-linux"></i>
-                                <span>Linux</span>
-                            </div>
-                            <div class="skill-capsule bg-orange-400 text-gray-900">
-                                <i class="fab fa-git-alt"></i>
-                                <span>Git</span>
-                            </div>
-                            <div class="skill-capsule bg-blue-400 text-white">
-                                <i class="fab fa-docker"></i>
-                                <span>Docker</span>
-                            </div>
-                            <div class="skill-capsule bg-emerald-500 text-white">
-                                <i class="fas fa-bug"></i>
-                                <span>Debugging</span>
-                            </div>
-                            <div class="skill-capsule bg-violet-600 text-white">
-                                <i class="fas fa-flask"></i>
-                                <span>Testing</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-              </div>
+    <!-- System Integration & Debugging -->
+    <div class="p-4 rounded-xl mb-6">
+      <h3 class="text-xl md:text-3xl font-bold mb-4 text-left gradient-text">System Integration & Debugging</h3>
+      <div class="skill-scroll-wrapper">
+        <div class="skill-scroll-track3">
+          <div class="flex">
+            <div class="skill-capsule bg-gray-500 text-white"><i class="fab fa-linux"></i><span>Linux</span></div>
+            <div class="skill-capsule bg-orange-400 text-gray-900"><i class="fab fa-git-alt"></i><span>Git</span></div>
+            <div class="skill-capsule bg-blue-400 text-white"><i class="fab fa-docker"></i><span>Docker</span></div>
+            <div class="skill-capsule bg-emerald-500 text-white"><i class="fas fa-bug"></i><span>Debugging</span></div>
+            <div class="skill-capsule bg-violet-600 text-white"><i class="fas fa-flask"></i><span>Testing</span></div>
+          </div>
+          <div class="flex">
+            <div class="skill-capsule bg-gray-500 text-white"><i class="fab fa-linux"></i><span>Linux</span></div>
+            <div class="skill-capsule bg-orange-400 text-gray-900"><i class="fab fa-git-alt"></i><span>Git</span></div>
+            <div class="skill-capsule bg-blue-400 text-white"><i class="fab fa-docker"></i><span>Docker</span></div>
+            <div class="skill-capsule bg-emerald-500 text-white"><i class="fas fa-bug"></i><span>Debugging</span></div>
+            <div class="skill-capsule bg-violet-600 text-white"><i class="fas fa-flask"></i><span>Testing</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
     </div>
       </section>
         
@@ -1788,7 +1722,7 @@
             <i class="fab fa-linkedin-in"></i>
         </a>
         <a href="mailto:your-email@example.com" class="social-icon" id="email-icon">
-            <i class="fas fa-envelope"></i>
+            <i class="fas fa-envelope"></i> 
         </a>
         <!-- Add more social icons here if needed -->
     </div>
@@ -1841,7 +1775,7 @@
         animateCursor();
 
         // Cursor hover effects: Add 'hover' class to the main custom-cursor container
-            document.querySelectorAll('button, a, .circuit-card, .project-card, .skill-category, p, h1, h2, h3, h4, h5, h6, span, li, .contact-card, input, textarea, label, .social-icon, .easter-egg-btn, .close-fact-modal').forEach(el => { // ADDED .easter-egg-btn and .close-fact-modal
+            document.querySelectorAll('button, a, .circuit-card, .project-card, .skill-category, .contact-card, input, textarea, label, .social-icon, .easter-egg-btn, .close-fact-modal').forEach(el => { // ADDED .easter-egg-btn and .close-fact-modal
             el.addEventListener('mouseenter', () => {
                 if (!el.matches('a:not(.nav-link):not(.resume-btn):not(.social-icon)')) {
                     customCursor.classList.add('hover');
@@ -1864,7 +1798,7 @@
                 mainContent.style.opacity = '1';
                 mainContent.style.transition = 'opacity 1.5s ease';
             }, 500);
-        }, 3000); // Clean 3-second loading
+        }, 2000); // Clean 3-second loading
         
         // Smooth scrolling navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1927,15 +1861,15 @@
         
         window.onload = function() {
           const traceContainer = document.querySelector('.pcb-traces');
-          const numberOfStars = 20; // Adjust this number for more or fewer stars
+          const numberOfStars = 10; // Adjust this number for more or fewer stars
           
           for (let i = 0; i < numberOfStars; i++) {
               const star = document.createElement('div');
               star.classList.add('pcb-component');
               
               // Randomly position the star across the full viewport
-              const randomTop = Math.random() * 100;
-              const randomLeft = Math.random() * 100;
+              const randomTop = Math.random() * 90;
+              const randomLeft = Math.random() * 90;
               star.style.top = `${randomTop}vh`;
               star.style.left = `${randomLeft}vw`;
               
@@ -1946,6 +1880,13 @@
               traceContainer.appendChild(star);
           }
         };
+        document.addEventListener('DOMContentLoaded', () => {
+              const stars = document.querySelectorAll('.star');
+              stars.forEach(star => {
+                  const randomDelay = Math.random() * 5; // Random delay between 0 and 3 seconds
+                  star.style.setProperty('--random-delay', randomDelay);
+              });
+          });
 
         // Observe all scroll reveal elements
         document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .timeline-item').forEach(el => {
@@ -2171,20 +2112,20 @@ document.querySelectorAll('.social-icon').forEach(icon => {
 });
 
 
-      // Update your existing Cursor hover effects:
-      // Add 'input', 'textarea', and 'label' to the selector list
-      document.querySelectorAll('button, a, .circuit-card, .project-card, .skill-category, p, h1, h2, h3, h4, h5, h6, span, li, .contact-card, input, textarea, label,.social-icon').forEach(el => {
-          el.addEventListener('mouseenter', () => {
-              // Only add 'hover' class if the element is NOT one that should show the default pointer.
-              // This ensures your contact links still show the default pointer.
-              if (!el.matches('a:not(.nav-link):not(.resume-btn):not(.social-icon)')) {
-                  customCursor.classList.add('hover');
-              }
-          });
-          el.addEventListener('mouseleave', () => {
-              customCursor.classList.remove('hover');
-          });
-      });
+      // // Update your existing Cursor hover effects:
+      // // Add 'input', 'textarea', and 'label' to the selector list
+      // document.querySelectorAll('button, a, .circuit-card, .project-card, .skill-category, .contact-card, input, textarea, label,.social-icon').forEach(el => {
+      //     el.addEventListener('mouseenter', () => {
+      //         // Only add 'hover' class if the element is NOT one that should show the default pointer.
+      //         // This ensures your contact links still show the default pointer.
+      //         if (!el.matches('a:not(.nav-link):not(.resume-btn):not(.social-icon)')) {
+      //             customCursor.classList.add('hover');
+      //         }
+      //     });
+      //     el.addEventListener('mouseleave', () => {
+      //         customCursor.classList.remove('hover');
+      //     });
+      // });
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96a6afc871919cd7',t:'MTc1NDQwMTAyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
