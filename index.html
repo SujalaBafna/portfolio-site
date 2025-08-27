@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sujal Bafna | Embedded Systems Engineer</title>
+    <title>Sujal Bafna</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
         
@@ -67,13 +67,13 @@
           border: 1px solid var(--accent-copper);
           background-color: transparent;
           z-index: 99999;
-          transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+          transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
       }
 
       /* The smaller dot that "follows" closely */
       .cursor-dot {
-          width: 6px;
-          height: 6px;
+          width: 7px;
+          height: 7px;
           background-color: var(--accent-copper);
           z-index: 100000; /* Stays on top of the ring */
           transition: all 0.08s ease-out;
@@ -86,7 +86,7 @@
           border-color: rgb(98, 53, 2);
           background-color: rgba(217, 119, 6, 1);
           transform: translate(-50%, -50%) scale(1);
-          opacity:1;
+          opacity:0.9;
       }
 
       .custom-cursor.hover .cursor-ring {
@@ -100,7 +100,7 @@
           background-color: rgba(217, 119, 6, 0.8); /* Less transparent (more opaque) */
           border-color: var(--accent-gold); /* Stays visible */
       }
-        button, .nav-link, .resume-btn, .circuit-card, .project-card, .skill-category, .social-icon, .social-icon * {
+        a, button,.btn-secondary, .nav-link, .resume-btn, .circuit-card, .project-card, .skill-category, .social-icon, .social-icon * {
           cursor: none !important; /* Ensure custom cursor is used here */
       }
         a:not(.nav-link):not(.resume-btn) {
@@ -246,7 +246,7 @@
             padding: 0.5rem 1rem;
             transition: color 0.3s ease;
             font-weight: 500;
-            font-size: 1.07rem;
+            font-size: 1.0rem;
         }
         
         .nav-link:hover, .nav-link.active {
@@ -280,6 +280,7 @@
         .resume-btn:hover {
             color: var(--accent-gold);
             transform: translateY(-1px);
+            text-decoration: underline;
         }
         
         /* Hero Section - Component Assembly Animation */
@@ -327,13 +328,14 @@
         }
         
         .hero-description {
-            font-size: 1.25rem;
+            font-size: 1.28rem;
             color: var(--text-secondary);
-            max-width: 600px;
+            max-width: 650px;
             margin-bottom: 3rem;
             opacity: 0;
             animation: fade-in-up 1s ease forwards;
             animation-delay: 1.8s;
+            text-align: justify;
         }
         .gradient-text {
             background: linear-gradient(355deg, var(--text-primary), var(--accent-copper));
@@ -341,6 +343,7 @@
             -webkit-text-fill-color: transparent; /* Makes the text transparent to show the gradient */
             background-clip: text; /* Standard property */
           }
+          
               
         /* PCB Component Indicators */
         .pcb-component {
@@ -602,6 +605,15 @@
     object-fit: cover; /* Ensures image covers the area without distortion */
 }
 
+/* For skipping intro animation */
+body.skip-intro .hero-title-wrapper,
+body.skip-intro .intro-text-wrapper,
+body.skip-intro .animate-intro {
+    animation: none !important;
+    opacity: 0 !important;
+    transform: none !important;
+}
+
 /* Optional: Background for the contact section to match the image's subtle gradient */
 
         /* Timeline Visualization */
@@ -648,7 +660,7 @@
         /* Project Grid */
         .project-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
             gap: 2rem;
             margin: 3rem 0;
         }
@@ -657,17 +669,46 @@
             background: var(--secondary-dark);
             border: 1px solid var(--border-subtle);
             border-radius: 16px;
-            overflow: hidden;
+            /* overflow: hidden; */
             transition: all 0.4s ease;
             cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         
         .project-card:hover {
-            transform: translateY(-8px);
+            transform: scale(1.5);
             border-color: var(--accent-copper);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            z-index: 2;
         }
-        
+        .video-overlay {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            z-index: 0;
+        }
+        .video-overlay iframe {
+            pointer-events: none;
+        }
+        .video-overlay img {
+            width: 100%;
+            height: 63.5%;
+            object-fit: fill;
+            /* opacity: 0.98; */
+        }
+        .video-overlay video {
+            width: 100%;
+            height: 100%;
+            object-fit: fill; /* This is the correct property */
+        }
+        .project-card:hover .video-overlay {
+            opacity: 0.35;
+            /* transform: scale(1.1); Subtle zoom effect for the video */
+        }   
         .project-header {
             padding: 2rem;
             border-bottom: 1px solid var(--border-subtle);
@@ -684,8 +725,9 @@
           padding: 0.25rem 0.75rem;
           border-radius: 9999px; /* This creates the capsule shape */
           font-size: 0.875rem;
-          margin: 0.25rem 0.5rem 0.25rem 0;
+          margin: 0.25rem 0rem 0.25rem 0;
           border: 1px solid rgba(217, 119, 6, 0.3);
+          z-index: 2;
         }
         
         /* Smooth Scroll Animations */
@@ -877,7 +919,7 @@
 
 /* Keyframe for seamless horizontal scroll */
 @keyframes scroll-right {
-  0% { transform: translateX(100%); }
+  0% { transform: translateX(38%); }
   100% { transform: translateX(-100%); }
 }
 
@@ -890,17 +932,17 @@
 .skill-scroll-track1 {
   display: flex;
   width: max-content;
-  animation: scroll-right 5s linear infinite;
+  animation: scroll-right 70.55s linear infinite;
 }
 .skill-scroll-track2 {
   display: flex;
   width: max-content;
-  animation: scroll-right 5s linear infinite;
+  animation: scroll-right 70s linear infinite;
 }
 .skill-scroll-track3 {
   display: flex;
   width: max-content;
-  animation: scroll-right 5s linear infinite;
+  animation: scroll-right 70s linear infinite;
 }
 
 .skill-set {
@@ -918,7 +960,7 @@
   margin-right: 1rem;
   border-radius: 9999px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   white-space: nowrap;
   box-shadow: 0 2px 5px rgba(0,0,0,0.15);
   border: 1px solid rgba(255,255,255,0.08);
@@ -1151,7 +1193,7 @@
                 <a href="#impact" class="nav-link">Impact</a>
                 <a href="#contact" class="nav-link">Contact</a>
                 <a href="#" class="resume-btn" onclick="downloadResume()">
-                  <i class="fas fa-download mr-2"></i>Resume
+                  <i class="fas fa-download mr-2 text-[1.35rem]"></i>Resume
                 </a>
             </div>
         </div>
@@ -1174,12 +1216,12 @@
                       Sujal Bafna
                     </span>
                     <div class="hero-subtitle mono font-bold text-lg sm:text-2xl md:text-3xl text-copper-500 mb-10">
-                      Embedded Systems Engineer
+                     Robotics, IoT & Embedded Systems Engineer
                     </div>
                     <p class="hero-description">
-                        Crafting intelligent embedded ecosystems where hardware meets software. 
-                        Designing autonomous systems that bridge the physical and digital worlds 
-                        through innovative PCB design, robotics, and IoT solutions.
+                        "I create embedded systems that think, adapt, and connect bringing
+                        hardware and software to work in harmony, uniting the physical and digital
+                        worlds through robotics, automation, and IoT."
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4">
                         <a href="#projects" class="btn-primary">
@@ -1198,59 +1240,150 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-reveal">    
                     <h2 class="section-title">My Journey</h2>
                     <p class="section-subtitle">
-                        From academic foundations to professional impact - a timeline of growth and innovation
+                        From academic foundations to professional impact - a timeline of exploration, growth, and innovation
                     </p>
                 
                 <div class="timeline-container">
                     <div class="timeline-line"></div>
-                    
+
                     <div class="timeline-item scroll-reveal">
                         <div class="timeline-dot"></div>
                         <div class="circuit-card">
-                            <h3 class="text-xl font-bold text-copper-500 mb-2">Electronics & Communication Engineering</h3>
-                            <p class="text-secondary mb-3 mono">2021 - Present</p>
-                            <p class="text-secondary">
-                                Building strong foundations in circuit design, signal processing, and embedded systems. 
-                                Focusing on the intersection of hardware and software engineering.
-                            </p>
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-[1.35rem] font-bold text-copper-500 mb-[0.3rem]">R&D Hardware Design Intern</h3>
+                                <p class="text-secondary text-lg font-bold gradient-text">Jan - Jul 2025</p>
+                            </div>
+                                <p class="text-secondary text-[1.14rem] font-semibold gradient-text mb-3">@ Aeron Systems | Pune, India</p>
+                            <ul class="mt-2 list-disc pl-5 text-[1rem]">
+                                <li class="mb-3 max-w-4xl "><b>Innovative Hardware System Design: </b>
+                                    <div class="text-[1.015rem] mt-1 text-justify">Developed a new 
+                                    power measurement system for solar energy, from concept to PoC. 
+                                    Led architecture research, simulations, and prototype development; 
+                                    recognized and praised in senior engineering design reviews.</div>
+                                </li>
+                                <li class="mb-3 max-w-4xl "><b>Modular Interface Design: </b>
+                                    <div class="text-[1.015rem] mt-1 text-justify">Designed and delivered a plug-and-play 
+                                    analog interface module for the datalogger, handling schematic, PCB layout, 
+                                    fitment testing, and product bring-up; took it from concept to production-ready 
+                                    in one month.</div>
+                                </li>
+                                <li class="mb-3 max-w-4xl "><b>Library & Process Standardization: </b>
+                                    <div class="text-[1.015rem] mt-1 text-justify">Rebuilt a 450+ part Altium component 
+                                    library with consistent metadata, parametric tagging, and footprint validation, streamlining 
+                                    BOM accuracy, sourcing, and design efficiency across teams.</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                                        <div class="timeline-item scroll-reveal">
+                        <div class="timeline-dot"></div>
+                        <div class="circuit-card">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-[1.35rem] font-bold text-copper-500 mb-[0.3rem]">Robotics & Embedded Systems Engineer</h3>
+                                <p class="text-secondary text-lg font-bold gradient-text">Jul 2022 - Aug 2025</p>
+                            </div>
+                                <p class="text-secondary text-[1.14rem] font-semibold gradient-text mb-3">@ MIT Tech Team | Pune, India</p>
+                            <ul class="mt-2 list-disc pl-5 text-[1rem]">
+                                <li class="mb-3 max-w-4xl "><b>Head of Embedded Systems: </b>
+                                    <div class="text-[1.015rem] mt-1 text-justify">Led the embedded division of MIT Tech Team for ABU Robocon 2024, 
+                                        overseeing hardware design, control systems, and integration of robotic platforms.</div>
+                                </li>
+                                <li class="mb-3 max-w-4xl "><b>Custom Hardware Designs: </b>
+                                    <div class="text-[1.015rem] mt-1 text-justify">Designed and fabricated PCBs for power management, 
+                                        and sensor interfaces, enabling reliable subsystem communication; work contributed to the team securing 
+                                        AIR 2 (2023) and AIR 3 (2024).</div>
+                                </li>
+                                <li class="mb-3 max-w-4xl "><b>Control & Automation: </b>
+                                    <div class="text-[1.015rem] mt-1 text-justify">Developed embedded control software for robot automation in 
+                                        ABU Robocon 2024 and engineered the team’s swerve drive system during the design phase, enhancing mobility 
+                                        and precision in competition.</div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                     
+                 <div class="timeline-container">
+                    <div class="timeline-line"></div>
+
                     <div class="timeline-item scroll-reveal">
                         <div class="timeline-dot"></div>
                         <div class="circuit-card">
-                            <h3 class="text-xl font-bold text-copper-500 mb-2">Robotics Club Leadership</h3>
-                            <p class="text-secondary mb-3 mono">2022 - Present</p>
-                            <p class="text-secondary">
-                                Leading innovative robotics projects, mentoring team members, and developing 
-                                competition-winning autonomous systems. Specializing in custom hardware design and PCB development.
-                            </p>
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-[1.35rem] font-bold text-copper-500 mb-[0.3rem]">Electronics & Communication Engineering</h3>
+                                <p class="text-secondary text-lg font-bold gradient-text">Jul 2021 - Jul 2025</p>
+                            </div>
+                                <p class="text-secondary text-[1.14rem] font-semibold gradient-text mb-3">@ MIT-WPU | Pune, India</p>
+                            <ul class="mt-2 list-disc pl-5 text-[1rem]">
+                                <li class="mb-3 max-w-4xl">
+                                    <div class="text-[1.02rem] mt-1 text-justify">Built strong foundations in electronics, 
+                                    embedded systems, and signal processing, with a focus on hardware–software integration.</div>
+                                </li>
+                                <li class="mb-3 max-w-4xl">
+                                    <div class="text-[1.02rem] mt-1 text-justify">Mentored 200+ students in embedded systems and PCB design 
+                                    through workshops organized in collaboration with the department, invited to lead sessions and share 
+                                    expertise as part of departmental initiatives.
+                                    </div>
+                                </li>
+                                <li class="mb-3 max-w-4xl">
+                                    <div class="text-[1.02rem] mt-1 text-justify">Graduated B.Tech with First Class with Distinction, 
+                                    recognized for both academic excellence and social impact.</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-container">
+                    <div class="timeline-line"></div>
+
+                    <div class="timeline-item scroll-reveal">
+                        <div class="timeline-dot"></div>
+                        <div class="circuit-card">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-[1.35rem] font-bold text-copper-500 mb-[0.3rem]">Higher Secondary (Class 12)</h3>
+                                <p class="text-secondary text-lg font-bold gradient-text">Jun 2020 - May 2021</p>
+                            </div>
+                                <p class="text-secondary text-[1.14rem] font-semibold gradient-text mb-3">@ Matoshri Junior College | Nashik, India</p>
+                            <ul class="mt-2 list-disc pl-5 text-[1rem]">
+                                <li class="mb-3 max-w-4xl">
+                                    <div class="text-[1.02rem] mt-1 text-justify">Cleared higher secondary with a CGPA of 9.48 (First Class with Distinction).</div>
+                                </li>
+                                <li class="mb-3 max-w-4xl">
+                                    <div class="text-[1.02rem] mt-1 text-justify">Represented the college in district-level badminton, showcasing both 
+                                    academic and extracurricular balance.</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-container">
+                    <div class="timeline-line"></div>
+
+                    <div class="timeline-item scroll-reveal">
+                        <div class="timeline-dot"></div>
+                        <div class="circuit-card">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-[1.35rem] font-bold text-copper-500 mb-[0.3rem]">Secondary Education (Class 10)</h3>
+                                <p class="text-secondary text-lg font-bold gradient-text">May 2018 - Apr 2019</p>
+                            </div>
+                                <p class="text-secondary text-[1.14rem] font-semibold gradient-text mb-3">@ Fravashi International Academy | Nashik, India</p>
+                            <ul class="mt-2 list-disc pl-5 text-[1rem]">
+                                <li class="mb-3 max-w-4xl">
+                                    <div class="text-[1.02rem] mt-1 text-justify">Cleared Class 10 with First Class with Distinction under the 
+                                    Cambridge Board curriculum.</div>
+                                </li>
+                                <li class="mb-3 max-w-4xl">
+                                    <div class="text-[1.02rem] mt-1 text-justify">Represented school in district-level badminton (Silver Medal) 
+                                    and district-level cricket.</div>
+                                </li>
+                                                                <li class="mb-3 max-w-4xl">
+                                    <div class="text-[1.02rem] mt-1 text-justify">Demonstrated strong analytical aptitude by scoring 98% in 
+                                    Mathematics and 85% in Additional Mathematics</div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                     
-                    <div class="timeline-item scroll-reveal">
-                        <div class="timeline-dot"></div>
-                        <div class="circuit-card">
-                            <h3 class="text-xl font-bold text-copper-500 mb-2">Aeron Systems - Embedded Engineer</h3>
-                            <p class="text-secondary mb-3 mono">2023 - Present</p>
-                            <p class="text-secondary">
-                                Contributing to cutting-edge aerospace projects, developing flight control systems, 
-                                and optimizing embedded solutions for next-generation aviation technology.
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item scroll-reveal">
-                        <div class="timeline-dot"></div>
-                        <div class="circuit-card">
-                            <h3 class="text-xl font-bold text-copper-500 mb-2">Social Impact & Teaching</h3>
-                            <p class="text-secondary mb-3 mono">2022 - Present</p>
-                            <p class="text-secondary">
-                                Mentoring 200+ students in embedded systems and robotics, conducting workshops, 
-                                and making technology education accessible to underserved communities.
-                            </p>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -1266,31 +1399,117 @@
                 </div>
                 
                 <div class="project-grid">
+                <div class="content-container">
+                <div class="project-card scroll-reveal">
+                    <div class="video-overlay">
+                        <img src="./assets/UAV/Main_Image.png" alt="Description of the image">
+                    </div>
+                    <!-- <div class="absolute inset-0 z-0 opacity-20" style="background-image: url('./assets/ngo_main_pic.JPG'); background-repeat: no-repeat;background-size: 100% 63.5%;"></div> -->
+                    <div class="project-header relative z-10">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="skill-icon">
+                                <i class="fas fa-plane"></i>
+                            </div>
+                            <div class="status-indicator active"></div>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 ">UAV Auto-Route & Angle Correction</h3>
+                        <p class="text-secondary italic flex justify-between">
+                            Real-time UAV control system utilizing IMU feedback and PID-based 
+                            algorithms for autonomous route correction and angle stabilization.
+                        </p>
+                    </div>
+                    <div class="project-content relative z-10">
+                        <div class="mb-6">
+                            <span class="tech-tag">STM32</span>
+                            <span class="tech-tag">IMU</span>
+                            <span class="tech-tag">PID Controller</span>
+                            <span class="tech-tag">MATLAB</span>    
+                            <span class="tech-tag">Real-Time</span>
+                            <span class="tech-tag">Eagle CAD</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <!-- <button class="text-copper-500 hover:text-copper-400 transition-colors"> -->
+                                <a href="UAV.html" button class="text-white text-[1.1rem] hover:text-[var(--accent-gold)] transition-colors" style="cursor: none !important; ">
+                                    <i class="fas fa-external-link-alt mr-2 relative z-10"></i>
+                                    View Details
+                                </a>
+                            <!-- </button> -->
+                            <button class="text-secondary hover:text-primary transition-colors">
+                                <i class="fab fa-github mr-2"></i>Code
+                            </button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                    
                     <div class="project-card scroll-reveal">
-                        <div class="project-header">
+                        <div class="video-overlay">
+                        <video src="./assets/Aeron/Main.mp4" controls autoplay loop muted></video>
+                        </div>
+                        <div class="project-header relative z-10">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="skill-icon">
-                                    <i class="fas fa-helicopter"></i>
+                                <i class="fa-solid fa-industry "></i>
                                 </div>
                                 <div class="status-indicator active"></div>
                             </div>
-                            <h3 class="text-xl font-bold mb-2">Autonomous UAV System</h3>
-                            <p class="text-secondary">
-                                Advanced flight controller with GPS navigation, obstacle avoidance, and real-time 
-                                path planning using custom PCB design and sensor fusion algorithms.
+                            <h3 class="text-xl font-bold mb-3">Embedded Hardware R&D - Aeron Systems</h3>
+                            <p class="text-secondary italic">
+                                Industry R&D in embedded hardware for solar plant automation, involving circuit 
+                                development, PCB design, CE-compliant testing, and validation for IoT integration.
                             </p>
                         </div>
-                        <div class="project-content">
-                            <div class="mb-4">
+                        <div class="project-content relative z-10">
+                            <div class="mb-6">
+                                <span class="tech-tag">IoT</span>
+                                <span class="tech-tag">Altium</span>
+                                <span class="tech-tag">Multisim</span>
+                                <span class="tech-tag">CE Compliance</span>
+                                <span class="tech-tag">Power Electronics</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                    <a href="Aeron.html" button class="text-white text-[1.1rem] hover:text-[var(--accent-gold)] transition-colors" style="cursor: none !important; ">
+                                        <i class="fas fa-external-link-alt mr-2 relative z-10"></i>
+                                        View Details
+                                    </a>
+                                <button class="text-secondary hover:text-primary transition-colors">
+                                    <i class="fab fa-github mr-2"></i>Code
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card scroll-reveal">
+                        <div class="video-overlay">
+                        <video src="./assets/R1/Main.mp4" controls autoplay loop muted></video>
+                        </div>
+                        <div class="project-header relative z-10">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="skill-icon">
+                                    <i class="fas fa-seedling"></i>
+                                </div>
+                                <div class="status-indicator active"></div>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Seedling Picking & Planting Robot</h3>
+                            <p class="text-secondary italic">
+                                Seedling-planting robot with omni-directional drive, precision grippers, 
+                                and coordinated motion control for accurate operation, securing AIR 3 at Robocon.
+                            </p>
+                        </div>
+                        <div class="project-content relative z-10">
+                            <div class="mb-6">
                                 <span class="tech-tag">STM32</span>
-                                <span class="tech-tag">C/C++</span>
-                                <span class="tech-tag">PCB Design</span>
-                                <span class="tech-tag">Sensors</span>
+                                <span class="tech-tag">ARM Cortex-M4</span>
+                                <span class="tech-tag">Encoders</span>
+                                <span class="tech-tag">Sensor Fusion</span>
+                                <span class="tech-tag">Omni Drive</span>
+                                <span class="tech-tag">Robotics</span>
                             </div>
-                            <div class="flex justify-between items-center">
-                                <button class="text-copper-500 hover:text-copper-400 transition-colors">
-                                    <i class="fas fa-external-link-alt mr-2"></i>View Details
-                                </button>
+                            <div class="flex justify-between items-center mt-auto ">
+                                    <a href="R1.html" button class="text-white text-[1.1rem] hover:text-[var(--accent-gold)] transition-colors" style="cursor: none !important; ">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        View Details
+                                    </a>
                                 <button class="text-secondary hover:text-primary transition-colors">
                                     <i class="fab fa-github mr-2"></i>Code
                                 </button>
@@ -1299,94 +1518,36 @@
                     </div>
                     
                     <div class="project-card scroll-reveal">
-                        <div class="project-header">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="skill-icon">
-                                    <i class="fas fa-cog"></i>
-                                </div>
-                                <div class="status-indicator active"></div>
-                            </div>
-                            <h3 class="text-xl font-bold mb-2">Swerve Drive Robotics</h3>
-                            <p class="text-secondary">
-                                Omnidirectional robot drive system with precise motor control, real-time kinematics, 
-                                and advanced PID algorithms for competition robotics.
-                            </p>
+                         <div class="video-overlay">
+                        <video src="./assets/R2/Main1.mp4" controls autoplay loop muted></video>
                         </div>
-                        <div class="project-content">
-                            <div class="mb-4">
-                                <span class="tech-tag">Embedded C</span>
-                                <span class="tech-tag">Motor Control</span>
-                                <span class="tech-tag">Kinematics</span>
-                                <span class="tech-tag">PID</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <button class="text-copper-500 hover:text-copper-400 transition-colors">
-                                    <i class="fas fa-external-link-alt mr-2"></i>View Details
-                                </button>
-                                <button class="text-secondary hover:text-primary transition-colors">
-                                    <i class="fab fa-github mr-2"></i>Code
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="project-card scroll-reveal">
-                        <div class="project-header">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="skill-icon">
-                                    <i class="fas fa-battery-three-quarters"></i>
-                                </div>
-                                <div class="status-indicator active"></div>
-                            </div>
-                            <h3 class="text-xl font-bold mb-2">Smart Power Management</h3>
-                            <p class="text-secondary">
-                                Intelligent battery management system with dynamic load balancing, health monitoring, 
-                                and predictive maintenance algorithms.
-                            </p>
-                        </div>
-                        <div class="project-content">
-                            <div class="mb-4">
-                                <span class="tech-tag">PCB Design</span>
-                                <span class="tech-tag">Power Systems</span>
-                                <span class="tech-tag">KiCad</span>
-                                <span class="tech-tag">Analytics</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <button class="text-copper-500 hover:text-copper-400 transition-colors">
-                                    <i class="fas fa-external-link-alt mr-2"></i>View Details
-                                </button>
-                                <button class="text-secondary hover:text-primary transition-colors">
-                                    <i class="fab fa-github mr-2"></i>Code
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="project-card scroll-reveal">
-                        <div class="project-header">
+                        <div class="project-header relative z-10">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="skill-icon">
                                     <i class="fas fa-robot"></i>
                                 </div>
                                 <div class="status-indicator active"></div>
                             </div>
-                            <h3 class="text-xl font-bold mb-2">Competition Robotics</h3>
-                            <p class="text-secondary">
-                                Award-winning competition robot with advanced manipulation systems, autonomous navigation, 
-                                and real-time strategy adaptation algorithms.
+                            <h3 class="text-xl font-bold mb-2">Autonomous Ball Sorting & Storage Robot</h3>
+                            <p class="text-secondary italic">
+                                Autonomous robot with computer vision for ball detection, sorting, and silo storage, 
+                                integrated with sensor-guided control, securing AIR 3 at Robocon 2024.
                             </p>
                         </div>
-                        <div class="project-content">
-                            <div class="mb-4">
-                                <span class="tech-tag">Robotics</span>
-                                <span class="tech-tag">AI/ML</span>
-                                <span class="tech-tag">Leadership</span>
-                                <span class="tech-tag">Competition</span>
+                        <div class="project-content relative z-10">
+                            <div class="mb-6">
+                                <span class="tech-tag">ROS</span>   
+                                <span class="tech-tag">Microprocessor</span>
+                                <span class="tech-tag">Sensor Fusion</span>
+                                <span class="tech-tag">CV</span>
+                                <span class="tech-tag">Omni Drive</span>
+                                <span class="tech-tag">Automation</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                <button class="text-copper-500 hover:text-copper-400 transition-colors">
-                                    <i class="fas fa-external-link-alt mr-2"></i>View Details
-                                </button>
+                                    <a href="R2.html" button class="text-white text-[1.1rem] hover:text-[var(--accent-gold)] transition-colors" style="cursor: none !important; ">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        View Details
+                                    </a>
                                 <button class="text-secondary hover:text-primary transition-colors">
                                     <i class="fab fa-github mr-2"></i>Code
                                 </button>
@@ -1395,30 +1556,36 @@
                     </div>
                     
                     <div class="project-card scroll-reveal">
-                        <div class="project-header">
+                        <div class="video-overlay">
+                        <video src="./assets/Swerve/Main.mp4" controls autoplay loop muted></video>
+                        </div>
+                        <div class="project-header relative z-10">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="skill-icon">
-                                    <i class="fas fa-wifi"></i>
+                                    <i class="fas fa-gears"></i>
                                 </div>
                                 <div class="status-indicator active"></div>
                             </div>
-                            <h3 class="text-xl font-bold mb-2">IoT Sensor Network</h3>
-                            <p class="text-secondary">
-                                Industrial IoT system with multi-sensor fusion, wireless communication, 
-                                and cloud-based analytics for predictive maintenance.
+                            <h3 class="text-xl font-bold mb-2">3-Wheel Holonomic Swerve Drive</h3>
+                            <p class="text-secondary italic">
+                                3-wheel swerve drive enabling 360° omnidirectional movement with individual 
+                                wheel rotation and speed control, enhancing robot agility and Mobility.
                             </p>
                         </div>
-                        <div class="project-content">
-                            <div class="mb-4">
-                                <span class="tech-tag">IoT</span>
-                                <span class="tech-tag">Wireless</span>
-                                <span class="tech-tag">Sensors</span>
-                                <span class="tech-tag">Cloud</span>
+                        <div class="project-content relative z-10">
+                            <div class="mb-6">
+                                <span class="tech-tag">Robotics</span>
+                                <span class="tech-tag">BLDC Motors</span>                              
+                                <span class="tech-tag">Odrive</span>
+                                <span class="tech-tag">Slip Rings</span>
+                                <span class="tech-tag">ESP32</span>
+                                <span class="tech-tag">STM32</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                <button class="text-copper-500 hover:text-copper-400 transition-colors">
-                                    <i class="fas fa-external-link-alt mr-2"></i>View Details
-                                </button>
+                                    <a href="Swerve.html" button class="text-white text-[1.1rem] hover:text-[var(--accent-gold)] transition-colors" style="cursor: none !important; ">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        View Details
+                                    </a>
                                 <button class="text-secondary hover:text-primary transition-colors">
                                     <i class="fab fa-github mr-2"></i>Code
                                 </button>
@@ -1427,31 +1594,112 @@
                     </div>
                     
                     <div class="project-card scroll-reveal">
-                        <div class="project-header">
+                        <div class="video-overlay">
+                        <video src="./assets/Piston/main.mp4" controls autoplay loop muted></video>
+                        </div>
+                        <div class="project-header relative z-10">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="skill-icon">
-                                    <i class="fas fa-plane"></i>
+                                    <i class="fas fa-wave-square"></i>
+                                </div>
+                                <div class="status-indicator active"></div>
+                            </div>
+                            <h3 class="text-xl font-bold mb-4">Smart Piston Control System</h3>
+                            <p class="text-secondary italic">
+                                PCB handling up to 4 proximity sensors and controlling 4 pistons via DC-DC valves, 
+                                enabling precise, high-speed motion coordination with the main microcontroller.
+                            </p>
+                        </div>
+                        <div class="project-content relative z-10">
+                            <div class="mb-6">
+                                <span class="tech-tag">Altium</span>
+                                <span class="tech-tag">Embedded Systems</span>
+                                <span class="tech-tag">Isolators</span>
+                                <span class="tech-tag">Power Electronics</span>
+                                <span class="tech-tag">Automation</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                    <a href="Piston.html" button class="text-white text-[1.1rem] hover:text-[var(--accent-gold)] transition-colors" style="cursor: none !important; ">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        View Details
+                                    </a>
+                                <span class="text-muted text-sm">Under NDA</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card scroll-reveal">
+                        <div class="video-overlay">
+                        <img src="./assets/SBS/DC-DC12.jpg" alt="Description of the image">
+                    </div>
+                        <div class="project-header relative z-10">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="skill-icon">
+                                    <i class="fas fa-battery-three-quarters"></i>
+                                </div>
+                                <div class="status-indicator active"></div>
+                            </div>
+                            <h3 class="text-xl font-bold mb-4">Battery Management System</h3>
+                            <p class="text-secondary italic">
+                                Centralized single-battery system powering all 5 subsystems, designed to avoid 
+                                ground loops, reduce weight, and ensuring stable, uninterrupted robot performance.
+                            </p>
+                        </div>
+                        <div class="project-content relative z-10">
+                            <div class="mb-6">
+                                <span class="tech-tag">Power Electronics</span>
+                                <span class="tech-tag">DC-DC</span>                              
+                                <span class="tech-tag">Buck</span>
+                                <span class="tech-tag">Boost</span>
+                                <span class="tech-tag">Ground Loop</span>
+                                <span class="tech-tag">Battries</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                    <a href="SBS.html" button class="text-white text-[1.1rem] hover:text-[var(--accent-gold)] transition-colors" style="cursor: none !important; ">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        View Details
+                                    </a>
+                                <button class="text-secondary hover:text-primary transition-colors">
+                                    <i class="fab fa-github mr-2"></i>Code
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card scroll-reveal">
+                        <div class="video-overlay">
+                        <video src="./assets/Smart_Home/main1.mp4" controls autoplay loop muted></video>
+                        </div>
+                        <div class="project-header relative z-10">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="skill-icon">
+                                    <i class="fas fa-house-signal"></i>
                                 </div>
                                 <div class="status-indicator in-progress"></div>
                             </div>
-                            <h3 class="text-xl font-bold mb-2">Aerospace Flight Control</h3>
-                            <p class="text-secondary">
-                                Professional aerospace project at Aeron Systems - advanced flight control algorithms 
-                                and hardware optimization for next-generation aviation systems.
+                            <h3 class="text-xl font-bold mb-10">Smart Home Automation</h3>
+                            <p class="text-secondary italic">
+                                IoT-enabled system controlling light and aroma for personalized home/office 
+                                environments, with future expansion to sound and AI integration.
                             </p>
                         </div>
-                        <div class="project-content">
-                            <div class="mb-4">
-                                <span class="tech-tag">Aerospace</span>
-                                <span class="tech-tag">Flight Control</span>
-                                <span class="tech-tag">Professional</span>
-                                <span class="tech-tag">Confidential</span>
+                        <div class="project-content relative z-10">
+                            <div class="mb-6">
+                                <span class="tech-tag">IOT</span>
+                                <span class="tech-tag">Home Automation</span>                              
+                                <span class="tech-tag">ESP32</span>
+                                <span class="tech-tag">Embedded Systems</span>
+                                <span class="tech-tag">Wi-fi</span>
+                                <span class="tech-tag">Bluetooth</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                <button class="text-muted cursor-not-allowed">
-                                    <i class="fas fa-lock mr-2"></i>Confidential
+                                    <a href="Smart_Home.html" button class="text-white text-[1.1rem] hover:text-[var(--accent-gold)] transition-colors" style="cursor: none !important; ">
+                                        <i class="fas fa-external-link-alt mr-2"></i>
+                                        View Details
+                                    </a>
+                                <button class="text-secondary hover:text-primary transition-colors">
+                                    <i class="fab fa-github mr-2"></i>Code
                                 </button>
-                                <span class="text-muted text-sm">Under NDA</span>
                             </div>
                         </div>
                     </div>
@@ -1460,10 +1708,10 @@
         </section>
                
               <!-- Clean Skills Grid -->
-              <body class="bg-primary-dark text-text-secondary">
-
-                <section class="max-w-6xl mx-auto py-12 px-4">
-                    <h2 class="section-title">My Tech Stack</h2>
+    <section id="skills" className="mb-12">
+    <body class="bg-primary-dark text-text-secondary">
+      <section class="max-w-6xl mx-auto py-12 px-4">
+          <h2 class="section-title">My Tech Stack</h2>
               <!-- Embedded Systems -->
     <div class="p-4 rounded-xl mb-6">
     <!-- <div class="skills-grid mt-8"></div> -->
@@ -1471,31 +1719,33 @@
       <div class="skill-scroll-wrapper">
         <div class="skill-scroll-track1">
           <div class="flex">
-            <div class="skill-capsule bg-orange-600 text-white"><i class="fas fa-cogs"></i><span>C/C++</span></div>
-            <div class="skill-capsule bg-blue-600 text-white"><i class="fas fa-terminal"></i><span>RTOS</span></div>
-            <div class="skill-capsule bg-red-600 text-white"><i class="fab fa-raspberry-pi"></i><span>Raspberry Pi</span></div>
-            <div class="skill-capsule bg-green-600 text-white"><i class="fas fa-robot"></i><span>ROS</span></div>
-          </div>
-          <div class="flex">
-            <div class="skill-capsule bg-orange-600 text-white"><i class="fas fa-cogs"></i><span>C/C++</span></div>
-            <div class="skill-capsule bg-blue-600 text-white"><i class="fas fa-terminal"></i><span>RTOS</span></div>
-            <div class="skill-capsule bg-red-600 text-white"><i class="fab fa-raspberry-pi"></i><span>Raspberry Pi</span></div>
-            <div class="skill-capsule bg-green-600 text-white"><i class="fas fa-robot"></i><span>ROS</span></div>
-          </div>
-          <div class="flex">
-            <div class="skill-capsule bg-orange-600 text-white"><i class="fas fa-cogs"></i><span>C/C++</span></div>
-            <div class="skill-capsule bg-blue-600 text-white"><i class="fas fa-terminal"></i><span>RTOS</span></div>
-            <div class="skill-capsule bg-red-600 text-white"><i class="fab fa-raspberry-pi"></i><span>Raspberry Pi</span></div>
-            <div class="skill-capsule bg-green-600 text-white"><i class="fas fa-robot"></i><span>ROS</span></div>
-          </div>
-          <div class="flex">
-            <div class="skill-capsule bg-orange-600 text-white"><i class="fas fa-cogs"></i><span>C/C++</span></div>
-            <div class="skill-capsule bg-blue-600 text-white"><i class="fas fa-terminal"></i><span>RTOS</span></div>
-            <div class="skill-capsule bg-red-600 text-white"><i class="fab fa-raspberry-pi"></i><span>Raspberry Pi</span></div>
-            <div class="skill-capsule bg-green-600 text-white"><i class="fas fa-robot"></i><span>ROS</span></div>
-          </div>
+          <div class="skill-capsule bg-orange-500 text-white"><img src="./assets/C++.svg" alt="C++ Logo" class="w-5 h-5"><span>C/C++</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/C.svg" alt="C++ Logo" class="w-5 h-5"><span>Embedded C</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/python.svg" alt="Python Logo" class="w-5 h-5"><span>Python</span></div>
+          <div class="skill-capsule bg-orange-500 text-white"><img src="./assets/arduino.svg" alt="Arduino Logo" class="w-5 h-5"><span>Arduino</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/stm.svg" alt="STM32 Logo" class="w-5 h-5"><span>STM32</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/ARM.svg" alt="C++ Logo" class="w-5 h-5"><span>ARM Cortex</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/esp.svg" alt="ESP32 Logo" class="w-5 h-5"><span>ESP32</span></div>
+          <div class="skill-capsule bg-yellow-500 text-white"><img src="./assets/raspberry.svg" alt="Raspberry Pi Logo" class="w-5 h-5"><span>Raspberry Pi</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/bluetooth.svg" alt="Bluetooth Logo" class="w-5 h-5"><span>BLE</span></div>
+          <div class="skill-capsule bg-yellow-500 text-white"><img src="./assets/NFC1.svg" alt="C++ Logo" class="w-5 h-5"><span>NFC</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/zigbee.svg" alt="Zigbee Logo" class="w-5 h-5"><span>Zigbee</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/mqtt.svg" alt="MQTT Logo" class="w-5 h-5"><span>MQTT</span></div>
+          <div class="skill-capsule bg-orange-500 text-white"><img src="./assets/C++.svg" alt="C++ Logo" class="w-5 h-5"><span>C/C++</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/C.svg" alt="C++ Logo" class="w-5 h-5"><span>Embedded C</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/python.svg" alt="Python Logo" class="w-5 h-5"><span>Python</span></div>
+          <div class="skill-capsule bg-orange-500 text-white"><img src="./assets/arduino.svg" alt="Arduino Logo" class="w-5 h-5"><span>Arduino</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/stm.svg" alt="STM32 Logo" class="w-5 h-5"><span>STM32</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/ARM.svg" alt="C++ Logo" class="w-5 h-5"><span>ARM Cortex</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/esp.svg" alt="ESP32 Logo" class="w-5 h-5"><span>ESP32</span></div>
+          <div class="skill-capsule bg-yellow-500 text-white"><img src="./assets/raspberry.svg" alt="Raspberry Pi Logo" class="w-5 h-5"><span>Raspberry Pi</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/bluetooth.svg" alt="Bluetooth Logo" class="w-5 h-5"><span>BLE</span></div>
+          <div class="skill-capsule bg-yellow-500 text-white"><img src="./assets/NFC1.svg" alt="C++ Logo" class="w-5 h-5"><span>NFC</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/zigbee.svg" alt="Zigbee Logo" class="w-5 h-5"><span>Zigbee</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/mqtt.svg" alt="MQTT Logo" class="w-5 h-5"><span>MQTT</span></div>
           
-        </div>
+        </div>  
+        </div>  
       </div>
     </div>
 
@@ -1505,19 +1755,25 @@
       <div class="skill-scroll-wrapper">
         <div class="skill-scroll-track2">
           <div class="flex">
-            <div class="skill-capsule bg-yellow-500 text-gray-900"><i class="fas fa-sitemap"></i><span>KiCad</span></div>
-            <div class="skill-capsule bg-teal-500 text-white"><i class="fas fa-drafting-compass"></i><span>Altium Designer</span></div>
-            <div class="skill-capsule bg-purple-500 text-white"><i class="fas fa-wifi"></i><span>RF Design</span></div>
-            <div class="skill-capsule bg-lime-500 text-gray-900"><i class="fas fa-cube"></i><span>Solidworks</span></div>
-            <div class="skill-capsule bg-cyan-500 text-white"><i class="fas fa-drafting-compass"></i><span>Fusion 360</span></div>
-          </div>
-          <div class="flex">
-            <div class="skill-capsule bg-yellow-500 text-gray-900"><i class="fas fa-sitemap"></i><span>KiCad</span></div>
-            <div class="skill-capsule bg-teal-500 text-white"><i class="fas fa-drafting-compass"></i><span>Altium Designer</span></div>
-            <div class="skill-capsule bg-purple-500 text-white"><i class="fas fa-wifi"></i><span>RF Design</span></div>
-            <div class="skill-capsule bg-lime-500 text-gray-900"><i class="fas fa-cube"></i><span>Solidworks</span></div>
-            <div class="skill-capsule bg-cyan-500 text-white"><i class="fas fa-drafting-compass"></i><span>Fusion 360</span></div>
-          </div>
+            <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/Autodesk.svg" alt="Autodesk Logo" class="w-5 h-5"><span>Eagle CAD</span></div>
+          <div class="skill-capsule bg-yellow-500 text-white"><img src="./assets/Altium.svg" alt="C++ Logo" class="w-5 h-5"><span>Altium Designer</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/Kicad.svg" alt="C++ Logo" class="w-5 h-5"><span>KiCad</span></div>
+          <div class="skill-capsule bg-orange-500 text-white"><img src="./assets/Analog.svg" alt="C++ Logo" class="w-5 h-5"><span>Analog Circuit</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/Digital.svg" alt="C++ Logo" class="w-5 h-5"><span>Digital Circuit</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/Power.svg" alt="C++ Logo" class="w-5 h-5"><span>Power Electronics</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/Odrive.svg" alt="C++ Logo" class="w-5 h-5"><span>ODrive</span></div>
+          <div class="skill-capsule bg-yellow-500 text-white"><img src="./assets/EMI.svg" alt="C++ Logo" class="w-5 h-5"><span>EMI Filters</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/ce.svg" alt="CE Compliance Logo" class="w-5 h-5"><span>CE Compliance</span></div>
+            <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/Autodesk.svg" alt="Autodesk Logo" class="w-5 h-5"><span>Eagle CAD</span></div>
+          <div class="skill-capsule bg-yellow-500 text-white"><img src="./assets/Altium.svg" alt="C++ Logo" class="w-5 h-5"><span>Altium Designer</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/Kicad.svg" alt="C++ Logo" class="w-5 h-5"><span>KiCad</span></div>
+          <div class="skill-capsule bg-orange-500 text-white"><img src="./assets/Analog.svg" alt="C++ Logo" class="w-5 h-5"><span>Analog Circuit</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/Digital.svg" alt="C++ Logo" class="w-5 h-5"><span>Digital Circuit</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/Power.svg" alt="C++ Logo" class="w-5 h-5"><span>Power Electronics</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/Odrive.svg" alt="C++ Logo" class="w-5 h-5"><span>ODrive</span></div>
+          <div class="skill-capsule bg-yellow-500 text-white"><img src="./assets/EMI.svg" alt="C++ Logo" class="w-5 h-5"><span>EMI Filters</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/ce.svg" alt="CE Compliance Logo" class="w-5 h-5"><span>CE Compliance</span></div>
+        </div>
         </div>
       </div>
     </div>
@@ -1528,19 +1784,31 @@
       <div class="skill-scroll-wrapper">
         <div class="skill-scroll-track3">
           <div class="flex">
-            <div class="skill-capsule bg-gray-500 text-white"><i class="fab fa-linux"></i><span>Linux</span></div>
-            <div class="skill-capsule bg-orange-400 text-gray-900"><i class="fab fa-git-alt"></i><span>Git</span></div>
-            <div class="skill-capsule bg-blue-400 text-white"><i class="fab fa-docker"></i><span>Docker</span></div>
-            <div class="skill-capsule bg-emerald-500 text-white"><i class="fas fa-bug"></i><span>Debugging</span></div>
-            <div class="skill-capsule bg-violet-600 text-white"><i class="fas fa-flask"></i><span>Testing</span></div>
-          </div>
-          <div class="flex">
-            <div class="skill-capsule bg-gray-500 text-white"><i class="fab fa-linux"></i><span>Linux</span></div>
-            <div class="skill-capsule bg-orange-400 text-gray-900"><i class="fab fa-git-alt"></i><span>Git</span></div>
-            <div class="skill-capsule bg-blue-400 text-white"><i class="fab fa-docker"></i><span>Docker</span></div>
-            <div class="skill-capsule bg-emerald-500 text-white"><i class="fas fa-bug"></i><span>Debugging</span></div>
-            <div class="skill-capsule bg-violet-600 text-white"><i class="fas fa-flask"></i><span>Testing</span></div>
-          </div>
+          <div class="skill-capsule bg-white text-black"><img src="./assets/matlab.svg" alt="MATLAB Logo" class="w-5 h-5"><span>MATLAB</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/Multisim.svg" alt="Multisim Logo" class="w-5 h-5"><span>NI Multisim</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/Ltspice.svg" alt="Multisim Logo" class="w-5 h-5"><span>LT Spice</span></div>
+          <div class="skill-capsule bg-orange-500 text-white"><img src="./assets/CAN,MODBUS.svg" alt="C++ Logo" class="w-5 h-5"><span>CAN BUS</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/I2C.svg" alt="C++ Logo" class="w-5 h-5"><span>I2C</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/SPI.svg" alt="C++ Logo" class="w-5 h-5"><span>SPI</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/UART.svg" alt="C++ Logo" class="w-5 h-5"><span>UART</span></div>
+          <div class="skill-capsule bg-yellow-500 text-white"><img src="./assets/RS485.svg" alt="C++ Logo" class="w-5 h-5"><span>RS-485</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/RS232.svg" alt="C++ Logo" class="w-5 h-5"><span>RS-232</span></div>
+          <div class="skill-capsule bg-orange-500 text-white"><img src="./assets/RS422.svg" alt="C++ Logo" class="w-5 h-5"><span>RS-422</span></div>
+          <div class="skill-capsule bg-blue-400 text-white"><img src="./assets/CAN,MODBUS.svg" alt="C++ Logo" class="w-5 h-5"><span>Modbus Protocol</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/github.svg" alt="GitHub Logo" class="w-5 h-5"><span>GitHub</span></div>
+          <div class="skill-capsule bg-white text-black"><img src="./assets/matlab.svg" alt="MATLAB Logo" class="w-5 h-5"><span>MATLAB</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/Multisim.svg" alt="Multisim Logo" class="w-5 h-5"><span>NI Multisim</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/Ltspice.svg" alt="Multisim Logo" class="w-5 h-5"><span>LT Spice</span></div>
+          <div class="skill-capsule bg-orange-500 text-white"><img src="./assets/CAN,MODBUS.svg" alt="C++ Logo" class="w-5 h-5"><span>CAN BUS</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/I2C.svg" alt="C++ Logo" class="w-5 h-5"><span>I2C</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/SPI.svg" alt="C++ Logo" class="w-5 h-5"><span>SPI</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/UART.svg" alt="C++ Logo" class="w-5 h-5"><span>UART</span></div>
+          <div class="skill-capsule bg-yellow-500 text-white"><img src="./assets/RS485.svg" alt="C++ Logo" class="w-5 h-5"><span>RS-485</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/RS232.svg" alt="C++ Logo" class="w-5 h-5"><span>RS-232</span></div>
+          <div class="skill-capsule bg-orange-500 text-white"><img src="./assets/RS422.svg" alt="C++ Logo" class="w-5 h-5"><span>RS-422</span></div>
+          <div class="skill-capsule bg-blue-400 text-white"><img src="./assets/CAN,MODBUS.svg" alt="C++ Logo" class="w-5 h-5"><span>Modbus Protocol</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/github.svg" alt="GitHub Logo" class="w-5 h-5"><span>GitHub</span></div>
+        </div>
         </div>
       </div>
     </div>
@@ -1563,75 +1831,79 @@
                             <h3 class="text-2xl font-bold mb-6 text-copper-500">Social Impact</h3>
                             <div class="space-y-6">
                                 <div class="flex items-start">
-                                    <div class="status-indicator active mt-2"></div>
+                                    <div class="status-indicator active mt-2 flex-shrink-0"></div>
                                     <div>
-                                        <h4 class="font-semibold mb-2">Student Mentorship Program</h4>
+                                        <h4 class="font-semibold mb-2 text-[#f2ac1f]">Bhumi NGO Orphanage Workshop</h4>
+                                        <p class="text-secondary">Organized workshop in collaboration with Bhumi NGO on the basics of electronics 
+                                            for young orphan students and underserved communities,making STEM accessible to all.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="status-indicator active mt-2 flex-shrink-0"></div>
+                                    <div>
+                                        <h4 class="font-semibold mb-2 text-[#f2ac1f]">PCB Designing Workshop With EAGLE CAD</h4>
                                         <p class="text-secondary">
-                                            Mentored 200+ students in embedded systems and robotics, 
-                                            conducting hands-on workshops and career guidance sessions.
+                                            Conducted a two day hands-on workshops on PCB designing using EAGLE CAD, 
+                                            helping students gain practical skills and raise money for the robotics club.
                                         </p>
                                     </div>
                                 </div>
                                 <div class="flex items-start">
-                                    <div class="status-indicator active mt-2"></div>
+                                    <div class="status-indicator active mt-2 flex-shrink-0"></div>
                                     <div>
-                                        <h4 class="font-semibold mb-2">Community Workshops</h4>
+                                        <h4 class="font-semibold mb-2 text-[#f2ac1f]">PCB Designing & Fabrication Workshop Under Dept. of Electronics</h4>
                                         <p class="text-secondary">
-                                            Organized free technology workshops for underserved communities, 
-                                            making STEM education accessible to all backgrounds.
+                                            Guided over 200 students through the entire PCB design and traditional fabrication process, enhancing their 
+                                            technical confidence.
                                         </p>
                                     </div>
                                 </div>
-                                <div class="flex items-start">
-                                    <div class="status-indicator active mt-2"></div>
-                                    <div>
-                                        <h4 class="font-semibold mb-2">Open Source Contributions</h4>
-                                        <p class="text-secondary">
-                                            Contributing to open-source embedded systems projects and 
-                                            sharing educational resources with the global community.
-                                        </p>
-                                    </div>
-                                </div>
+                                <div class="mt-6 z-10 relative">
+                                <a href="social.html" class="btn-secondary">
+                                    <i class="fas fa-globe mr-2"></i>Explore More
+                                </a>
+                            </div>
                             </div>
                         </div>
                     </div>
                     
                     <div class="scroll-reveal">
                         <div class="circuit-card">
-                            <h3 class="text-2xl font-bold mb-6 text-copper-500">Technical Writings</h3>
+                            <h3 class="text-2xl font-bold mb-6 text-copper-500">Technical Contributions & Publications</h3>
                             <div class="space-y-4">
                                 <div class="border-l-4 border-copper-500 pl-4">
-                                    <h4 class="font-semibold mb-2">
-                                        "The Future of Embedded AI: Edge Computing in Robotics"
+                                    <h4 class="font-semibold mb-2 text-[#f2ac1f]">
+                                        "UAV Stabilization and Trajectory Correction Paper"
                                     </h4>
-                                    <p class="text-secondary text-sm">
-                                        Exploring how edge AI is revolutionizing autonomous systems and 
-                                        the challenges of implementing machine learning on resource-constrained devices.
+                                    <p class="text-secondary">
+                                        Authored a paper on an IMU-fused PID control framework for real-time stabilization and 
+                                        autonomous trajectory correction in fixed-wing UAVs, with a focus on low-power consumption.
                                     </p>
                                 </div>
                                 <div class="border-l-4 border-copper-500 pl-4">
-                                    <h4 class="font-semibold mb-2">
-                                        "PCB Design Best Practices for High-Frequency Applications"
+                                    <h4 class="font-semibold mb-2 text-[#f2ac1f]">
+                                        "YouTube Tutorial: Open vs Closed Loop and Controllers"
                                     </h4>
-                                    <p class="text-secondary text-sm">
-                                        A comprehensive guide to signal integrity, EMI considerations, 
-                                        and layout techniques for modern embedded systems.
+                                    <p class="text-secondary">
+                                        Created an educational video explaining open-loop and closed-loop control systems, along with 
+                                        different controller types, making complex control concepts accessible.
                                     </p>
                                 </div>
                                 <div class="border-l-4 border-copper-500 pl-4">
-                                    <h4 class="font-semibold mb-2">
-                                        "Building Resilient IoT Networks: Lessons from Industrial Deployments"
+                                    <h4 class="font-semibold mb-2 text-[#f2ac1f]">
+                                        "Setting Up MIT Labs' PCB Prototyping Machine"
                                     </h4>
-                                    <p class="text-secondary text-sm">
-                                        Real-world insights from deploying IoT systems in harsh industrial 
-                                        environments and ensuring long-term reliability.
+                                    <p class="text-secondary">
+                                        Successfully installed a PCB printing machine in the Department, 
+                                        enhancing in-house prototyping capabilities. Conducted comprehensive sessions for 
+                                        faculty and students, empowering future engineers to independently design and fabricate circuits.
                                     </p>
                                 </div>
                             </div>
-                            <div class="mt-6">
-                                <button class="btn-secondary">
-                                    <i class="fas fa-book-open mr-2"></i>Read More Articles
-                                </button>
+                            <div class="mt-6 z-10 relative">
+                                <a href="writings.html" class="btn-secondary">
+                                    <i class="fas fa-book-open mr-2"></i>Read More
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -1648,18 +1920,18 @@
 
             <div class="grid md:grid-cols-2 gap-12 items-center mt-12">
                 <!-- Left Column: Image and Description -->
-                <div class="text-center md:text-left scroll-reveal">
+                <div class="flex flex-col items-center md:items-start scroll-reveal">
                     <!-- Replace 'your-photo.png' with the actual URL of your photo -->
-                    <img src="https://placehold.co/200x200/d97706/ffffff?text=Your+Photo" alt="Sujal Bafna" class="contact-image rounded-full mx-auto md:mx-0 mb-6 w-80 h-80 object-cover border-4 border-accent-copper">
+                    <img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331032/u4fqtnpszdj4zcwspbkm.jpg" alt="Sujal Bafna" class="contact-image rounded-full mb-6 w-80 h-80 object-top border-4 border-accent-copper">
                     <p class="text-text-secondary text-lg leading-relaxed max-w-md md:max-w-none mx-auto md:mx-0">
-                      I'm always eager to collaborate on exciting projects or discuss how robotics can shape the future. 
+                      I'm always eager to collaborate on exciting projects or discuss how technology can shape the future. 
                       Feel free to reach out and let's explore how I can assist with your vision.
                   </p>
                 </div>
 
                 <!-- Right Column: Contact Form -->
                 <div class="contact-form-container scroll-reveal">
-                    <form id="contactForm">
+                    <form id="contactForm" action="https://formspree.io/f/xpwjaovd" method="POST">
                       <div id="form-message" class="form-message hidden mb-6"></div>
                         <div class="form-group">
                             <label for="fullName" class="form-label">Full name</label>
@@ -1672,8 +1944,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="company" class="form-label">Company</label>
-                            <input type="text" id="company" name="company" class="form-input" placeholder="Your Company">
+                            <label for="Organization" class="form-label">Organization</label>
+                            <input type="text" id="Organization" name="Organization" class="form-input" placeholder="Your Organization">
                         </div>
                         
                         <div class="form-group">
@@ -1715,13 +1987,13 @@
 
       <!-- Social Icons Container -->
       <div class="fixed-social-icons-container">
-        <a href="https://github.com/your-github" target="_blank" class="social-icon" id="github-icon">
+        <a href="https://github.com/SujalaBafna" target="_blank" class="social-icon" id="github-icon">
             <i class="fab fa-github"></i>
         </a>
-        <a href="https://linkedin.com/in/your-linkedin" target="_blank" class="social-icon" id="linkedin-icon">
+        <a href="https://www.linkedin.com/in/sujal-bafna-884a8722b" target="_blank" class="social-icon" id="linkedin-icon">
             <i class="fab fa-linkedin-in"></i>
         </a>
-        <a href="mailto:your-email@example.com" class="social-icon" id="email-icon">
+        <a href="mailto:sujalabafna@gmail.com" class="social-icon" id="email-icon">
             <i class="fas fa-envelope"></i> 
         </a>
         <!-- Add more social icons here if needed -->
@@ -1742,6 +2014,36 @@
 
     
     <script>
+
+    // Function to check for hash and skip animations
+    function handleHashLink() {
+        const loadingOverlay = document.querySelector('.loading-overlay');
+    
+    // Check if the URL has a hash, like #projects
+        if (window.location.hash) {
+            // If a hash is present, skip the intro animations
+            document.body.classList.add('skip-intro');
+            
+            // Instantly hide the loading overlay
+            if (loadingOverlay) {
+                loadingOverlay.style.opacity = '0';
+                loadingOverlay.style.visibility = 'hidden';
+            }
+            
+        } else {
+            // If there's no hash, run the normal intro animations
+            if (loadingOverlay) {
+                // Your original code for the loading animation
+                setTimeout(() => {
+                    loadingOverlay.style.opacity = '0';
+                    loadingOverlay.style.visibility = 'hidden';
+                }, 1000); // This delay gives the loading bar time to fill
+            }
+        }
+    }
+
+    // Call the function on page load
+    handleHashLink();
 
         // Custom Cursor
         const customCursor = document.querySelector('.custom-cursor');
@@ -1787,6 +2089,7 @@
         });
         
         // Professional Loading sequence
+
         setTimeout(() => {
             const loadingOverlay = document.getElementById('loadingOverlay');
             const mainContent = document.getElementById('mainContent');
@@ -1878,14 +2181,25 @@
               star.style.animationDelay = `${randomDelay}s`;
               
               traceContainer.appendChild(star);
-          }
+            }
         };
+        
         document.addEventListener('DOMContentLoaded', () => {
               const stars = document.querySelectorAll('.star');
               stars.forEach(star => {
                   const randomDelay = Math.random() * 5; // Random delay between 0 and 3 seconds
                   star.style.setProperty('--random-delay', randomDelay);
               });
+        if (window.location.hash) {
+                // Find the target section based on the hash
+                const targetId = window.location.hash.substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+        if (targetSection) {
+                    // Add a class to the body to disable intro animations
+                    document.body.classList.add('skip-intro');
+                }
+            }
           });
 
         // Observe all scroll reveal elements
@@ -2073,59 +2387,70 @@ document.querySelectorAll('.social-icon').forEach(icon => {
     });
 // Contact form handling with structured message - THIS BLOCK SHOULD BE AT THE END OF YOUR MAIN <SCRIPT> TAG
 // It must NOT be nested inside any .forEach() loop.
-  document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault(); // Prevent default form submission
+ document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent the default form submission
 
-    const submitBtn = this.querySelector('button[type="submit"]');
+    const form = this;
+    const submitBtn = form.querySelector('button[type="submit"]');
     const formMessage = document.getElementById('form-message');
-    const originalText = submitBtn.innerHTML; // Store original button text
+    const originalText = submitBtn.innerHTML;
 
     // Reset message state
     formMessage.classList.remove('show', 'success', 'error');
     formMessage.classList.add('hidden');
-    formMessage.textContent = ''; // Clear any previous message
+    formMessage.textContent = '';
 
     // Animate button to "Sending..." state
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
-    submitBtn.disabled = true; // Disable button to prevent multiple submissions
-    submitBtn.style.background = 'var(--accent-gold)'; // Change background to accent gold
+    submitBtn.disabled = true;
+    submitBtn.style.background = 'var(--accent-gold)';
 
-    // Simulate form submission (replace with actual backend logic later)
-    setTimeout(() => {
-        // --- Simulate Success ---
-        const successMessage = "Your message has been successfully sent. You will hear from Sujal shortly.";
-        formMessage.textContent = successMessage;
-        formMessage.classList.remove('hidden');
-        formMessage.classList.add('show', 'success'); // Add success class and show
+    // --- New code to send form data with fetch() ---
+    const formData = new FormData(form);
+    fetch(form.action, {
+        method: form.method,
+        body: formData,
+        headers: {
+            'Accept': 'application/json'
+        }
+    }).then(response => {
+        if (response.ok) {
+            // SUCCESS
+            formMessage.textContent = "Your message has been successfully sent. You will hear from Sujal shortly.";
+            formMessage.classList.remove('hidden');
+            formMessage.classList.add('show', 'success');
+            
+            submitBtn.innerHTML = '<i class="fas fa-check mr-2"></i> Sent!';
+            submitBtn.style.background = 'var(--success-green)';
 
-        submitBtn.innerHTML = '<i class="fas fa-check mr-2"></i> Sent!'; // Success message on button
-        submitBtn.style.background = 'var(--success-green)'; // Success green background
-
-        // Reset button and form after a delay
-        setTimeout(() => {
+            // Reset button and form after a delay
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.style.background = 'linear-gradient(135deg, var(--accent-copper), var(--accent-gold))';
+                submitBtn.disabled = false;
+                form.reset();
+            }, 3000);
+        } else {
+            // ERROR
+            formMessage.textContent = 'Oops! There was a problem. Please try again later.';
+            formMessage.classList.remove('hidden');
+            formMessage.classList.add('show', 'error');
+            
             submitBtn.innerHTML = originalText;
-            submitBtn.style.background = 'linear-gradient(135deg, var(--accent-copper), var(--accent-gold))'; // Reset to original gradient
-            submitBtn.disabled = false; // Re-enable button
-            this.reset(); // Clear form fields
-        },); // Display success message for 3 seconds
-    }, 1500); // Simulate sending for 1.5 seconds
+            submitBtn.disabled = false;
+        }
+    }).catch(error => {
+        // CATCH ERROR
+        formMessage.textContent = 'An unexpected error occurred. Please check your network and try again.';
+        formMessage.classList.remove('hidden');
+        formMessage.classList.add('show', 'error');
+        
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    });
 });
 
 
-      // // Update your existing Cursor hover effects:
-      // // Add 'input', 'textarea', and 'label' to the selector list
-      // document.querySelectorAll('button, a, .circuit-card, .project-card, .skill-category, .contact-card, input, textarea, label,.social-icon').forEach(el => {
-      //     el.addEventListener('mouseenter', () => {
-      //         // Only add 'hover' class if the element is NOT one that should show the default pointer.
-      //         // This ensures your contact links still show the default pointer.
-      //         if (!el.matches('a:not(.nav-link):not(.resume-btn):not(.social-icon)')) {
-      //             customCursor.classList.add('hover');
-      //         }
-      //     });
-      //     el.addEventListener('mouseleave', () => {
-      //         customCursor.classList.remove('hover');
-      //     });
-      // });
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96a6afc871919cd7',t:'MTc1NDQwMTAyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
