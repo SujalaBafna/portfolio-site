@@ -1,0 +1,999 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Embedded Hardware R&D- Aeron System | Sujal Bafna</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+            
+            :root {
+                --primary: #0b1121;
+                --secondary: #1a2332;
+                --accent: #d4af37;
+                --copper: #b87333;
+                --text-primary: #ffffff;
+                --text-secondary: #a0a0a0;
+                --text-muted: #666666;
+                --border: #2a3441;
+                --success: #00ff88;
+                --accent-copper: #d97706; /* This was causing the issue, so I'm updating the usage below */
+                --accent-gold: #f59e0b;
+            }
+            
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            body {
+                font-family: 'Inter', sans-serif;
+                background: var(--primary);
+                color: var(--text-primary);
+                line-height: 1.6;
+                overflow-x: hidden;
+                cursor: none;
+            }
+            
+            /* Custom Cursor */
+            .custom-cursor {
+                pointer-events: none; /* Crucial for not blocking clicks on elements */
+                z-index: 9999; /* A very high z-index to stay on top of everything */
+                /* mix-blend-mode: difference; Creates a cool color inversion effect */
+            }
+
+            .cursor-dot {
+                position: fixed;
+                top: 0;
+                left: 0;
+                transform: translate(-50%, -50%); /* Centers the element on its `top`/`left` coords */
+                border-radius: 50%; /* Makes them circular */
+                pointer-events: none;
+                width: 10px;
+                height: 10px;
+                background-color: var(--accent-copper);
+                z-index: 100000; /* Stays on top of the ring */
+                transition: all 0.08s ease-out;
+            }
+
+            /* Hover effects for the custom cursor */
+            .custom-cursor.hover .cursor-dot {
+                width: 14px;
+                height: 14px;
+                border-color: rgb(98, 53, 2);
+                background-color: rgba(217, 119, 6, 1);
+                transform: translate(-50%, -50%) scale(1);
+                opacity:0.9;
+            }
+
+            button, .spec-card-new, .enhancement-card, .media-item, .media-gallery, .content-block, a * {
+                cursor: none !important; /* Ensure custom cursor is used here */
+            }
+            a:not(.nav-link):not(.resume-btn) {
+                cursor: pointer !important; /* Show default pointer cursor */
+            }
+            
+            /* Subtle Background Pattern */
+            .bg-pattern {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                opacity: 0.03;
+                background-image: 
+                    radial-gradient(circle at 25% 25%, var(--copper) 1px, transparent 1px),
+                    radial-gradient(circle at 75% 75%, var(--accent) 1px, transparent 1px);
+                background-size: 50px 50px;
+                background-position: 0 0, 25px 25px;
+                pointer-events: none;
+                z-index: -1;
+            }
+            
+            .mono {
+                font-family: 'JetBrains Mono', monospace;
+            }
+            
+            /* Sticky Header */
+            .navbar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                background: rgba(11, 17, 33, 0.95);
+                backdrop-filter: blur(20px);
+                border-bottom: 1px solid var(--border);
+                z-index: 1000;
+                transition: all 0.3s ease;
+            }
+            
+            .navbar .hidden.md\:flex.space-x-8 {
+            transition: all 0.5s ease; /* Adds a transition to the container for smooth spacing change */
+        }
+
+            /* Header Download Button */
+            .download-btn {
+                background: linear-gradient(135deg, var(--accent-gold), var(--accent));
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 6px;
+                text-decoration: none;
+                font-weight: 600;
+                box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+                transition: all 0.3s ease;
+                cursor: crosshair;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                font-size: 1.05rem;
+                opacity: 0.9;
+            }
+            
+            .download-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+            }
+            
+            /* Hero Section */
+            .hero {
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                position: relative;
+                overflow: hidden;
+                background: linear-gradient(135deg, var(--primary) 0%, #0f1525 100%);
+            }
+            
+            .hero-bg-animation {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                opacity: 0.15;
+                z-index: 1;
+                background: 
+                    radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 70%, rgba(184, 115, 51, 0.2) 0%, transparent 50%),
+                    linear-gradient(45deg, transparent 30%, rgba(212, 175, 55, 0.1) 50%, transparent 70%);
+                animation: heroFloat 8s ease-in-out infinite;
+            }
+            
+            @keyframes heroFloat {
+                0%, 100% { 
+                    transform: translateY(0px) rotate(0deg);
+                    opacity: 0.15;
+                }
+                50% { 
+                    transform: translateY(-20px) rotate(2deg);
+                    opacity: 0.25;
+                }
+            }
+            
+            .hero-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(135deg, rgba(11, 17, 33, 0.8) 0%, rgba(15, 21, 37, 0.9) 100%);
+                z-index: 2;
+            }
+            
+            .hero-content {
+                position: relative;
+                z-index: 3;
+                opacity: 0;
+                transform: translateY(50px);
+                animation: heroFadeIn 1.5s ease forwards;
+                animation-delay: 0.5s;
+            }
+            
+            @keyframes heroFadeIn {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            .hero-title {
+                font-size: clamp(3rem, 8vw, 5rem);
+                font-weight: 800;
+                line-height: 1.1;
+                margin-bottom: 1rem;
+                background: linear-gradient(135deg, var(--text-primary), var(--accent));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.3rem;
+                color: var(--copper);
+                margin-bottom: 1.5rem;
+                font-family: 'JetBrains Mono', monospace;
+            }
+            
+            .hero-meta {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 2rem;
+                margin-bottom: 2rem;
+            }
+            
+            .meta-item {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                color: var(--text-secondary);
+            }
+            
+            .meta-icon {
+                color: var(--accent);
+            }
+            
+            /* Content Sections */
+            .content-container {
+                background: rgba(26, 35, 50, 0.8);
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                backdrop-filter: blur(10px);
+            }
+            
+            .content-section {
+                padding: 4rem 0;
+                position: relative;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+                font-weight: 700;
+                margin-bottom: 2rem;
+                background: linear-gradient(135deg, var(--text-primary), var(--accent));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+            
+            .content-block {
+                background: rgba(26, 35, 50, 0.8);
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                padding: 2rem;
+                margin-bottom: 2rem;
+                backdrop-filter: blur(10px);
+                transition: all 0.3s ease;
+            }
+            
+            .content-block:hover {
+                transform: translateY(-5px);
+                border-color: var(--copper);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            }
+            
+            /* Media Gallery */
+            .media-gallery {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center ;
+                /* display: grid; */
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 1.5rem;
+                margin: 2rem 0;
+            }
+            
+            .media-item {
+                position: relative;
+                border-radius: 12px;
+                overflow: hidden;
+                background: var(--secondary);
+                /* aspect-ratio: 16/9; */
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            
+            .media-item:hover {
+                position: center;
+                transform: scale(1.03);
+                border: 2.5px solid var(--accent-gold);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                z-index: 2;
+            }
+            
+            .media-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 50%);
+                display: flex;
+                align-items: flex-end;
+                padding: 1rem;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            
+            .media-item:hover .media-overlay {
+                opacity: 1;
+            }
+            
+            .media-caption {
+                color: white;
+                font-size: 0.9rem;
+            }
+            
+            /* Technical Specs */
+            .specs-container {
+                display: grid;
+                grid-template-columns: repeat(2,1fr);
+                gap: 1.5rem;
+                margin: 2rem 0;
+            }
+            
+            .spec-card-new {
+                background: rgba(26, 35, 50, 0.6);
+                border: 2px solid var(--border);
+                border-radius: 12px;
+                padding: 1.5rem;
+                display: flex;
+                align-items: flex-start;
+                gap: 1rem;
+                transition: all 0.3s ease;
+            }
+            
+            .spec-card-new:hover {
+                border-color: var(--copper);
+                transform: translateY(-3px);
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            }
+            
+            .spec-icon {
+                width: 80px;
+                height: 80px;
+                border-radius: 10px;
+                background: linear-gradient(135deg, var(--copper), var(--accent));
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.2rem;
+                color: white;
+                flex-shrink: 0;
+            }
+            .spec-icon img {
+                width: 100%;
+                height: 100%;
+                object-fit: fill;
+                opacity: 098;
+            }
+            
+            .spec-content {
+                flex: 1;
+            }
+            
+            .spec-title-new {
+                font-weight: 600;
+                margin-bottom: 0.4rem;
+                color: var(--text-primary);
+                font-size: 1.2rem;
+            }
+            
+            .spec-value-new {
+                color: var(--accent);
+                font-family: 'JetBrains Mono', monospace;
+                font-weight: 500;
+                font-size: 0.95rem;
+                margin-bottom: 0.1rem;
+            }
+            
+            .spec-description {
+                color: var(--text-secondary);
+                font-size: 0.9rem;
+                line-height: 1.4;
+            }
+            
+            /* Progress Indicators */
+            .progress-section {
+                margin: 3rem 0;
+                
+            }
+            
+            .progress-item {
+                margin-bottom: 2rem;
+            }
+            
+            .progress-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 0.5rem;
+                flex-wrap: wrap;
+            }
+            
+            .progress-label {
+                font-weight: 500;
+                font-size: 1.1rem;
+                color: var(--text-primary);
+                white-space: normal;
+            }
+            
+            .progress-value {
+                color: var(--accent);
+                font-family: 'JetBrains Mono', monospace;
+            }
+            
+            .progress-bar-container {
+                height: 4px;
+                background: var(--secondary);
+                border-radius: 4px;
+                overflow: hidden;
+            }
+            
+            .progress-bar {
+                height: 100%;
+                background: linear-gradient(90deg, var(--copper), var(--accent));
+                border-radius: 4px;
+                transition: width 1s ease;
+            }
+            
+            /* Navigation */
+            .back-btn {
+                background: transparent;
+                color: var(--accent);
+                border: 2px solid var(--accent);
+                padding: 0.5rem 1rem;
+                border-radius: 6px;
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                transition: all 0.3s ease;
+                cursor: crosshair;
+            }
+            
+            .back-btn:hover {
+                background: var(--accent);
+                color: var(--primary);
+                transform: translateY(-2px);
+            }
+            
+            /* Scroll Animations */
+            .scroll-reveal {
+                opacity: 0;
+                transform: translateY(50px);
+                transition: all 1s ease;
+            }
+            
+            .scroll-reveal.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            
+            /* Future Enhancements */
+            .enhancements-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 1.5rem;
+                margin: 2rem 0;
+            }
+            
+            .enhancement-card {
+                background: rgba(26, 35, 50, 0.6);
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                padding: 1.5rem;
+                transition: all 0.3s ease;
+            }
+            
+            .enhancement-card:hover {
+                border-color: var(--copper);
+                transform: translateY(-5px);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            }
+            
+            .enhancement-icon {
+                width: 50px;
+                height: 50px;
+                border-radius: 10px;
+                background: linear-gradient(135deg, var(--copper), var(--accent));
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.2rem;
+                color: white;
+                margin-bottom: 1rem;
+            }
+            
+            .enhancement-title {
+                font-weight: 600;
+                margin-bottom: 0.75rem;
+                color: var(--text-primary);
+                font-size: 1.1rem;
+            }
+            
+            .enhancement-description {
+                color: var(--text-secondary);
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+            
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                .hero-title {
+                    font-size: 2.5rem;
+                }
+                
+                .download-btn {
+                    padding: 0.5rem 1rem;
+                    font-size: 0.8rem;
+                }
+                
+                .download-btn span {
+                    display: none;
+                }
+                
+                .media-gallery {
+                    grid-template-columns: 1fr;
+                }
+                
+                .specs-container {
+                    grid-template-columns: 1fr;
+                }
+                
+                .enhancements-grid {
+                    grid-template-columns: 1fr;
+                }
+                
+                .hero-meta {
+                    flex-direction: column;
+                    gap: 1rem;
+                }
+                
+                .content-container {
+                    margin: 1rem 0;
+                    padding: 1rem;
+                }
+                
+                .section-title {
+                    font-size: 2rem;
+                }
+            }
+            
+
+        </style>
+    </head>
+    <body>
+        <!-- Custom Cursor -->
+        <div class="cursor-dot" id="cursor-dot"></div>
+        <div class="cursor-ring" id="cursor-ring"></div>
+        
+        <!-- Navigation -->
+   <nav class="navbar" id="navbar">
+    <div class="px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+            <a href="../index.html#projects" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+            Back to Portfolio
+        </a>
+            <div class="hidden md:flex gap-4 mr-10">
+                 <a href="https://www.aeronsystems.com" class="download-btn" title="Download Project Report" target="_blank">
+                    <i class="fas fa-building"></i>
+                    <span>Visit Aeron Systems</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+        
+        <!-- Hero Section -->
+        <section class="hero">
+            <!-- Animated Background -->
+            <!-- <div class="hero-bg-animation"></div> -->
+            <div class="absolute inset-0 z-0 bg-cover aspect-[7/5] opacity-30" style="background-image: url('./assets/Aeron/CEM\ 3D.png'); background-size: fill; background-repeat: no-repeat; background-position: center;"></div>
+            <div class="relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        Embedded Hardware Design R&D
+                    </h1>
+                    <div class="hero-subtitle">
+                        Aeron Systems - IOT Department
+                    </div>
+                    
+                    <div class="hero-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-calendar meta-icon"></i>
+                            <span>JAN - JUL 2025</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-clock meta-icon"></i>
+                            <span>6 Month Internship</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-briefcase meta-icon"></i>
+                            <span>Embedded Systems & IOT</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="content-container p-8 my-12">
+                <!-- Project Overview -->
+                <section class="content-section scroll-reveal">
+                    <h2 class="section-title holographic">Project Overview</h2>
+                    <div class="content-block">
+                        <p class=" text-secondary mb-6 leading-relaxed">
+                            <h4 class="text-[1.2rem]" style="color: var(--accent-gold)"> Foundations in Documentation & Compliance: </h4>
+                            My six-month internship at Aeron Systems (IoT Department) 
+                            exposed me to the complete lifecycle of industrial embedded hardware design—from documentation and compliance, 
+                            to R&D, prototyping, and production release. Initially, I worked on BOMs, hardware design documents, and 
+                            requirement sheets, supporting projects like the MT1K10, and quickly realized how structured and standards-driven 
+                            corporate R&D environments are compared to academic labs. This period also introduced me to CE testing protocols 
+                            (IEC61000), where I studied surge, ESD, and EMI/EMC protection requirements, later contributing to the CE 
+                            qualification of SPIM1000 at TUV.
+                        </p>
+                        <p class="text-secondary mb-6 leading-relaxed">
+                            <h4 class="text-[1.2rem]" style="color: var(--accent-gold)"> Altium Library Optimization: </h4>Midway through my 
+                            internship, I identified inefficiencies in the company’s Altium component libraries, where inconsistencies led to 
+                            redundant inventory and increased costs. I was assigned to standardize and rebuild the libraries from scratch, which 
+                            involved reviewing datasheets for ~450–500 components across resistors, capacitors, ICs, MOSFETs, regulators, and 
+                            passives. I defined a uniform nomenclature, parameter structure (RoHS, ESD rating, AEC-Q200 grade, etc.), verified 
+                            footprints and symbols, and curated a clean, optimized library. This not only streamlined BOM generation but also 
+                            reduced purchasing overhead by consolidating part selection. 
+                        </p>
+                        <p class="text-secondary mb-6 leading-relaxed">
+                            <h4 class="text-[1.2rem]" style="color: var(--accent-gold);"> R&D and Product Ownership: </h4>In the latter phase, I 
+                            was given greater ownership through two product-focused R&D tasks. First, I had the responsibility to design a new solar
+                            power measurement device, proposing architectures to allow integration within solar grids and advanced panel measurements 
+                            (IV/PV curves, Pmax). I simulated circuit-level solutions in Multisim, documented trade-offs, and developed a partial 
+                            PoC. Second, I independently designed and delivered a sensor-to-datalogger accessory—from schematic and PCB design in 
+                            Altium, to testing, validation, and production handoff. These experiences taught me end-to-end development and the 
+                            importance of inter-departmental coordination in delivering compliant, production-ready hardware. 
+                        </p>
+                    </div>
+                </section>
+                
+                <!-- Media Gallery -->
+                <section class="content-section scroll-reveal">
+                    <h2 class="section-title holographic">Project Gallery</h2>
+                    <div class="media-gallery">
+                        <div class="media-item" style="height: 25rem; width: 45rem;">
+                            <!-- <div class="video-overlay">
+                                <video src="./assets/UAV/Working.mp4" controls autoplay loop muted></video>
+                            </div> -->
+                            <div class="absolute inset-0 z-0 bg-cover aspect-[7/4]" style="background-image: url('./assets/Aeron/Nomencleture.png');"></div>
+                            <div class="media-overlay">
+                                <div class="media-caption">Component Library</div>
+                            </div>
+                        </div>
+                        <div class="media-item" style="height: 25rem; width: 14rem;">
+                            <div class="absolute inset-0 z-0 bg-cover aspect-[57/100]" style="background-image: url('./assets/Aeron/Properties.png');"></div>
+                            <div class="media-overlay">
+                                <div class="media-caption">Component Parameters</div>
+                            </div>
+                        </div>
+                        <div class="media-item" style="height: 19rem; width: 35rem;">
+                            <div class="absolute inset-0 z-0 bg-cover aspect-[20/11]" style="background-image: url('./assets/Aeron/IV\ Sim.png');"></div>
+                            <div class="media-overlay">
+                                <div class="media-caption">IV Curve Simulation</div>
+                            </div>
+                        </div>
+                        <div class="media-item" style="height: 19rem; width: 33rem;">
+                            <div class="video-overlay">
+                                <video src="./assets/Aeron/SSR.mp4" controls autoplay loop muted></video>
+                            </div>
+                            <div class="media-overlay">
+                                <div class="media-caption">SSR Configuration to Bypass panel for measurment</div>
+                            </div>
+                        </div>
+                        <div class="media-item" style="height: 22rem; width: 31rem;">
+                            <div class="absolute inset-0 z-0 bg-cover aspect-[36/25]" style="background-image: url('./assets/Aeron/all.png');"></div>
+                            <div class="media-overlay">
+                                <div class="media-caption">Graphs Obtained by simulations</div>
+                            </div>
+                        </div>
+                        <div class="media-item" style="height: 22rem; width: 31rem;">
+                            <div class="absolute inset-0 z-0 bg-cover aspect-[7/5]" style="background-image: url('./assets/Aeron/CEM\ 3D.png');"></div>
+                            <div class="media-overlay">
+                                <div class="media-caption">Datalogger Assesory Board</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Technical Specifications -->
+                <section class="content-section scroll-reveal">
+                    <h2 class="section-title">Technical Specifications</h2>
+                    <div class="specs-container">
+                        <div class="spec-card-new">
+                            <div class="spec-icon">
+                                <img src="./assets/Altium.svg" alt="Microchip">
+                            </div>
+                            <div class="spec-content">
+                                <h3 class="spec-title-new">Design Software:</h3>
+                                <p class="spec-value-new">Altium Designer</p>
+                                <p class="spec-description">Used for schematic design, PCB layouting and library organisation</p>
+                            </div>
+                        </div>
+                        
+                        <div class="spec-card-new">
+                            <div class="spec-icon">
+                                <img src="./assets/Multisim.svg" alt="IMU">
+                            </div>
+                            <div class="spec-content">
+                                <h3 class="spec-title-new">Circuit Simulation:</h3>
+                                <p class="spec-value-new">NI Multisim & LT Spice</p>
+                                <p class="spec-description">Simulated circuit behavior, validated component interactions, and optimized designs for IV Curve PoC</p>
+                            </div>
+                        </div>
+                        
+                        <div class="spec-card-new">
+                            <div class="spec-icon">
+                                <img src="./assets/ce.svg" alt="Servo">
+                            </div>
+                            <div class="spec-content">
+                                <h3 class="spec-title-new">CE Protection Devices:</h3>
+                                <p class="spec-value-new">GDT, TVS Diodes, MOVs and EMI Filters</p>
+                                <p class="spec-description">Provided layered defense against overvoltage, ESD, CS and surge transients to safeguard sensitive circuitry</p>
+                            </div>
+                        </div>
+                        
+                        <div class="spec-card-new">
+                            <div class="spec-icon">
+                                <img src="./assets/Aeron/SSR_pic.jpg" alt="Microchip">
+                            </div>
+                            <div class="spec-content">
+                                <h3 class="spec-title-new">Power & Switching Devices:</h3>
+                                <p class="spec-value-new">Solid State Relays (SSR) & MOSFETs</p>
+                                <p class="spec-description">Ensured reliable isolation and switching performance in compliance-ready embedded hardware systems</p>
+                            </div>
+                        </div>
+                        
+                        <div class="spec-card-new">
+                            <div class="spec-icon">
+                                <img src="./assets/stm.svg" alt="Microchip">
+                            </div>
+                            <div class="spec-content">
+                                <h3 class="spec-title-new">Microcontroller Platform:</h3>
+                                <p class="spec-value-new">STM32 Series</p>
+                                <p class="spec-description">Industrial-grade ARM Cortex-M microcontrollers forming the core of solar monitoring and IoT hardware projects</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- System Architecture -->
+                <!-- <section class="content-section scroll-reveal">
+                    <h2 class="section-title holographic">System Architecture</h2>
+                    <div class="content-block">
+                        <h3 class="text-2xl font-bold mb-4 holographic futuristic-font">Hardware Architecture</h3>
+                        <p class="text-secondary mb-6 leading-relaxed">
+                            The UAV system is built around a custom flight controller PCB featuring the STM32F446RE microcontroller. 
+                            This 32-bit ARM Cortex-M4 processor provides real-time computation for PID-based attitude stabilization, 
+                            sensor fusion, and communication with peripheral devices.
+                        </p>
+                        <p class="text-secondary mb-8 leading-relaxed">
+                            The platform integrates a 9-DOF IMU for orientation sensing, and 
+                            RC servos for controlling ailerons, elevator, and rudder. A custom PCB shield manages power regulation, 
+                            IO routing, and noise reduction.
+                        </p>
+                        
+                        <h3 class="text-2xl font-bold mb-4 holographic futuristic-font">Software Stack</h3>
+                        <p class="text-secondary mb-6 leading-relaxed">
+                            The flight control firmware is developed in Embedded C using STM32CubeIDE, implementing modular PID loops for 
+                            each axis. Control strategies include bounded PID with saturation zones and noise filtering for precise 
+                            flap actuation and stable flight.
+                        </p>
+                    </div>
+                </section> -->
+                
+                <!-- Performance Metrics -->
+                <section class="content-section scroll-reveal">
+                    <h2 class="section-title holographic">Results & Validation</h2>
+                    <div class="progress-section">
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <li class="progress-label">SPIM1000 successfully qualified under CE IEC61000 compliance at TUV.</li>
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                 <li class="progress-label">Developed a custom Altium library of ~500 optimized components, reducing 
+                                    redundancy and cost for the purchasing team.</li>
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <ul style="list-style-type: disc; padding-left: 20px;">
+                                <li class="progress-label">Proposed and simulated an architectural solutions for new Solar power measurment device, 
+                                    completing ~70% of PoC before internship end.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <li class="progress-label">Independently designed, validated, and released a sensor-to-datalogger accessory into production.</li>
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <li class="progress-label">Gained hands-on exposure to CS, surge, EMI, and ESD protection strategies used in industrial IoT systems.</li>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Future Enhancements
+                <section class="content-section scroll-reveal">
+                    <h2 class="section-title">Future Enhancements</h2>
+                    <div class="enhancements-grid">
+                        <div class="enhancement-card">
+                            <div class="enhancement-icon">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <div class="enhancement-content">
+                                <h3 class="enhancement-title">AI Mission Planning</h3>
+                                <p class="enhancement-description">Integration of machine learning algorithms for autonomous mission planning and adaptive route optimization based on environmental conditions and mission objectives.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="enhancement-card">
+                            <div class="enhancement-icon">
+                                <i class="fas fa-network-wired"></i>
+                            </div>
+                            <div class="enhancement-content">
+                                <h3 class="enhancement-title">Swarm Intelligence</h3>
+                                <p class="enhancement-description">Multi-UAV coordination capabilities enabling synchronized operations, formation flying, and distributed task execution for complex mission scenarios.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="enhancement-card">
+                            <div class="enhancement-icon">
+                                <i class="fas fa-cloud"></i>
+                            </div>
+                            <div class="enhancement-content">
+                                <h3 class="enhancement-title">Cloud Connectivity</h3>
+                                <p class="enhancement-description">Real-time telemetry streaming, remote mission updates, and cloud-based data analytics for performance monitoring and predictive maintenance.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="enhancement-card">
+                            <div class="enhancement-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="enhancement-content">
+                                <h3 class="enhancement-title">Enhanced Security</h3>
+                                <p class="enhancement-description">Advanced encryption protocols, anti-jamming capabilities, and secure communication channels to ensure mission integrity and data protection.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section> -->
+            </div>
+        </main>
+        
+        <script>
+            // Custom Cursor
+            const cursorDot = document.getElementById('cursor-dot');
+            const cursorRing = document.getElementById('cursor-ring');
+            
+            let mouseX = 0;
+            let mouseY = 0;
+            let ringX = 0;
+            let ringY = 0;
+            
+            // Update cursor position
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                
+                // Update dot position immediately
+                cursorDot.style.left = mouseX - 4 + 'px';
+                cursorDot.style.top = mouseY - 4 + 'px';
+            });
+            
+            // Smooth ring animation
+            function animateRing() {
+                ringX += (mouseX - ringX) * 0.1;
+                ringY += (mouseY - ringY) * 0.1;
+                
+                cursorRing.style.left = ringX - 20 + 'px';
+                cursorRing.style.top = ringY - 20 + 'px';
+                
+                requestAnimationFrame(animateRing);
+            }
+            animateRing();
+            
+            // Add hover effects to interactive elements
+            const interactiveElements = document.querySelectorAll('a, button, .media-item, .spec-card, .enhancement-card, .content-block');
+            
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    document.body.classList.add('cursor-hover');
+                });
+                
+                el.addEventListener('mouseleave', () => {
+                    document.body.classList.remove('cursor-hover');
+                });
+                
+                el.addEventListener('mousedown', () => {
+                    document.body.classList.add('cursor-active');
+                });
+                
+                el.addEventListener('mouseup', () => {
+                    document.body.classList.remove('cursor-active');
+                });
+            });
+            
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                const navbar = document.getElementById('navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+            
+            // Scroll reveal animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.scroll-reveal').forEach(el => {
+                observer.observe(el);
+            });
+            
+            // Download button functionality
+            // document.querySelector('.download-btn').addEventListener('click', function(e) {
+            //     e.preventDefault();
+                
+            //     // Simple download notification
+            //     const notification = document.createElement('div');
+            //     // notification.innerHTML = '<i class="fas fa-download"></i> Download initiated...';
+            //     // notification.style.cssText = `
+            //     //     position: fixed;
+            //     //     bottom: 2rem;
+            //     //     right: 2rem;
+            //     //     background: linear-gradient(135deg, var(--copper), var(--accent));
+            //     //     color: white;
+            //     //     padding: 1rem 1.5rem;
+            //     //     border-radius: 8px;
+            //     //     font-weight: 600;
+            //     //     z-index: 1001;
+            //     //     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            //     //     opacity: 0;
+            //     //     transform: translateY(20px);
+            //     //     transition: all 0.3s ease;
+            //     // `;
+                
+            //     document.body.appendChild(notification);
+                
+            //     // Animate in
+            //     setTimeout(() => {
+            //         notification.style.opacity = '1';
+            //         notification.style.transform = 'translateY(0)';
+            //     }, 10);
+                
+            //     // Remove after 3 seconds
+            //     setTimeout(() => {
+            //         notification.style.opacity = '0';
+            //         notification.style.transform = 'translateY(20px)';
+            //         setTimeout(() => notification.remove(), 300);
+            //     }, 3000);
+            // });
+        </script>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96b8b15462eb49a6',t:'MTc1NDU4OTgyOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+    </html>

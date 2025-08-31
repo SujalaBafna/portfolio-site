@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Writings | Sujal Bafna</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+        
+        :root {
+            --primary: #0b1121;
+            --secondary: #1a2332;
+            --accent: #d4af37;
+            --copper: #b87333;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666666;
+            --border: #2a3441;
+            --success: #00ff88;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            cursor: none;
+        }
+        
+        /* Custom Cursor */
+        .cursor-dot {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--copper);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+        }
+                
+        /* Cursor hover states */
+        body.cursor-hover .cursor-dot {
+                width: 10px;
+                height: 10px;
+                border-color: rgb(98, 53, 2);
+                background-color: rgba(217, 119, 6, 1);
+                transform: translate(-50%, -50%) scale(1);
+                opacity:1;
+        }
+                
+        body.cursor-active .cursor-dot {
+            transform: scale(1.2);
+            background: var(--accent);
+        }
+
+        button, a * {
+            cursor: none !important; /* Ensure custom cursor is used here */
+        }
+        
+        a:not(.nav-link) {
+            cursor: pointer !important; /* Show default pointer cursor */
+        }    
+        
+        /* Sticky Header */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(11, 17, 33, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            background: rgba(11, 17, 33, 0.98);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--primary) 0%, #0f1525 100%);
+        }
+        
+        .hero-bg-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.15;
+            z-index: 1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(184, 115, 51, 0.2) 0%, transparent 50%),
+                linear-gradient(45deg, transparent 30%, rgba(212, 175, 55, 0.1) 50%, transparent 70%);
+            animation: heroFloat 8s ease-in-out infinite;
+        }
+        
+        @keyframes heroFloat {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.15;
+            }
+            50% { 
+                transform: translateY(-20px) rotate(2deg);
+                opacity: 0.25;
+            }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: heroFadeIn 1.5s ease forwards;
+            animation-delay: 0.5s;
+        }
+        
+        @keyframes heroFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--copper);
+            margin-bottom: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        /* Content Sections */
+        .content-container {
+            background: rgba(26, 35, 50, 0.8);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .content-section {
+            padding: 4rem 0;
+            position: relative;
+        }
+        
+        .content-section:not(:last-child) {
+            border-bottom: 1px solid var(--border);
+        }
+        
+        /* Technical Paper Layout */
+        .paper-item {
+            margin-bottom: 4rem;
+        }
+        
+        .paper-header {
+            margin-bottom: 2rem;
+        }
+        
+        .paper-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .paper-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 1.02rem;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .meta-icon {
+            color: var(--accent);
+        }
+        
+        .paper-content {
+            margin-bottom: 3rem;
+        }
+        
+        .paper-description {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            background: linear-gradient(135deg, var(--copper), var(--accent));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
+            cursor: crosshair;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+        
+        .action-btn.secondary {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            box-shadow: none;
+        }
+        
+        .action-btn.secondary:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+        
+        /* Media Gallery */
+        .media-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .media-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--secondary);
+            aspect-ratio: 16/10;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .media-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+        
+        .media-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 50%);
+            display: flex;
+            align-items: flex-end;
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .media-item:hover .media-overlay {
+            opacity: 1;
+        }
+        
+        .media-caption {
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* Publication Stats */
+        .publication-stats {
+            display: flex;
+            gap: 2rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+        
+        /* Navigation */
+        .back-btn {
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: crosshair;
+        }
+        
+        .back-btn:hover {
+            background: var(--accent);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        /* Scroll Animations */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
+        }
+        
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .paper-title {
+                font-size: 1.5rem;
+            }
+            
+            .paper-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                justify-content: center;
+            }
+            
+            .media-gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .publication-stats {
+                justify-content: center;
+            }
+            
+            .content-container {
+                margin: 1rem 0;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+    
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="max-w-7xl mx-auto ml-0 x-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="../index.html#impact" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Portfolio
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <!-- Animated Background -->
+
+        <div class="absolute inset-0 z-0 bg-cover aspect-[5/3] opacity-20" style="background-image: url('./assets/writings_main_image.png');"></div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    TECHNICAL WRITINGS
+                </h1>
+                <div class="hero-subtitle font-semibold">
+                    Research Publications & Academic Contributions
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="content-container p-8 my-12">
+            
+            <!-- Paper 1: Autonomous Navigation Systems -->
+            <section class="content-section scroll-reveal">
+                <div class="paper-item">
+                    <div class="paper-header">
+                        <h2 class="paper-title">Research Paper: UAV Stabilization and Trajectory Correction </h2>
+                        <div class="paper-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-journal-whills meta-icon"></i>
+                                <span>Robotics and Automation</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-calendar meta-icon"></i>
+                                <span>July 2025</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-users meta-icon"></i>
+                                <span>Authored by Mr.Sujal Bafna</span>
+                            </div>
+                        </div>
+                        <!-- <div class="publication-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">47</div>
+                                <div class="stat-label">Day</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">8.2</div>
+                                <div class="stat-label">Impact Factor</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">1.2K</div>
+                                <div class="stat-label">Downloads</div>
+                            </div> -->
+                        </div>
+                    </div>
+                    
+                    <div class="paper-content">
+                        <p class="paper-description">
+                            This research addresses the pervasive challenge of trajectory deviations and orientation instability in 
+                            fixed-wing Unmanned Aerial Vehicles (UAVs) caused by dynamic environmental conditions. We developed and 
+                            validated a novel Inertial Measurement Unit (IMU)-fused Proportional-Integral-Derivative (PID) control 
+                            framework that utilizes aerodynamic control surfaces—ailerons, elevators, and rudder—to achieve real-time 
+                            stabilization and autonomous trajectory correction. This methodology presents a low-power alternative to conventional 
+                            thrust-vectoring techniques, which are often energy-intensive and less suitable for long-endurance missions.
+                        </p>
+                        <p class="paper-description">
+                            The system was implemented on lightweight, embedded hardware, demonstrating a robust and responsive control 
+                            mechanism with minimal sensor overhead. Experimental validation on a grounded UAV prototype confirmed the 
+                            framework's efficacy in maintaining stable orientation under various dynamic perturbations.This work lays a 
+                            critical foundation for the development of energy-efficient and scalable autonomous systems, with potential 
+                            applications in sectors where flight duration and system simplicity are paramount. 
+                        </p>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <a href="#" class="action-btn" data-paper="uav-navigation">
+                            <i class="fas fa-download"></i>
+                            Download PDF
+                        </a>
+                        <!-- <a href="#" class="action-btn secondary" data-link="ieee-journal">
+                            <i class="fas fa-external-link-alt"></i>
+                            Visit IEEE Journal
+                        </a> -->
+                    </div>
+                    
+                    <div class="media-gallery">
+                        <div class="media-item">
+                            <img src="./assets/UAV STM SHIELD (3D).png" alt="A coding workshop in progress" class="media-image">
+                            <div class="media-overlay">
+                                <div class="media-caption">Custom Board</div>
+                            </div>
+                        </div>
+                        <div class="media-item">
+                            <img src="./assets/UAV_Project_PIC.png" alt="A coding workshop in progress" class="media-image">
+                            <div class="media-overlay">
+                                <div class="media-caption">Effect of contact suface on UAV</div>
+                            </div>
+                        </div>
+                        <div class="media-item">
+                            <img src="./assets/pid_uav_angle_correction_plot.png" alt="A coding workshop in progress" class="media-image">
+                            <div class="media-overlay">
+                                <div class="media-caption">Performance Results</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="content-container p-8 my-12">
+            <!-- Paper 2: IoT Smart City -->
+            <section class="content-section scroll-reveal">
+                <div class="paper-item">
+                    <div class="paper-header">
+                        <h2 class="paper-title">YouTube Tutorial: Control Systems and Controller Architectures</h2>
+                        <div class="paper-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-university meta-icon"></i>
+                                <span>MIT TECH TEAM</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-calendar meta-icon"></i>
+                                <span>October 2024</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt meta-icon"></i>
+                                <span>Pune, India</span>
+                            </div>
+                        </div>
+                        <div class="publication-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">1.24K</div>
+                                <div class="stat-label">Subscribers</div>
+                            </div>
+                            <!-- <div class="stat-item">
+                                <div class="stat-number">Best</div>
+                                <div class="stat-label">Paper Award</div>
+                            </div> -->
+                            <div class="stat-item">
+                                <div class="stat-number">230+</div>
+                                <div class="stat-label">Views</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="paper-content">
+                        <p class="paper-description">
+                            This technical tutorial comprehensively analyzes open-loop and closed-loop control systems, addressing a 
+                            fundamental challenge in robotics and automation. The video demystifies these concepts through definitions, 
+                            comparisons, and real-world applications, explaining how these architectures form the backbone of modern 
+                            automation. This resource provides a foundational understanding of control theory and common controller types, 
+                            including PID controllers, helping students and engineers comprehend how robotic systems achieve precise behavior.
+                        </p>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <a href="#" class="action-btn secondary" data-link="conference">
+                            <i class="fas fa-external-link-alt"></i>
+                            Youtube channel link
+                        </a>
+                    </div>
+                    
+                    <div class="media-gallery">
+                        <div class="media-item style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 40%; background: #000; border-radius: 2px;">
+                        <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube.com/embed/4It3JBpWaHQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>  
+                        <div class="media-item">
+                            <img src="./assets/you_vid_pic.png" alt="A coding workshop in progress" class="media-image">
+                            <div class="media-overlay">
+                                <div class="media-caption">Cloosed loop vs Open loop</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </section>
+            
+            <!-- Paper 3: Machine Learning in Embedded Systems -->
+             <div class="content-container p-8 my-12">
+            <section class="content-section scroll-reveal">
+                <div class="paper-item">
+                    <div class="paper-header">
+                        <h2 class="paper-title">PCB Prototyping Machine: Setup and Technical Documentation</h2>
+                        <div class="paper-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-journal-whills meta-icon"></i>
+                                <span>MIT-WPU</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-calendar meta-icon"></i>
+                                <span>March 2024</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-users meta-icon"></i>
+                                <span>First Author</span>
+                            </div>
+                        </div>
+                        <div class="publication-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">200+</div>
+                                <div class="stat-label">Students & Teachers Reached</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">50+</div>
+                                <div class="stat-label">Boards Printed</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="paper-content">
+                        <p class="paper-description">
+                            This project focused on the complex and undocumented process of setting up a MITS Solutions PCB milling 
+                            machine, a crucial piece of equipment for rapid prototyping of custom printed circuit boards. The primary 
+                            challenge involved reverse-engineering the machine's operation, parameters, and software interface to 
+                            establish a reliable and reproducible workflow. This effort resulted in the creation of comprehensive, 
+                            internal technical documentation detailing the full calibration and operational protocol, a resource that 
+                            previously did not exist for this specific model.
+                        </p>
+                        <p class="paper-description">
+                            As a direct outcome, this initiative enabled the university's electronics laboratory to fully integrate the 
+                            machine into its academic curriculum and research activities. This work exemplifies a pioneering effort in 
+                            laboratory infrastructure development, solving a significant technical hurdle and establishing a new standard 
+                            for instructional and research-based prototyping.
+                        </p>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <a href="#" class="action-btn" data-paper="ml-embedded">
+                            <i class="fas fa-download"></i>
+                            Download PDF
+                        </a>
+                    </div>
+                    
+                    <div class="media-gallery">
+                        <div class="media-item">
+                            <img src="./assets/pcb_machine3.jpg" alt="A coding workshop in progress" class="media-image">
+                            <div class="media-overlay">
+                                <div class="media-caption">MIT LAB's PCB Prototyping Machine</div>
+                            </div>
+                        </div>
+                        <div class="media-item">
+                            <img src="./assets/pcb_machine1.jpg" alt="A coding workshop in progress" class="media-image">
+                            <div class="media-overlay">
+                                <div class="media-caption">knowledge Transfer Session with Students</div>
+                            </div>
+                        </div>
+                        <div class="media-item">
+                            <img src="./assets/pcb_machine2.jpg" alt="A coding workshop in progress" class="media-image">
+                            <div class="media-overlay">
+                                <div class="media-caption">PCB Assembly</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            </div>
+            
+        </div>
+    </main>
+    
+    <script>
+        // Custom Cursor
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorRing = document.getElementById('cursor-ring');
+        
+        let mouseX = 0;
+        let mouseY = 0;
+        let ringX = 0;
+        let ringY = 0;
+        
+        // Update cursor position
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Update dot position immediately
+            cursorDot.style.left = mouseX - 4 + 'px';
+            cursorDot.style.top = mouseY - 4 + 'px';
+        });
+        
+        // Smooth ring animation
+        function animateRing() {
+            ringX += (mouseX - ringX) * 0.1;
+            ringY += (mouseY - ringY) * 0.1;
+            
+            cursorRing.style.left = ringX - 20 + 'px';
+            cursorRing.style.top = ringY - 20 + 'px';
+            
+            requestAnimationFrame(animateRing);
+        }
+        animateRing();
+        
+        // Add hover effects to interactive elements
+        const interactiveElements = document.querySelectorAll('a, button, .media-item, .action-btn');
+        
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                document.body.classList.add('cursor-hover');
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                document.body.classList.remove('cursor-hover');
+            });
+            
+            el.addEventListener('mousedown', () => {
+                document.body.classList.add('cursor-active');
+            });
+            
+            el.addEventListener('mouseup', () => {
+                document.body.classList.remove('cursor-active');
+            });
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Scroll reveal animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.scroll-reveal').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Action button functionality
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const paperType = this.getAttribute('data-paper');
+                const linkType = this.getAttribute('data-link');
+                
+                let message = '';
+                if (paperType) {
+                    message = '<i class="fas fa-download"></i> Download initiated...';
+                } else if (linkType) {
+                    message = '<i class="fas fa-external-link-alt"></i> Opening external link...';
+                }
+                
+                // Create notification
+                const notification = document.createElement('div');
+                notification.innerHTML = message;
+                notification.style.cssText = `
+                    position: fixed;
+                    bottom: 2rem;
+                    right: 2rem;
+                    background: linear-gradient(135deg, var(--copper), var(--accent));
+                    color: white;
+                    padding: 1rem 1.5rem;
+                    border-radius: 8px;
+                    font-weight: 600;
+                    z-index: 1001;
+                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+                    opacity: 0;
+                    transform: translateY(20px);
+                    transition: all 0.3s ease;
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // Animate in
+                setTimeout(() => {
+                    notification.style.opacity = '1';
+                    notification.style.transform = 'translateY(0)';
+                }, 10);
+                
+                // Remove after 3 seconds
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    notification.style.transform = 'translateY(20px)';
+                    setTimeout(() => notification.remove(), 300);
+                }, 3000);
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96f8246487e48513',t:'MTc1NTI1NTE0NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
