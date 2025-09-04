@@ -128,10 +128,35 @@
             0% { background-position: 0 0, 0 0, 0 0, 0 0; }
             100% { background-position: 800px 800px, -600px -600px, 100px 100px, 100px 100px; }
         }
+        @keyframes bounce-easter-egg {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px); /* Height of the bounce */
+            }
+            60% {
+                transform: translateY(-10px); /* Quick bounce */
+            }
+        }
         
         @keyframes background-flow {
             0% { background-position: 0 0; }
             100% { background-position: 50px 50px; } /* Moves the pattern by its size for seamless loop */
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(-25%);
+                animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+            }
+            50% {
+                transform: translateY(0);
+                animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+            }
+            }
+            .animate-bounce {
+            animation: bounce 1s infinite;
         }
         
         /* Professional Loading Screen */
@@ -681,13 +706,14 @@ body.skip-intro .animate-intro {
         .project-card:hover {
             transform: scale(1.5);
             border-color: var(--accent-copper);
+            border-radius: 16px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             z-index: 2;
         }
         .video-overlay {
             position: absolute;
             inset: 0;
-            opacity: 0;
+            opacity: 0.2;
             transition: opacity 0.4s ease, transform 0.4s ease;
             z-index: 0;
         }
@@ -696,18 +722,18 @@ body.skip-intro .animate-intro {
         }
         .video-overlay img {
             width: 100%;
-            height: 63.5%;
+            height: 61%;
             object-fit: fill;
             /* opacity: 0.98; */
         }
         .video-overlay video {
             width: 100%;
             height: 100%;
+            border-radius: 16px;
             object-fit: fill; /* This is the correct property */
         }
         .project-card:hover .video-overlay {
-            opacity: 0.35;
-            /* transform: scale(1.1); Subtle zoom effect for the video */
+            opacity: 0.65;
         }   
         .project-header {
             padding: 2rem;
@@ -915,6 +941,7 @@ body.skip-intro .animate-intro {
         }
         .form-message.success {
             color: var(--success-green); /* Current green text color */
+            font-size: 1.2rem;
         }
 
 /* Keyframe for seamless horizontal scroll */
@@ -1034,8 +1061,8 @@ body.skip-intro .animate-intro {
             right: 30px;  /* MODIFIED: New position */
             background: linear-gradient(135deg, var(--accent-blue), var(--accent-gold));
             color: var(--text-primary);
-            width: 45px;
-            height: 45px;
+            width: 49px;
+            height: 49px;
             border-radius: 50%;
             border: 1px solid rgba(59, 130, 246, 0.5);
             display: flex;
@@ -1047,12 +1074,14 @@ body.skip-intro .animate-intro {
             z-index: 999;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease-in-out; /* MODIFIED: Smoother transition */
+            animation: bounce-easter-egg 2s infinite;
         }
 
         .easter-egg-btn:hover {
             transform: scale(1.1);
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
             background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper));
+            animation: none;
         }
 
         /* NEW: Cooldown state for the button */
@@ -1060,6 +1089,7 @@ body.skip-intro .animate-intro {
             filter: blur(2px); /* Apply the blur effect */
             pointer-events: none; /* Disable all clicks */
             transform: scale(0.95); /* Optional: slightly shrink the button */
+            animation: none;
         }
 
         /* Electronic Fact Display Modal */
@@ -1084,14 +1114,14 @@ body.skip-intro .animate-intro {
 
         .fact-modal-content {
             background-color: rgba(26, 38, 60, 0.95);
-            border: 1px solid var(--border-subtle);
+            border: 2px solid var(--border-subtle);
             border-radius: 12px;
             padding: 1.5rem;
-            max-width: 350px;
+            max-width: 500px;
             text-align: left;
             /* Use absolute positioning to place the modal in the bottom-right corner */
             position: absolute;
-            bottom: 5rem; /* This value controls how far up the modal is from the bottom */
+            bottom: 6rem; /* This value controls how far up the modal is from the bottom */
             right: 1.5rem;  /* This value controls how far the modal is from the right edge */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
             pointer-events: auto;
@@ -1192,7 +1222,7 @@ body.skip-intro .animate-intro {
                 <a href="#skills" class="nav-link">Skills</a>
                 <a href="#impact" class="nav-link">Impact</a>
                 <a href="#contact" class="nav-link">Contact</a>
-                <a href="#" class="resume-btn" onclick="downloadResume()">
+                <a href="https://drive.google.com/file/d/17rKPwgj-25D9oHalj3F2AmDL-ciKqD5V/view?usp=sharing" class="resume-btn" onclick="downloadResume()"target="_blank">
                   <i class="fas fa-download mr-2 text-[1.35rem]"></i>Resume
                 </a>
             </div>
@@ -1230,6 +1260,11 @@ body.skip-intro .animate-intro {
                         <a href="#contact" class="btn-secondary">
                             <i class="fas fa-envelope mr-2"></i>Get In Touch
                         </a>
+                    </div>
+                    <div id="scroll-indicator" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 animate-bounce">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                        </svg>
                     </div>
                 </div>
             </div>
@@ -1402,9 +1437,8 @@ body.skip-intro .animate-intro {
                 <div class="content-container">
                 <div class="project-card scroll-reveal">
                     <div class="video-overlay">
-                        <img src="./assets/UAV/Main_Image.png" alt="Description of the image">
+                        <img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331063/dvim9qyjlelipcozih33.png" alt="Description of the image">
                     </div>
-                    <!-- <div class="absolute inset-0 z-0 opacity-20" style="background-image: url('./assets/ngo_main_pic.JPG'); background-repeat: no-repeat;background-size: 100% 63.5%;"></div> -->
                     <div class="project-header relative z-10">
                         <div class="flex items-center justify-between mb-4">
                             <div class="skill-icon">
@@ -1429,14 +1463,10 @@ body.skip-intro .animate-intro {
                         </div>
                         <div class="flex justify-between items-center">
                             <!-- <button class="text-copper-500 hover:text-copper-400 transition-colors"> -->
-                                <a href="/portfolio-site/UAV.html" button class="text-white text-[1.1rem] hover:text-[var(--accent-gold)] transition-colors" style="cursor: none !important; ">
-                                    <i class="fas fa-external-link-alt mr-2 relative z-10"></i>
+                            <a href="/portfoli-site/UAV.html" class="px-6 py-3 bg-none text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 opacity-90 transition duration-300 ease-in-out">
+                                <i class="fas fa-external-link-alt mr-2 relative z-10"></i>
                                     View Details
-                                </a>
-                            <!-- </button> -->
-                            <button class="text-secondary hover:text-primary transition-colors">
-                                <i class="fab fa-github mr-2"></i>Code
-                            </button>
+                            </a>
                         </div>
                         </div>
                     </div>
@@ -1444,7 +1474,7 @@ body.skip-intro .animate-intro {
                     
                     <div class="project-card scroll-reveal">
                         <div class="video-overlay">
-                        <video src="./assets/Aeron/Main.mp4" controls autoplay loop muted></video>
+                        <video src="https://res.cloudinary.com/dl1iwajpi/video/upload/v1756331037/b0k2jjiu6ccaqjf9dn5k.mp4" controls autoplay loop muted></video>
                         </div>
                         <div class="project-header relative z-10">
                             <div class="flex items-center justify-between mb-4">
@@ -1463,25 +1493,22 @@ body.skip-intro .animate-intro {
                             <div class="mb-6">
                                 <span class="tech-tag">IoT</span>
                                 <span class="tech-tag">Altium</span>
-                                <span class="tech-tag">Multisim</span>
                                 <span class="tech-tag">CE Compliance</span>
+                                <span class="tech-tag">Multisim</span>
                                 <span class="tech-tag">Power Electronics</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                    <a href="/portfolio-site/Aeron.html" button class="text-white text-[1.1rem] hover:text-[var(--accent-gold)] transition-colors" style="cursor: none !important; ">
-                                        <i class="fas fa-external-link-alt mr-2 relative z-10"></i>
-                                        View Details
-                                    </a>
-                                <button class="text-secondary hover:text-primary transition-colors">
-                                    <i class="fab fa-github mr-2"></i>Code
-                                </button>
+                            <a href="/portfoli-site/Aeron.html" class="px-6 py-3 bg-none text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 opacity-90 transition duration-300 ease-in-out">
+                                <i class="fas fa-external-link-alt mr-2 relative z-10"></i>
+                                    View Details
+                            </a>
                             </div>
                         </div>
                     </div>
                     
                     <div class="project-card scroll-reveal">
                         <div class="video-overlay">
-                        <video src="./assets/R1/Main.mp4" controls autoplay loop muted></video>
+                        <video src="https://res.cloudinary.com/dl1iwajpi/video/upload/v1756331098/jh9ez8wom9fqguzqjf04.mp4" controls autoplay loop muted></video>
                         </div>
                         <div class="project-header relative z-10">
                             <div class="flex items-center justify-between mb-4">
@@ -1506,20 +1533,17 @@ body.skip-intro .animate-intro {
                                 <span class="tech-tag">Robotics</span>
                             </div>
                             <div class="flex justify-between items-center mt-auto ">
-                                    <a href="/portfolio-site/R1.html" button class="text-white text-[1.1rem] hover:text-[var(--accent-gold)] transition-colors" style="cursor: none !important; ">
-                                        <i class="fas fa-external-link-alt mr-2"></i>
-                                        View Details
-                                    </a>
-                                <button class="text-secondary hover:text-primary transition-colors">
-                                    <i class="fab fa-github mr-2"></i>Code
-                                </button>
+                            <a href="/portfoli-site/R1.html" class="px-6 py-3 bg-none text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 opacity-90 transition duration-300 ease-in-out">
+                                <i class="fas fa-external-link-alt mr-2 relative z-10"></i>
+                                    View Details
+                            </a>
                             </div>
                         </div>
                     </div>
                     
                     <div class="project-card scroll-reveal">
                          <div class="video-overlay">
-                        <video src="./assets/R2/Main1.mp4" controls autoplay loop muted></video>
+                        <video src="https://res.cloudinary.com/dl1iwajpi/video/upload/v1756331269/x0ugrfnuqqvib3gkvffr.mp4" controls autoplay loop muted></video>
                         </div>
                         <div class="project-header relative z-10">
                             <div class="flex items-center justify-between mb-4">
@@ -1544,20 +1568,17 @@ body.skip-intro .animate-intro {
                                 <span class="tech-tag">Automation</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                    <a href="/portfolio-site/R2.html" button class="text-white text-[1.1rem] hover:text-[var(--accent-gold)] transition-colors" style="cursor: none !important; ">
-                                        <i class="fas fa-external-link-alt mr-2"></i>
-                                        View Details
-                                    </a>
-                                <button class="text-secondary hover:text-primary transition-colors">
-                                    <i class="fab fa-github mr-2"></i>Code
-                                </button>
+                            <a href="/portfoli-site/R2.html" class="px-6 py-3 bg-none text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 opacity-90 transition duration-300 ease-in-out">
+                                <i class="fas fa-external-link-alt mr-2 relative z-10"></i>
+                                    View Details
+                            </a>
                             </div>
                         </div>
                     </div>
                     
                     <div class="project-card scroll-reveal">
                         <div class="video-overlay">
-                        <video src="./assets/Swerve/Main.mp4" controls autoplay loop muted></video>
+                        <video src="https://res.cloudinary.com/dl1iwajpi/video/upload/v1756331065/f6ve1df1v2nfgfyvpy4d.mp4" controls autoplay loop muted></video>
                         </div>
                         <div class="project-header relative z-10">
                             <div class="flex items-center justify-between mb-4">
@@ -1582,20 +1603,17 @@ body.skip-intro .animate-intro {
                                 <span class="tech-tag">STM32</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                    <a href="/portfolio-site/Swerve.html" button class="text-white text-[1.1rem] hover:text-[var(--accent-gold)] transition-colors" style="cursor: none !important; ">
-                                        <i class="fas fa-external-link-alt mr-2"></i>
-                                        View Details
-                                    </a>
-                                <button class="text-secondary hover:text-primary transition-colors">
-                                    <i class="fab fa-github mr-2"></i>Code
-                                </button>
+                            <a href="/portfoli-site/Swerve.html" class="px-6 py-3 bg-none text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 opacity-95 transition duration-300 ease-in-out">
+                                <i class="fas fa-external-link-alt mr-2 relative z-10"></i>
+                                    View Details
+                            </a>
                             </div>
                         </div>
                     </div>
                     
                     <div class="project-card scroll-reveal">
                         <div class="video-overlay">
-                        <video src="./assets/Piston/main.mp4" controls autoplay loop muted></video>
+                        <video src="https://res.cloudinary.com/dl1iwajpi/video/upload/v1756331129/mckvbh2qtztlegibojmm.mp4" controls autoplay loop muted></video>
                         </div>
                         <div class="project-header relative z-10">
                             <div class="flex items-center justify-between mb-4">
@@ -1619,10 +1637,10 @@ body.skip-intro .animate-intro {
                                 <span class="tech-tag">Automation</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                    <a href="/portfolio-site/Piston.html" button class="text-white text-[1.1rem] hover:text-[var(--accent-gold)] transition-colors" style="cursor: none !important; ">
-                                        <i class="fas fa-external-link-alt mr-2"></i>
-                                        View Details
-                                    </a>
+                            <a href="/portfoli-site/Piston.html" class="px-6 py-3 bg-none text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 opacity-90 transition duration-300 ease-in-out">
+                                <i class="fas fa-external-link-alt mr-2 relative z-10"></i>
+                                    View Details
+                            </a>
                                 <span class="text-muted text-sm">Under NDA</span>
                             </div>
                         </div>
@@ -1630,7 +1648,7 @@ body.skip-intro .animate-intro {
 
                     <div class="project-card scroll-reveal">
                         <div class="video-overlay">
-                        <img src="./assets/SBS/DC-DC12.jpg" alt="Description of the image">
+                        <img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331035/b68em9tqjshijulmww87.jpg" alt="Description of the image">
                     </div>
                         <div class="project-header relative z-10">
                             <div class="flex items-center justify-between mb-4">
@@ -1655,20 +1673,17 @@ body.skip-intro .animate-intro {
                                 <span class="tech-tag">Battries</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                    <a href="/portfolio-site/SBS.html" button class="text-white text-[1.1rem] hover:text-[var(--accent-gold)] transition-colors" style="cursor: none !important; ">
-                                        <i class="fas fa-external-link-alt mr-2"></i>
-                                        View Details
-                                    </a>
-                                <button class="text-secondary hover:text-primary transition-colors">
-                                    <i class="fab fa-github mr-2"></i>Code
-                                </button>
+                            <a href="/portfoli-site/SBS.html" class="px-6 py-3 bg-none text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 opacity-90 transition duration-300 ease-in-out">
+                                <i class="fas fa-external-link-alt mr-2 relative z-10"></i>
+                                    View Details
+                            </a>
                             </div>
                         </div>
                     </div>
 
                     <div class="project-card scroll-reveal">
                         <div class="video-overlay">
-                        <video src="./assets/Smart_Home/main1.mp4" controls autoplay loop muted></video>
+                        <video src="https://res.cloudinary.com/dl1iwajpi/video/upload/v1756331041/jwxeyfwmvqals8ipwu4v.mp4" controls autoplay loop muted></video>
                         </div>
                         <div class="project-header relative z-10">
                             <div class="flex items-center justify-between mb-4">
@@ -1693,13 +1708,10 @@ body.skip-intro .animate-intro {
                                 <span class="tech-tag">Bluetooth</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                    <a href="/portfolio-site/Smart_Home.html" button class="text-white text-[1.1rem] hover:text-[var(--accent-gold)] transition-colors" style="cursor: none !important; ">
-                                        <i class="fas fa-external-link-alt mr-2"></i>
-                                        View Details
-                                    </a>
-                                <button class="text-secondary hover:text-primary transition-colors">
-                                    <i class="fab fa-github mr-2"></i>Code
-                                </button>
+                            <a href="/portfoli-site/Smart_Home.html" class="px-6 py-3 bg-none text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 opacity-90 transition duration-300 ease-in-out">
+                                <i class="fas fa-external-link-alt mr-2 relative z-10"></i>
+                                    View Details
+                            </a>
                             </div>
                         </div>
                     </div>
@@ -1719,30 +1731,30 @@ body.skip-intro .animate-intro {
       <div class="skill-scroll-wrapper">
         <div class="skill-scroll-track1">
           <div class="flex">
-          <div class="skill-capsule bg-orange-500 text-white"><img src="./assets/C++.svg" alt="C++ Logo" class="w-5 h-5"><span>C/C++</span></div>
-          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/C.svg" alt="C++ Logo" class="w-5 h-5"><span>Embedded C</span></div>
-          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/python.svg" alt="Python Logo" class="w-5 h-5"><span>Python</span></div>
-          <div class="skill-capsule bg-orange-500 text-white"><img src="./assets/arduino.svg" alt="Arduino Logo" class="w-5 h-5"><span>Arduino</span></div>
-          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/stm.svg" alt="STM32 Logo" class="w-5 h-5"><span>STM32</span></div>
-          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/ARM.svg" alt="C++ Logo" class="w-5 h-5"><span>ARM Cortex</span></div>
-          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/esp.svg" alt="ESP32 Logo" class="w-5 h-5"><span>ESP32</span></div>
-          <div class="skill-capsule bg-yellow-500 text-white"><img src="./assets/raspberry.svg" alt="Raspberry Pi Logo" class="w-5 h-5"><span>Raspberry Pi</span></div>
-          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/bluetooth.svg" alt="Bluetooth Logo" class="w-5 h-5"><span>BLE</span></div>
-          <div class="skill-capsule bg-yellow-500 text-white"><img src="./assets/NFC1.svg" alt="C++ Logo" class="w-5 h-5"><span>NFC</span></div>
-          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/zigbee.svg" alt="Zigbee Logo" class="w-5 h-5"><span>Zigbee</span></div>
-          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/mqtt.svg" alt="MQTT Logo" class="w-5 h-5"><span>MQTT</span></div>
-          <div class="skill-capsule bg-orange-500 text-white"><img src="./assets/C++.svg" alt="C++ Logo" class="w-5 h-5"><span>C/C++</span></div>
-          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/C.svg" alt="C++ Logo" class="w-5 h-5"><span>Embedded C</span></div>
-          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/python.svg" alt="Python Logo" class="w-5 h-5"><span>Python</span></div>
-          <div class="skill-capsule bg-orange-500 text-white"><img src="./assets/arduino.svg" alt="Arduino Logo" class="w-5 h-5"><span>Arduino</span></div>
-          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/stm.svg" alt="STM32 Logo" class="w-5 h-5"><span>STM32</span></div>
-          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/ARM.svg" alt="C++ Logo" class="w-5 h-5"><span>ARM Cortex</span></div>
-          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/esp.svg" alt="ESP32 Logo" class="w-5 h-5"><span>ESP32</span></div>
-          <div class="skill-capsule bg-yellow-500 text-white"><img src="./assets/raspberry.svg" alt="Raspberry Pi Logo" class="w-5 h-5"><span>Raspberry Pi</span></div>
-          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/bluetooth.svg" alt="Bluetooth Logo" class="w-5 h-5"><span>BLE</span></div>
-          <div class="skill-capsule bg-yellow-500 text-white"><img src="./assets/NFC1.svg" alt="C++ Logo" class="w-5 h-5"><span>NFC</span></div>
-          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/zigbee.svg" alt="Zigbee Logo" class="w-5 h-5"><span>Zigbee</span></div>
-          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/mqtt.svg" alt="MQTT Logo" class="w-5 h-5"><span>MQTT</span></div>
+          <div class="skill-capsule bg-orange-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/vbtlzzedpdp0m8pkdc8k.svg" alt="C++ Logo" class="w-5 h-5"><span>C/C++</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331027/vmaae5mvs4hsm7vk6vbc.svg" alt="C++ Logo" class="w-5 h-5"><span>Embedded C</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/cmvkizcgfdgvvxpzbcup.svg" alt="Python Logo" class="w-5 h-5"><span>Python</span></div>
+          <div class="skill-capsule bg-orange-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/sq1uvyuyehgktqhyt4zj.svg" alt="Arduino Logo" class="w-5 h-5"><span>Arduino</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331025/rmmzueqj3d4ro1v3xony.svg" alt="STM32 Logo" class="w-5 h-5"><span>STM32</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331029/p3hgdazv1nhad9lfd8zs.svg" alt="C++ Logo" class="w-5 h-5"><span>ARM Cortex</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/hzysv0mnwlx4cueybzbs.svg" alt="ESP32 Logo" class="w-5 h-5"><span>ESP32</span></div>
+          <div class="skill-capsule bg-yellow-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331031/t8mv7kx6vbse22jr2jbt.svg" alt="Raspberry Pi Logo" class="w-5 h-5"><span>Raspberry Pi</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331028/vkattwbp9wwz8aiannqe.svg" alt="Bluetooth Logo" class="w-5 h-5"><span>BLE</span></div>
+          <div class="skill-capsule bg-yellow-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331028/cva3iuifytpuuna4bvtq.svg" alt="C++ Logo" class="w-5 h-5"><span>NFC</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331032/caujazn3bdyr0rjegqsk.svg" alt="Zigbee Logo" class="w-5 h-5"><span>Zigbee</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/od4jj4adgsmqmaprofuk.svg" alt="MQTT Logo" class="w-5 h-5"><span>MQTT</span></div>
+          <div class="skill-capsule bg-orange-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/vbtlzzedpdp0m8pkdc8k.svg" alt="C++ Logo" class="w-5 h-5"><span>C/C++</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331027/vmaae5mvs4hsm7vk6vbc.svg" alt="C++ Logo" class="w-5 h-5"><span>Embedded C</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/cmvkizcgfdgvvxpzbcup.svg" alt="Python Logo" class="w-5 h-5"><span>Python</span></div>
+          <div class="skill-capsule bg-orange-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/sq1uvyuyehgktqhyt4zj.svg" alt="Arduino Logo" class="w-5 h-5"><span>Arduino</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331025/rmmzueqj3d4ro1v3xony.svg" alt="STM32 Logo" class="w-5 h-5"><span>STM32</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331029/p3hgdazv1nhad9lfd8zs.svg" alt="C++ Logo" class="w-5 h-5"><span>ARM Cortex</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/hzysv0mnwlx4cueybzbs.svg" alt="ESP32 Logo" class="w-5 h-5"><span>ESP32</span></div>
+          <div class="skill-capsule bg-yellow-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331031/t8mv7kx6vbse22jr2jbt.svg" alt="Raspberry Pi Logo" class="w-5 h-5"><span>Raspberry Pi</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331028/vkattwbp9wwz8aiannqe.svg" alt="Bluetooth Logo" class="w-5 h-5"><span>BLE</span></div>
+          <div class="skill-capsule bg-yellow-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331028/cva3iuifytpuuna4bvtq.svg" alt="C++ Logo" class="w-5 h-5"><span>NFC</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331032/caujazn3bdyr0rjegqsk.svg" alt="Zigbee Logo" class="w-5 h-5"><span>Zigbee</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/od4jj4adgsmqmaprofuk.svg" alt="MQTT Logo" class="w-5 h-5"><span>MQTT</span></div>
           
         </div>  
         </div>  
@@ -1755,24 +1767,24 @@ body.skip-intro .animate-intro {
       <div class="skill-scroll-wrapper">
         <div class="skill-scroll-track2">
           <div class="flex">
-            <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/Autodesk.svg" alt="Autodesk Logo" class="w-5 h-5"><span>Eagle CAD</span></div>
-          <div class="skill-capsule bg-yellow-500 text-white"><img src="./assets/Altium.svg" alt="C++ Logo" class="w-5 h-5"><span>Altium Designer</span></div>
-          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/Kicad.svg" alt="C++ Logo" class="w-5 h-5"><span>KiCad</span></div>
-          <div class="skill-capsule bg-orange-500 text-white"><img src="./assets/Analog.svg" alt="C++ Logo" class="w-5 h-5"><span>Analog Circuit</span></div>
-          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/Digital.svg" alt="C++ Logo" class="w-5 h-5"><span>Digital Circuit</span></div>
-          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/Power.svg" alt="C++ Logo" class="w-5 h-5"><span>Power Electronics</span></div>
-          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/Odrive.svg" alt="C++ Logo" class="w-5 h-5"><span>ODrive</span></div>
-          <div class="skill-capsule bg-yellow-500 text-white"><img src="./assets/EMI.svg" alt="C++ Logo" class="w-5 h-5"><span>EMI Filters</span></div>
-          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/ce.svg" alt="CE Compliance Logo" class="w-5 h-5"><span>CE Compliance</span></div>
-            <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/Autodesk.svg" alt="Autodesk Logo" class="w-5 h-5"><span>Eagle CAD</span></div>
-          <div class="skill-capsule bg-yellow-500 text-white"><img src="./assets/Altium.svg" alt="C++ Logo" class="w-5 h-5"><span>Altium Designer</span></div>
-          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/Kicad.svg" alt="C++ Logo" class="w-5 h-5"><span>KiCad</span></div>
-          <div class="skill-capsule bg-orange-500 text-white"><img src="./assets/Analog.svg" alt="C++ Logo" class="w-5 h-5"><span>Analog Circuit</span></div>
-          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/Digital.svg" alt="C++ Logo" class="w-5 h-5"><span>Digital Circuit</span></div>
-          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/Power.svg" alt="C++ Logo" class="w-5 h-5"><span>Power Electronics</span></div>
-          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/Odrive.svg" alt="C++ Logo" class="w-5 h-5"><span>ODrive</span></div>
-          <div class="skill-capsule bg-yellow-500 text-white"><img src="./assets/EMI.svg" alt="C++ Logo" class="w-5 h-5"><span>EMI Filters</span></div>
-          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/ce.svg" alt="CE Compliance Logo" class="w-5 h-5"><span>CE Compliance</span></div>
+            <div class="skill-capsule bg-blue-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/ze5b8jje6g7l7tzpi4o0.svg" alt="Autodesk Logo" class="w-5 h-5"><span>Eagle CAD</span></div>
+          <div class="skill-capsule bg-yellow-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/ze5b8jje6g7l7tzpi4o0.svg" alt="C++ Logo" class="w-5 h-5"><span>Altium Designer</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331028/plarebkx7etjjcxr7bid.svg" alt="C++ Logo" class="w-5 h-5"><span>KiCad</span></div>
+          <div class="skill-capsule bg-orange-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331029/p3hgdazv1nhad9lfd8zs.svg" alt="C++ Logo" class="w-5 h-5"><span>Analog Circuit</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/g64t2a312evkstuqvya9.svg" alt="C++ Logo" class="w-5 h-5"><span>Digital Circuit</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331043/celjuq0hxfygwxzprqmn.svg" alt="C++ Logo" class="w-5 h-5"><span>Power Electronics</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/sgmb6bzqdfpobxuqrsdd.svg" alt="C++ Logo" class="w-5 h-5"><span>ODrive</span></div>
+          <div class="skill-capsule bg-yellow-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331030/xzjhjmwvhqex3jkadlsd.svg" alt="C++ Logo" class="w-5 h-5"><span>EMI Filters</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331028/zptflacizxfqfiznitmq.svg" alt="CE Compliance Logo" class="w-5 h-5"><span>CE Compliance</span></div>
+            <div class="skill-capsule bg-blue-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/ze5b8jje6g7l7tzpi4o0.svg" alt="Autodesk Logo" class="w-5 h-5"><span>Eagle CAD</span></div>
+          <div class="skill-capsule bg-yellow-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/ze5b8jje6g7l7tzpi4o0.svg" alt="C++ Logo" class="w-5 h-5"><span>Altium Designer</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331028/plarebkx7etjjcxr7bid.svg" alt="C++ Logo" class="w-5 h-5"><span>KiCad</span></div>
+          <div class="skill-capsule bg-orange-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331029/p3hgdazv1nhad9lfd8zs.svg" alt="C++ Logo" class="w-5 h-5"><span>Analog Circuit</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/g64t2a312evkstuqvya9.svg" alt="C++ Logo" class="w-5 h-5"><span>Digital Circuit</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331043/celjuq0hxfygwxzprqmn.svg" alt="C++ Logo" class="w-5 h-5"><span>Power Electronics</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/sgmb6bzqdfpobxuqrsdd.svg" alt="C++ Logo" class="w-5 h-5"><span>ODrive</span></div>
+          <div class="skill-capsule bg-yellow-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331030/xzjhjmwvhqex3jkadlsd.svg" alt="C++ Logo" class="w-5 h-5"><span>EMI Filters</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331028/zptflacizxfqfiznitmq.svg" alt="CE Compliance Logo" class="w-5 h-5"><span>CE Compliance</span></div>
         </div>
         </div>
       </div>
@@ -1784,30 +1796,30 @@ body.skip-intro .animate-intro {
       <div class="skill-scroll-wrapper">
         <div class="skill-scroll-track3">
           <div class="flex">
-          <div class="skill-capsule bg-white text-black"><img src="./assets/matlab.svg" alt="MATLAB Logo" class="w-5 h-5"><span>MATLAB</span></div>
-          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/Multisim.svg" alt="Multisim Logo" class="w-5 h-5"><span>NI Multisim</span></div>
-          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/Ltspice.svg" alt="Multisim Logo" class="w-5 h-5"><span>LT Spice</span></div>
-          <div class="skill-capsule bg-orange-500 text-white"><img src="./assets/CAN,MODBUS.svg" alt="C++ Logo" class="w-5 h-5"><span>CAN BUS</span></div>
-          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/I2C.svg" alt="C++ Logo" class="w-5 h-5"><span>I2C</span></div>
-          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/SPI.svg" alt="C++ Logo" class="w-5 h-5"><span>SPI</span></div>
-          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/UART.svg" alt="C++ Logo" class="w-5 h-5"><span>UART</span></div>
-          <div class="skill-capsule bg-yellow-500 text-white"><img src="./assets/RS485.svg" alt="C++ Logo" class="w-5 h-5"><span>RS-485</span></div>
-          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/RS232.svg" alt="C++ Logo" class="w-5 h-5"><span>RS-232</span></div>
-          <div class="skill-capsule bg-orange-500 text-white"><img src="./assets/RS422.svg" alt="C++ Logo" class="w-5 h-5"><span>RS-422</span></div>
-          <div class="skill-capsule bg-blue-400 text-white"><img src="./assets/CAN,MODBUS.svg" alt="C++ Logo" class="w-5 h-5"><span>Modbus Protocol</span></div>
-          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/github.svg" alt="GitHub Logo" class="w-5 h-5"><span>GitHub</span></div>
-          <div class="skill-capsule bg-white text-black"><img src="./assets/matlab.svg" alt="MATLAB Logo" class="w-5 h-5"><span>MATLAB</span></div>
-          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/Multisim.svg" alt="Multisim Logo" class="w-5 h-5"><span>NI Multisim</span></div>
-          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/Ltspice.svg" alt="Multisim Logo" class="w-5 h-5"><span>LT Spice</span></div>
-          <div class="skill-capsule bg-orange-500 text-white"><img src="./assets/CAN,MODBUS.svg" alt="C++ Logo" class="w-5 h-5"><span>CAN BUS</span></div>
-          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/I2C.svg" alt="C++ Logo" class="w-5 h-5"><span>I2C</span></div>
-          <div class="skill-capsule bg-blue-500 text-white"><img src="./assets/SPI.svg" alt="C++ Logo" class="w-5 h-5"><span>SPI</span></div>
-          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/UART.svg" alt="C++ Logo" class="w-5 h-5"><span>UART</span></div>
-          <div class="skill-capsule bg-yellow-500 text-white"><img src="./assets/RS485.svg" alt="C++ Logo" class="w-5 h-5"><span>RS-485</span></div>
-          <div class="skill-capsule bg-violet-400 text-white"><img src="./assets/RS232.svg" alt="C++ Logo" class="w-5 h-5"><span>RS-232</span></div>
-          <div class="skill-capsule bg-orange-500 text-white"><img src="./assets/RS422.svg" alt="C++ Logo" class="w-5 h-5"><span>RS-422</span></div>
-          <div class="skill-capsule bg-blue-400 text-white"><img src="./assets/CAN,MODBUS.svg" alt="C++ Logo" class="w-5 h-5"><span>Modbus Protocol</span></div>
-          <div class="skill-capsule bg-green-500 text-white"><img src="./assets/github.svg" alt="GitHub Logo" class="w-5 h-5"><span>GitHub</span></div>
+          <div class="skill-capsule bg-white text-black"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331031/auodir3hp5exhdbklwuy.svg" alt="MATLAB Logo" class="w-5 h-5"><span>MATLAB</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331031/aenfroqap3ljigfgesyi.svg" alt="Multisim Logo" class="w-5 h-5"><span>NI Multisim</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331028/gxuerbcgvnw7rlnmfgrn.svg" alt="Multisim Logo" class="w-5 h-5"><span>LT Spice</span></div>
+          <div class="skill-capsule bg-orange-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/csev6d1ebhc4tieatzyd.svg" alt="C++ Logo" class="w-5 h-5"><span>CAN BUS</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/j1td0ilw209d5h4oahn6.svg" alt="C++ Logo" class="w-5 h-5"><span>I2C</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331027/wnrosnmqkuwrbptf1bmo.svg" alt="C++ Logo" class="w-5 h-5"><span>SPI</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/hhfwv0kiedb8znoym3cf.svg" alt="C++ Logo" class="w-5 h-5"><span>UART</span></div>
+          <div class="skill-capsule bg-yellow-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331025/dkpvs1aydlza0pnuzrqg.svg" alt="C++ Logo" class="w-5 h-5"><span>RS-485</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/rtet0oymstifm2xmjphk.svg" alt="C++ Logo" class="w-5 h-5"><span>RS-232</span></div>
+          <div class="skill-capsule bg-orange-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331030/z0ymsd8pjpxkwnjdbicu.svg" alt="C++ Logo" class="w-5 h-5"><span>RS-422</span></div>
+          <div class="skill-capsule bg-blue-400 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/csev6d1ebhc4tieatzyd.svg" alt="C++ Logo" class="w-5 h-5"><span>Modbus Protocol</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331028/gxuerbcgvnw7rlnmfgrn.svg" alt="GitHub Logo" class="w-5 h-5"><span>GitHub</span></div>
+          <div class="skill-capsule bg-white text-black"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331031/auodir3hp5exhdbklwuy.svg" alt="MATLAB Logo" class="w-5 h-5"><span>MATLAB</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331031/aenfroqap3ljigfgesyi.svg" alt="Multisim Logo" class="w-5 h-5"><span>NI Multisim</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331028/gxuerbcgvnw7rlnmfgrn.svg" alt="Multisim Logo" class="w-5 h-5"><span>LT Spice</span></div>
+          <div class="skill-capsule bg-orange-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/csev6d1ebhc4tieatzyd.svg" alt="C++ Logo" class="w-5 h-5"><span>CAN BUS</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/j1td0ilw209d5h4oahn6.svg" alt="C++ Logo" class="w-5 h-5"><span>I2C</span></div>
+          <div class="skill-capsule bg-blue-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331027/wnrosnmqkuwrbptf1bmo.svg" alt="C++ Logo" class="w-5 h-5"><span>SPI</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/hhfwv0kiedb8znoym3cf.svg" alt="C++ Logo" class="w-5 h-5"><span>UART</span></div>
+          <div class="skill-capsule bg-yellow-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331025/dkpvs1aydlza0pnuzrqg.svg" alt="C++ Logo" class="w-5 h-5"><span>RS-485</span></div>
+          <div class="skill-capsule bg-violet-400 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/rtet0oymstifm2xmjphk.svg" alt="C++ Logo" class="w-5 h-5"><span>RS-232</span></div>
+          <div class="skill-capsule bg-orange-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331030/z0ymsd8pjpxkwnjdbicu.svg" alt="C++ Logo" class="w-5 h-5"><span>RS-422</span></div>
+          <div class="skill-capsule bg-blue-400 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/csev6d1ebhc4tieatzyd.svg" alt="C++ Logo" class="w-5 h-5"><span>Modbus Protocol</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331028/gxuerbcgvnw7rlnmfgrn.svg" alt="GitHub Logo" class="w-5 h-5"><span>GitHub</span></div>
         </div>
         </div>
       </div>
@@ -1859,7 +1871,7 @@ body.skip-intro .animate-intro {
                                     </div>
                                 </div>
                                 <div class="mt-6 z-10 relative">
-                                <a href="/portfolio-site/social.html" class="btn-secondary">
+                                <a href="/portfoli-site/social.html" class="btn-secondary">
                                     <i class="fas fa-globe mr-2"></i>Explore More
                                 </a>
                             </div>
@@ -1873,11 +1885,11 @@ body.skip-intro .animate-intro {
                             <div class="space-y-4">
                                 <div class="border-l-4 border-copper-500 pl-4">
                                     <h4 class="font-semibold mb-2 text-[#f2ac1f]">
-                                        "UAV Stabilization and Trajectory Correction Paper"
+                                        "UAV Stabilization and Trajectory Correction Technical Report"
                                     </h4>
                                     <p class="text-secondary">
-                                        Authored a paper on an IMU-fused PID control framework for real-time stabilization and 
-                                        autonomous trajectory correction in fixed-wing UAVs, with a focus on low-power consumption.
+                                        Developed a technical report detailing an IMU-fused PID control framework for real-time stabilization 
+                                        and autonomous trajectory correction in fixed-wing UAVs.
                                     </p>
                                 </div>
                                 <div class="border-l-4 border-copper-500 pl-4">
@@ -1898,10 +1910,10 @@ body.skip-intro .animate-intro {
                                         enhancing in-house prototyping capabilities. Conducted comprehensive sessions for 
                                         faculty and students, empowering future engineers to independently design and fabricate circuits.
                                     </p>
-                                </div>
+                                </div>  
                             </div>
                             <div class="mt-6 z-10 relative">
-                                <a href="/portfolio-site/writings.html" class="btn-secondary">
+                                <a href="/portfoli-site/writings.html" class="btn-secondary">
                                     <i class="fas fa-book-open mr-2"></i>Read More
                                 </a>
                             </div>
@@ -2026,8 +2038,10 @@ body.skip-intro .animate-intro {
             
             // Instantly hide the loading overlay
             if (loadingOverlay) {
+                setTimeout(() => {
                 loadingOverlay.style.opacity = '0';
                 loadingOverlay.style.visibility = 'hidden';
+                }, 0);
             }
             
         } else {
@@ -2037,7 +2051,7 @@ body.skip-intro .animate-intro {
                 setTimeout(() => {
                     loadingOverlay.style.opacity = '0';
                     loadingOverlay.style.visibility = 'hidden';
-                }, 1000); // This delay gives the loading bar time to fill
+                }, 2000); // This delay gives the loading bar time to fill
             }
         }
     }
@@ -2100,7 +2114,7 @@ body.skip-intro .animate-intro {
             setTimeout(() => {
                 mainContent.style.opacity = '1';
                 mainContent.style.transition = 'opacity 1.5s ease';
-            }, 500);
+            }, 200);
         }, 2000); // Clean 3-second loading
         
         // Smooth scrolling navigation
@@ -2206,22 +2220,7 @@ body.skip-intro .animate-intro {
         document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .timeline-item').forEach(el => {
             observer.observe(el);
         });
-        
-        // Resume download function
-        function downloadResume() {
-            // In a real implementation, this would download an actual PDF
-            alert('Resume download would be implemented here with your actual PDF file.');
-        }
-        
-        // Project card interactions
-        document.querySelectorAll('.project-card').forEach(card => {
-            card.addEventListener('click', function() {
-                // In a real implementation, this would open project details
-                const title = this.querySelector('h3').textContent;
-                alert(`Project details for "${title}" would open here.`);
-            });
-        });
-        
+                        
         // Smooth reveal for timeline items
         const timelineObserver = new IntersectionObserver((entries) => {
             entries.forEach((entry, index) => {
@@ -2274,26 +2273,26 @@ document.querySelectorAll('.social-icon').forEach(icon => {
       const closeFactModalBtn = document.getElementById('closeFactModal');
 
       const electronicFacts = [
-          "The first integrated circuit was invented by Jack Kilby in 1958.",
-          "A single grain of sand can contain millions of transistors.",
-          "Capacitors store electrical energy in an electric field.",
-          "Resistors limit the flow of electric current.",
-          "LED stands for Light Emitting Diode.",
-          "Ohm's Law states V = IR (Voltage = Current × Resistance).",
-          "Transistors can act as either switches or amplifiers.",
-          "Silicon is the primary material used in most semiconductors.",
-          "Moore's Law predicted that the number of transistors on a microchip would double approximately every two years.",
-          "The first computer mouse, made of wood, was invented by Douglas Engelbart in 1964.",
-          "Conventional current flows from positive to negative, but electrons actually flow from negative to positive.",
-          "The unit of electrical resistance is the Ohm (Ω).",
-          "Inductors store energy in a magnetic field when electric current flows through them.",
-          "The frequency of AC power in most homes is either 50 or 60 Hertz.",
-          "Diodes are like one-way streets for electricity, allowing current to flow in only one direction.",
-          "A breadboard lets you prototype electronic circuits without needing to solder.",
-          "The Arduino platform made microcontrollers accessible and easy to program for hobbyists and professionals alike.",
-          "Embedded systems are specialized computers that run a single application, found in everything from microwaves to cars.",
-          "The first general-purpose electronic digital computer, ENIAC, weighed over 27 tons.",
-          "Printed Circuit Boards (PCBs) use copper traces to connect components, forming the backbone of most electronic devices."
+        "Many smart speakers are always running tiny low-power processors that listen 24/7—even when you think they’re off.",
+        "A smartphone in your pocket has more computing power than all of NASA during the Apollo moon missions.",
+        "The world’s smallest transistor is only a few atoms wide, smaller than a virus.",
+        "An iPhone’s A-series chip has more transistors than there are stars in the Milky Way galaxy.",
+        "LED lights are so efficient that a small one could shine continuously for over 10 years on the energy in a single car battery.",
+        "The ENIAC computer (1945) weighed 27 tons—today, your smartwatch is millions of times more powerful and fits on your wrist.",
+        "A single grain of sand can contain more transistors than the population of the Earth.",
+        "The term 'bug' in computing really did come from a moth trapped in a relay in 1947.",
+        "Wi-Fi signals are about 10,000 times weaker than the light from a 60-watt bulb.",
+        "Modern washing machines contain more lines of code in their firmware than the first version of Windows.",
+        "The Apollo Guidance Computer that took humans to the Moon had just 2KB of memory—less than a single text message today.",
+        "A modern microSD card can store more data than all the paper in the U.S. Library of Congress.",
+        "A capacitor the size of a soda can could briefly power an entire house during a blackout.",
+        "Electric eels can generate shocks of up to 600 volts—about five times the voltage of a U.S. wall socket.",
+        "The wiring inside a modern car can exceed 4 kilometers, with dozens of microcontrollers working together like a distributed computer.",
+        "The average modern microcontroller can run on less power than a digital wristwatch yet control entire industrial machines.",
+        "Your body conducts electricity—which is why touchscreens respond when you tap them.",
+        "Some embedded devices are designed to run continuously for over 20 years without ever being turned off.",
+        "The largest radio telescope (FAST in China) has a dish big enough to fit 30 football fields inside it.",
+        "The world’s fastest supercomputer can perform more calculations in one second than a human could in over 6 billion years.",
       ];
 
       let isCooldown = false; // Flag to track the cooldown state.
@@ -2385,6 +2384,33 @@ document.querySelectorAll('.social-icon').forEach(icon => {
             behavior: 'smooth' // Smooth scroll to the top
         });
     });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const scrollIndicator = document.getElementById('scroll-indicator');
+
+    if (scrollIndicator) {
+        // Function to check scroll position and update indicator visibility
+        const handleScroll = () => {
+            if (window.scrollY <=1) {
+                // User is at the very top, show the indicator
+                scrollIndicator.style.opacity = '1';
+                scrollIndicator.style.transition = 'opacity 0.5s ease-in';
+            } else {
+                // User has scrolled down, hide the indicator
+                scrollIndicator.style.opacity = '0';
+                scrollIndicator.style.transition = 'opacity 0.5s ease-out';
+            }
+        };
+
+        // Add the scroll event listener
+        window.addEventListener('scroll', handleScroll);
+
+        // Run the function once on page load to set the initial state
+        handleScroll();
+    }
+});
+
+
 // Contact form handling with structured message - THIS BLOCK SHOULD BE AT THE END OF YOUR MAIN <SCRIPT> TAG
 // It must NOT be nested inside any .forEach() loop.
  document.getElementById('contactForm').addEventListener('submit', function(e) {
@@ -2454,5 +2480,3 @@ document.querySelectorAll('.social-icon').forEach(icon => {
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96a6afc871919cd7',t:'MTc1NDQwMTAyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-
-
