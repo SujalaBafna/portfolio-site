@@ -570,7 +570,7 @@
         <!-- Navigation -->
    <nav class="navbar" id="navbar">
     <div class="px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
-            <a href="../index.html#projects" class="back-btn">
+            <a href="/portfolio-site/index.html#projects" class="back-btn">
             <i class="fas fa-arrow-left"></i>
             Back to Portfolio
         </a>
@@ -589,11 +589,12 @@
             <!-- Animated Background -->
             <!-- <div class="hero-bg-animation"></div> -->
             <div class="absolute inset-0 z-0 opacity-30">
-                <video src="./assets/Smart_Home/main1.mp4" class="w-full h-full object-cover" autoplay loop muted></video>
+                <video src="https://res.cloudinary.com/dl1iwajpi/video/upload/v1756331041/jwxeyfwmvqals8ipwu4v.mp4" class="w-full h-full object-cover" autoplay loop muted></video>
             </div>
             <div class="relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="hero-content">
-                    <div class="hero-subtitle" style="font-size: 2rem;">
+                    <div class="hero-subtitle" style="font-size: 2.5
+                    rem;">
                         <b><u>Coming soon!!</u></b> 
                     </div>
                     <h1 class="hero-title">
@@ -623,237 +624,7 @@
                 </div>
             </div>
         </section>
-        
-        <!-- Main Content -->
-        <!-- <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="content-container p-8 my-12">
-                <section class="content-section scroll-reveal">
-                    <h2 class="section-title holographic">Project Overview</h2>
-                    <div class="content-block">
-                        <p class=" text-secondary mb-6 leading-relaxed">
-                            This project introduces a low-power PID-based control framework for fixed-wing UAV stabilization 
-                            and trajectory correction. Instead of relying on thrust-vectoring or high-RPM motors, the system 
-                            employs aerodynamic control surfaces (ailerons, elevator, rudder) actuated by servos, guided by 
-                            real-time IMU feedback. Implemented on an STM32 microcontroller with a custom PCB shield, the design 
-                            achieves energy-efficient orientation control using minimal sensors.
-                        </p>
-                        <p class="text-secondary mb-6 leading-relaxed">
-                            A key innovation lies in its bounded flap-angle correction strategy, which applies proportional 
-                            surface deflections across error ranges, saturating only at extremes. This pragmatic approach ensures 
-                            robust stabilization with low computational load, making it particularly suited for long-endurance, 
-                            resource-constrained UAVs.
-                        </p>
-                        <p class="text-secondary leading-relaxed">
-                            Originally built as a demonstration prototype, this work evolved into a research paper titled 
-                            “IMU-Fused PID Control Framework for Autonomous UAV Stabilization and Trajectory Correction.”
-                        </p>
-                    </div>
-                </section> -->
                 
-                <!-- Media Gallery -->
-                <!-- <section class="content-section scroll-reveal">
-                    <h2 class="section-title holographic">Project Gallery</h2>
-                    <div class="media-gallery">
-                        <div class="media-item" style="height: 20rem; width: 38rem;">
-                            <div class="video-overlay">
-                                <video src="./assets/UAV/Working.mp4" controls autoplay loop muted></video>
-                            </div>
-                            <div class="media-overlay">
-                                <div class="media-caption">UAV - Autonomous Navigation Table Test</div>
-                            </div>
-                        </div>
-                        <div class="media-item" style="height: 20rem; width: 25rem;">
-                            <div class="absolute inset-0 z-0 bg-cover aspect-[5/4]" style="background-image: url('./assets/UAV/STM_Shield.jpg');"></div>
-                            <div class="media-overlay">
-                                <div class="media-caption">Custom Flight Controller PCB Design v1.0</div>
-                            </div>
-                        </div>
-                        <div class="media-item" style="height: 19rem; width: 32rem;">
-                            <div class="absolute inset-0 z-0 bg-cover aspect-[7/4]" style="background-image: url('./assets/UAV/Result\(IMG_3\).png');"></div>
-                            <div class="media-overlay">
-                                <div class="media-caption">Simulated PID results</div>
-                            </div>
-                        </div>
-                        <div class="media-item" style="height: 19rem; width: 33rem;">
-                            <div class="absolute inset-0 z-0 bg-cover aspect-[7/4]" style="background-image: url('./assets/UAV/UAV_PIC1.png');"></div>
-                            <div class="media-overlay">
-                                <div class="media-caption">UAV Prototype Visualization</div>
-                            </div>
-                        </div>
-                    </div>
-                </section> -->
-                
-                <!-- Technical Specifications -->
-                <!-- <section class="content-section scroll-reveal">
-                    <h2 class="section-title">Technical Specifications</h2>
-                    <div class="specs-container">
-                        <div class="spec-card-new">
-                            <div class="spec-icon">
-                                <img src="./assets/UAV/STM.jpg" alt="Microchip">
-                            </div>
-                            <div class="spec-content">
-                                <h3 class="spec-title-new">Core Controller:</h3>
-                                <p class="spec-value-new">STM32F446RE</p>
-                                <p class="spec-description">32-bit ARM Cortex-M4 microcontroller running real-time PID loops for stable flight control</p>
-                            </div>
-                        </div>
-                        
-                        <div class="spec-card-new">
-                            <div class="spec-icon">
-                                <img src="./assets/UAV/IMU.jpg" alt="IMU">
-                            </div>
-                            <div class="spec-content">
-                                <h3 class="spec-title-new">Sensor Suite:</h3>
-                                <p class="spec-value-new">ArduIMU v3</p>
-                                <p class="spec-description">9-DOF IMU providing fused orientation data via UART for precise attitude measurement</p>
-                            </div>
-                        </div>
-                        
-                        <div class="spec-card-new">
-                            <div class="spec-icon">
-                                <img src="./assets/UAV/Servo.jpeg" alt="Servo">
-                            </div>
-                            <div class="spec-content">
-                                <h3 class="spec-title-new">Actuation:</h3>
-                                <p class="spec-value-new">Standard RC Servos</p>
-                                <p class="spec-description">Controlling ailerons, elevator, and rudder for accurate maneuvering and stability</p>
-                            </div>
-                        </div>
-                        
-                        <div class="spec-card-new">
-                            <div class="spec-icon">
-                                <img src="./assets/UAV/UAV STM SHIELD (3D).png" alt="Microchip">
-                            </div>
-                            <div class="spec-content">
-                                <h3 class="spec-title-new">Custom Hardware:</h3>
-                                <p class="spec-value-new">In-house PCB Shield</p>
-                                <p class="spec-description">Handles power regulation, IO hub functions, and noise-free routing for clean signal transmission</p>
-                            </div>
-                        </div>
-                        
-                        <div class="spec-card-new">
-                            <div class="spec-icon">
-                                <img src="./assets/stm.svg" alt="Microchip">
-                            </div>
-                            <div class="spec-content">
-                                <h3 class="spec-title-new">Firmware:</h3>
-                                <p class="spec-value-new">STM32CubeIDE</p>
-                                <p class="spec-description">Modular firmware with dedicated PID loops for each axis, ensuring responsive flight control</p>
-                            </div>
-                        </div>
-                    </div>
-                </section> -->
-                
-                <!-- System Architecture -->
-                <!-- <section class="content-section scroll-reveal">
-                    <h2 class="section-title holographic">System Architecture</h2>
-                    <div class="content-block">
-                        <h3 class="text-2xl font-bold mb-4 holographic futuristic-font">Hardware Architecture</h3>
-                        <p class="text-secondary mb-6 leading-relaxed">
-                            The UAV system is built around a custom flight controller PCB featuring the STM32F446RE microcontroller. 
-                            This 32-bit ARM Cortex-M4 processor provides real-time computation for PID-based attitude stabilization, 
-                            sensor fusion, and communication with peripheral devices.
-                        </p>
-                        <p class="text-secondary mb-8 leading-relaxed">
-                            The platform integrates a 9-DOF IMU for orientation sensing, and 
-                            RC servos for controlling ailerons, elevator, and rudder. A custom PCB shield manages power regulation, 
-                            IO routing, and noise reduction.
-                        </p>
-                        
-                        <h3 class="text-2xl font-bold mb-4 holographic futuristic-font">Software Stack</h3>
-                        <p class="text-secondary mb-6 leading-relaxed">
-                            The flight control firmware is developed in Embedded C using STM32CubeIDE, implementing modular PID loops for 
-                            each axis. Control strategies include bounded PID with saturation zones and noise filtering for precise 
-                            flap actuation and stable flight.
-                        </p>
-                    </div>
-                </section> -->
-                
-                <!-- Performance Metrics -->
-                <!-- <section class="content-section scroll-reveal">
-                    <h2 class="section-title holographic">Results & Validation</h2>
-                    <div class="progress-section">
-                        <div class="progress-item">
-                            <div class="progress-header">
-                                <li class="progress-label">Successfully corrected large initial disturbances 
-                                    (Roll: 72°, Pitch: 23°, Yaw: 41°) back to level orientation (0°) in simulations.</li>
-                            </div>
-                        </div>
-                        <div class="progress-item">
-                            <div class="progress-header">
-                                 <li class="progress-label">Ground test-bench validation confirmed smooth servo 
-                                    actuation proportional to pitch/roll/yaw deviations with negligible overshoot.</li>
-                            </div>
-                        </div>
-                        <div class="progress-item">
-                            <div class="progress-header">
-                                <li class="progress-label">Correction speed hierarchy: Roll stabilized fastest, 
-                                    followed by Pitch, with Yaw converging slowest due to lower control authority.</li>
-                            </div>
-                        </div>
-                        <div class="progress-item">
-                            <div class="progress-header">
-                                <li class="progress-label">System demonstrated low-latency, real-time response using 
-                                    STM32 with IMU feedback loop.</li>
-                            </div>
-                        </div>
-                        <div class="progress-item">
-                            <div class="progress-header">
-                                <li class="progress-label">Achieved stabilization with lower power consumption 
-                                    compared to thrust-vectoring approach, making it suitable for endurance UAVs.</li>
-                            </div>
-                        </div>
-                    </div>
-                </section> -->
-                
-                <!-- Future Enhancements
-                <section class="content-section scroll-reveal">
-                    <h2 class="section-title">Future Enhancements</h2>
-                    <div class="enhancements-grid">
-                        <div class="enhancement-card">
-                            <div class="enhancement-icon">
-                                <i class="fas fa-rocket"></i>
-                            </div>
-                            <div class="enhancement-content">
-                                <h3 class="enhancement-title">AI Mission Planning</h3>
-                                <p class="enhancement-description">Integration of machine learning algorithms for autonomous mission planning and adaptive route optimization based on environmental conditions and mission objectives.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="enhancement-card">
-                            <div class="enhancement-icon">
-                                <i class="fas fa-network-wired"></i>
-                            </div>
-                            <div class="enhancement-content">
-                                <h3 class="enhancement-title">Swarm Intelligence</h3>
-                                <p class="enhancement-description">Multi-UAV coordination capabilities enabling synchronized operations, formation flying, and distributed task execution for complex mission scenarios.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="enhancement-card">
-                            <div class="enhancement-icon">
-                                <i class="fas fa-cloud"></i>
-                            </div>
-                            <div class="enhancement-content">
-                                <h3 class="enhancement-title">Cloud Connectivity</h3>
-                                <p class="enhancement-description">Real-time telemetry streaming, remote mission updates, and cloud-based data analytics for performance monitoring and predictive maintenance.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="enhancement-card">
-                            <div class="enhancement-icon">
-                                <i class="fas fa-shield-alt"></i>
-                            </div>
-                            <div class="enhancement-content">
-                                <h3 class="enhancement-title">Enhanced Security</h3>
-                                <p class="enhancement-description">Advanced encryption protocols, anti-jamming capabilities, and secure communication channels to ensure mission integrity and data protection.</p>
-                            </div>
-                        </div>
-                    </div>
-                </section> -->
-            </div>
-        </main>
-        
         <script>
             // Custom Cursor
             const cursorDot = document.getElementById('cursor-dot');
