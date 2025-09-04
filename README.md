@@ -49,8 +49,8 @@ To run locally:
 Feel free to reach out for collaboration, opportunities, or feedback.
 
 - **Email**: sujalabafna@gmail.com  
-- **LinkedIn**: [LinkedIn Profile](www.linkedin.com/in/sujal-bafna-884a8722b)  
-- **Website**: [Live Portfolio](https://sujalbafna.github.io/portfolio-site/)
+- **LinkedIn**: [LinkedIn Profile](https://www.linkedin.com/in/sujal-bafna-884a8722b/)  
+- **Website**: [Live Portfolio](https://sujalabafna.github.io/portfolio-site/)
 
 ---
 
