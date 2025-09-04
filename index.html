@@ -1117,6 +1117,10 @@ body.skip-intro .animate-intro {
             height: 48px; 
             width: 48px;  
         }
+        .no-bounce {
+        animation: none !important;
+        }
+        
         /* Electronic Fact Display Modal */
         .fact-modal {
             position: fixed;
@@ -2355,6 +2359,48 @@ const electronicFacts = [
           }, 3000); // 5000 milliseconds = 5 seconds
       });
 
+        document.addEventListener('DOMContentLoaded', () => {
+            const easterEggBtn = document.getElementById('easterEggBtn');
+            const cooldownDuration = 30 * 1000; // seconds in milliseconds
+
+            // Function to check if the button should be bouncing
+            const checkBounceStatus = () => {
+                const lastClickedTime = localStorage.getItem('easterEggLastClicked');
+                if (lastClickedTime) {
+                    const currentTime = Date.now();
+                    const timeDifference = currentTime - parseInt(lastClickedTime, 10);
+                    
+                    // If less than a minute has passed, keep the no-bounce class
+                    if (timeDifference < cooldownDuration) {
+                        easterEggBtn.classList.add('no-bounce');
+                    } else {
+                        // If a minute has passed, remove the no-bounce class
+                        easterEggBtn.classList.remove('no-bounce');
+                        localStorage.removeItem('easterEggLastClicked'); // Clean up the localStorage key
+                    }
+                }
+            };
+
+            // Check on page load
+            checkBounceStatus();
+
+            easterEggBtn.addEventListener('click', () => {
+                // Set the current time as the last clicked timestamp
+                const currentTime = Date.now();
+                localStorage.setItem('easterEggLastClicked', currentTime.toString());
+
+                // Immediately add the no-bounce class
+                easterEggBtn.classList.add('no-bounce');
+                
+                // ... Your existing logic for showing the random fact goes here ...
+                
+                // Optional: Re-check the bounce status after the cooldown has passed
+                setTimeout(() => {
+                    checkBounceStatus();
+                }, cooldownDuration);
+            });
+        });
+
         // Function to create a single confetti particle
         function createConfettiParticle() {
             const confetti = document.createElement('div');
@@ -2507,6 +2553,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96a6afc871919cd7',t:'MTc1NDQwMTAyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>       
 </html>
+
 
 
 
