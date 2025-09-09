@@ -716,7 +716,7 @@ body.skip-intro .animate-intro {
             position: absolute;
             left: 2rem;
             top: 0;
-            bottom: 0;
+            bottom: 25rem;
             width: 2px;
             background: linear-gradient(to bottom, var(--accent-copper), var(--accent-gold));
         }
@@ -798,7 +798,7 @@ body.skip-intro .animate-intro {
             object-fit: fill; /* This is the correct property */
         }
         .project-card:hover .video-overlay {
-            opacity: 0.65;
+            opacity: 0.7;
         }   
         .project-header {
             padding: 2rem;
@@ -1011,8 +1011,8 @@ body.skip-intro .animate-intro {
 
 /* Keyframe for seamless horizontal scroll */
 @keyframes scroll-right {
-  0% { transform: translateX(38%); }
-  100% { transform: translateX(-100%); }
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
 }
 
 .skill-scroll-wrapper {
@@ -1020,21 +1020,11 @@ body.skip-intro .animate-intro {
   position: relative;
   width: 100%;
 }
-
-.skill-scroll-track1 {
+        
+.skill-scroll-track1, .skill-scroll-track2, .skill-scroll-track3 {
   display: flex;
   width: max-content;
-  animation: scroll-right 70.55s linear infinite;
-}
-.skill-scroll-track2 {
-  display: flex;
-  width: max-content;
-  animation: scroll-right 70s linear infinite;
-}
-.skill-scroll-track3 {
-  display: flex;
-  width: max-content;
-  animation: scroll-right 70s linear infinite;
+  animation: scroll-right 13s linear infinite;
 }
 
 .skill-set {
@@ -1432,7 +1422,7 @@ body.skip-intro .animate-intro {
                                     embedded systems, and signal processing, with a focus on hardware–software integration.</div>
                                 </li>
                                 <li class="mb-3 max-w-4xl">
-                                    <div class="text-[1.02rem] mt-1 text-justify">Mentored 200+ students in embedded systems and PCB design 
+                                    <div class="text-[1.02rem] mt-1 text-justify">Mentored 300+ students in embedded systems and PCB design 
                                     through workshops organized in collaboration with the department, invited to lead sessions and share 
                                     expertise as part of departmental initiatives.
                                     </div>
@@ -1511,43 +1501,6 @@ body.skip-intro .animate-intro {
                 </div>
                 
                 <div class="project-grid">
-                <div class="content-container">
-                <div class="project-card scroll-reveal"onclick="location.href='/portfolio-site/UAV.html';">
-                    <div class="video-overlay">
-                        <img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331063/dvim9qyjlelipcozih33.png" alt="Description of the image">
-                    </div>
-                    <div class="project-header relative z-10">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="skill-icon">
-                                <i class="fas fa-plane"></i>
-                            </div>
-                            <div class="status-indicator active"></div>
-                        </div>
-                        <h3 class="text-xl font-bold mb-3 ">UAV Auto-Route & Angle Correction</h3>
-                        <p class="text-secondary italic flex justify-between">
-                            Real-time UAV control system utilizing IMU feedback and PID-based 
-                            algorithms for autonomous route correction and angle stabilization.
-                        </p>
-                    </div>
-                    <div class="project-content relative z-10">
-                        <div class="mb-6">
-                            <span class="tech-tag">STM32</span>
-                            <span class="tech-tag">IMU</span>
-                            <span class="tech-tag">PID Controller</span>
-                            <span class="tech-tag">MATLAB</span>    
-                            <span class="tech-tag">Real-Time</span>
-                            <span class="tech-tag">Eagle CAD</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <!-- <button class="text-copper-500 hover:text-copper-400 transition-colors"> -->
-                            <a href="/portfolio-site/UAV.html" class="px-6 py-3 bg-none text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 opacity-95 transition duration-300 ease-in-out">
-                                <i class="fas fa-external-link-alt mr-2 relative z-10"></i>
-                                    View Details
-                            </a>
-                        </div>
-                        </div>
-                    </div>
-                </div>
                     
                     <div class="project-card scroll-reveal"onclick="location.href='/portfolio-site/Aeron.html';">
                         <div class="video-overlay">
@@ -1576,6 +1529,41 @@ body.skip-intro .animate-intro {
                             </div>
                             <div class="flex justify-between items-center">
                             <a href="/portfolio-site/Aeron.html" class="px-6 py-3 bg-none text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 opacity-95 transition duration-300 ease-in-out">
+                                <i class="fas fa-external-link-alt mr-2 relative z-10"></i>
+                                    View Details
+                            </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card scroll-reveal"onclick="location.href='/portfolio-site/Swerve.html';">
+                        <div class="video-overlay">
+                        <video src="https://res.cloudinary.com/dl1iwajpi/video/upload/v1756331065/f6ve1df1v2nfgfyvpy4d.mp4" controls autoplay loop muted></video>
+                        </div>
+                        <div class="project-header relative z-10">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="skill-icon">
+                                    <i class="fas fa-gears"></i>
+                                </div>
+                                <div class="status-indicator active"></div>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">3-Wheel Holonomic Swerve Drive</h3>
+                            <p class="text-secondary italic">
+                                3-wheel swerve drive enabling 360° omnidirectional movement with individual 
+                                wheel rotation and speed control, enhancing robot agility and Mobility.
+                            </p>
+                        </div>
+                        <div class="project-content relative z-10">
+                            <div class="mb-6">
+                                <span class="tech-tag">Robotics</span>
+                                <span class="tech-tag">BLDC Motors</span>                              
+                                <span class="tech-tag">Odrive</span>
+                                <span class="tech-tag">Slip Rings</span>
+                                <span class="tech-tag">ESP32</span>
+                                <span class="tech-tag">STM32</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                            <a href="/portfolio-site/Swerve.html" class="px-6 py-3 bg-none text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 opacity-95 transition duration-300 ease-in-out">
                                 <i class="fas fa-external-link-alt mr-2 relative z-10"></i>
                                     View Details
                             </a>
@@ -1617,6 +1605,42 @@ body.skip-intro .animate-intro {
                             </div>
                         </div>
                     </div>
+
+                    <div class="project-card scroll-reveal"onclick="location.href='/portfolio-site/UAV.html';">
+                    <div class="video-overlay">
+                        <img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331063/dvim9qyjlelipcozih33.png" alt="Description of the image">
+                    </div>
+                    <div class="project-header relative z-10">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="skill-icon">
+                                <i class="fas fa-plane"></i>
+                            </div>
+                            <div class="status-indicator active"></div>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 ">UAV Auto-Route & Angle Correction</h3>
+                        <p class="text-secondary italic flex justify-between">
+                            Real-time UAV control system utilizing IMU feedback and PID-based 
+                            algorithms for autonomous route correction and angle stabilization.
+                        </p>
+                    </div>
+                    <div class="project-content relative z-10">
+                        <div class="mb-6">
+                            <span class="tech-tag">STM32</span>
+                            <span class="tech-tag">IMU</span>
+                            <span class="tech-tag">PID Controller</span>
+                            <span class="tech-tag">MATLAB</span>    
+                            <span class="tech-tag">Real-Time</span>
+                            <span class="tech-tag">Eagle CAD</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <!-- <button class="text-copper-500 hover:text-copper-400 transition-colors"> -->
+                            <a href="/portfolio-site/UAV.html" class="px-6 py-3 bg-none text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 opacity-95 transition duration-300 ease-in-out">
+                                <i class="fas fa-external-link-alt mr-2 relative z-10"></i>
+                                    View Details
+                            </a>
+                        </div>
+                        </div>
+                    </div>
                     
                     <div class="project-card scroll-reveal"onclick="location.href='/portfolio-site/R2.html';">
                          <div class="video-overlay">
@@ -1646,41 +1670,6 @@ body.skip-intro .animate-intro {
                             </div>
                             <div class="flex justify-between items-center">
                             <a href="/portfolio-site/R2.html" class="px-6 py-3 bg-none text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 opacity-95 transition duration-300 ease-in-out">
-                                <i class="fas fa-external-link-alt mr-2 relative z-10"></i>
-                                    View Details
-                            </a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="project-card scroll-reveal"onclick="location.href='/portfolio-site/Swerve.html';">
-                        <div class="video-overlay">
-                        <video src="https://res.cloudinary.com/dl1iwajpi/video/upload/v1756331065/f6ve1df1v2nfgfyvpy4d.mp4" controls autoplay loop muted></video>
-                        </div>
-                        <div class="project-header relative z-10">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="skill-icon">
-                                    <i class="fas fa-gears"></i>
-                                </div>
-                                <div class="status-indicator active"></div>
-                            </div>
-                            <h3 class="text-xl font-bold mb-2">3-Wheel Holonomic Swerve Drive</h3>
-                            <p class="text-secondary italic">
-                                3-wheel swerve drive enabling 360° omnidirectional movement with individual 
-                                wheel rotation and speed control, enhancing robot agility and Mobility.
-                            </p>
-                        </div>
-                        <div class="project-content relative z-10">
-                            <div class="mb-6">
-                                <span class="tech-tag">Robotics</span>
-                                <span class="tech-tag">BLDC Motors</span>                              
-                                <span class="tech-tag">Odrive</span>
-                                <span class="tech-tag">Slip Rings</span>
-                                <span class="tech-tag">ESP32</span>
-                                <span class="tech-tag">STM32</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                            <a href="/portfolio-site/Swerve.html" class="px-6 py-3 bg-none text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 opacity-95 transition duration-300 ease-in-out">
                                 <i class="fas fa-external-link-alt mr-2 relative z-10"></i>
                                     View Details
                             </a>
@@ -1770,6 +1759,7 @@ body.skip-intro .animate-intro {
                                 <div class="status-indicator in-progress"></div>
                             </div>
                             <h3 class="text-xl font-bold mb-10">Smart Home Automation</h3>
+                            <h4 class="text-3l font-bold mb-3"style="color: #f59e0b; opacity: 0.75;">Coming Soon!!</h4>
                             <p class="text-secondary italic">
                                 IoT-enabled system controlling light and aroma for personalized home/office 
                                 environments, with future expansion to sound and AI integration.
@@ -1844,7 +1834,7 @@ body.skip-intro .animate-intro {
       <div class="skill-scroll-wrapper">
         <div class="skill-scroll-track2">
           <div class="flex">
-            <div class="skill-capsule bg-blue-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/ze5b8jje6g7l7tzpi4o0.svg" alt="Autodesk Logo" class="w-5 h-5"><span>Eagle CAD</span></div>
+            <div class="skill-capsule bg-blue-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/lh8w74vr4m1tbdixicez.svg" alt="Autodesk Logo" class="w-5 h-5"><span>Eagle CAD</span></div>
           <div class="skill-capsule bg-yellow-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/ze5b8jje6g7l7tzpi4o0.svg" alt="C++ Logo" class="w-5 h-5"><span>Altium Designer</span></div>
           <div class="skill-capsule bg-green-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331028/plarebkx7etjjcxr7bid.svg" alt="C++ Logo" class="w-5 h-5"><span>KiCad</span></div>
           <div class="skill-capsule bg-orange-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331029/p3hgdazv1nhad9lfd8zs.svg" alt="C++ Logo" class="w-5 h-5"><span>Analog Circuit</span></div>
@@ -1853,7 +1843,7 @@ body.skip-intro .animate-intro {
           <div class="skill-capsule bg-green-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/sgmb6bzqdfpobxuqrsdd.svg" alt="C++ Logo" class="w-5 h-5"><span>ODrive</span></div>
           <div class="skill-capsule bg-yellow-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331030/xzjhjmwvhqex3jkadlsd.svg" alt="C++ Logo" class="w-5 h-5"><span>EMI Filters</span></div>
           <div class="skill-capsule bg-violet-400 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331028/zptflacizxfqfiznitmq.svg" alt="CE Compliance Logo" class="w-5 h-5"><span>CE Compliance</span></div>
-            <div class="skill-capsule bg-blue-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/ze5b8jje6g7l7tzpi4o0.svg" alt="Autodesk Logo" class="w-5 h-5"><span>Eagle CAD</span></div>
+            <div class="skill-capsule bg-blue-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/lh8w74vr4m1tbdixicez.svg" alt="Autodesk Logo" class="w-5 h-5"><span>Eagle CAD</span></div>
           <div class="skill-capsule bg-yellow-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/ze5b8jje6g7l7tzpi4o0.svg" alt="C++ Logo" class="w-5 h-5"><span>Altium Designer</span></div>
           <div class="skill-capsule bg-green-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331028/plarebkx7etjjcxr7bid.svg" alt="C++ Logo" class="w-5 h-5"><span>KiCad</span></div>
           <div class="skill-capsule bg-orange-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331029/p3hgdazv1nhad9lfd8zs.svg" alt="C++ Logo" class="w-5 h-5"><span>Analog Circuit</span></div>
@@ -1884,7 +1874,7 @@ body.skip-intro .animate-intro {
           <div class="skill-capsule bg-violet-400 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/rtet0oymstifm2xmjphk.svg" alt="C++ Logo" class="w-5 h-5"><span>RS-232</span></div>
           <div class="skill-capsule bg-orange-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331030/z0ymsd8pjpxkwnjdbicu.svg" alt="C++ Logo" class="w-5 h-5"><span>RS-422</span></div>
           <div class="skill-capsule bg-blue-400 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/csev6d1ebhc4tieatzyd.svg" alt="C++ Logo" class="w-5 h-5"><span>Modbus Protocol</span></div>
-          <div class="skill-capsule bg-green-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331028/gxuerbcgvnw7rlnmfgrn.svg" alt="GitHub Logo" class="w-5 h-5"><span>GitHub</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331028/vqjk7gjhsggepkgtcn81.svg" alt="GitHub Logo" class="w-5 h-5"><span>GitHub</span></div>
           <div class="skill-capsule bg-white text-black"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331031/auodir3hp5exhdbklwuy.svg" alt="MATLAB Logo" class="w-5 h-5"><span>MATLAB</span></div>
           <div class="skill-capsule bg-violet-400 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331031/aenfroqap3ljigfgesyi.svg" alt="Multisim Logo" class="w-5 h-5"><span>NI Multisim</span></div>
           <div class="skill-capsule bg-blue-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331028/gxuerbcgvnw7rlnmfgrn.svg" alt="Multisim Logo" class="w-5 h-5"><span>LT Spice</span></div>
@@ -1896,7 +1886,7 @@ body.skip-intro .animate-intro {
           <div class="skill-capsule bg-violet-400 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/rtet0oymstifm2xmjphk.svg" alt="C++ Logo" class="w-5 h-5"><span>RS-232</span></div>
           <div class="skill-capsule bg-orange-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331030/z0ymsd8pjpxkwnjdbicu.svg" alt="C++ Logo" class="w-5 h-5"><span>RS-422</span></div>
           <div class="skill-capsule bg-blue-400 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331026/csev6d1ebhc4tieatzyd.svg" alt="C++ Logo" class="w-5 h-5"><span>Modbus Protocol</span></div>
-          <div class="skill-capsule bg-green-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331028/gxuerbcgvnw7rlnmfgrn.svg" alt="GitHub Logo" class="w-5 h-5"><span>GitHub</span></div>
+          <div class="skill-capsule bg-green-500 text-white"><img src="https://res.cloudinary.com/dl1iwajpi/image/upload/v1756331028/vqjk7gjhsggepkgtcn81.svg" alt="GitHub Logo" class="w-5 h-5"><span>GitHub</span></div>
         </div>
         </div>
       </div>
@@ -2406,7 +2396,7 @@ const electronicFacts = [
 
         document.addEventListener('DOMContentLoaded', () => {
             const easterEggBtn = document.getElementById('easterEggBtn');
-            const cooldownDuration = 30 * 1000; // seconds in milliseconds
+            const cooldownDuration = 3 * 1000; // seconds in milliseconds
 
             // Function to check if the button should be bouncing
             const checkBounceStatus = () => {
@@ -2598,6 +2588,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96a6afc871919cd7',t:'MTc1NDQwMTAyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>       
 </html>
+
 
 
 
